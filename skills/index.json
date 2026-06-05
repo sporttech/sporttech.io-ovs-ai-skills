@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "1.0",
+  "title": "sporttech.io OVS AI skill packs",
+  "description": "External task recipes for AI agents using packaged sporttech.io J3 OVS servers.",
+  "referenceFirst": "/api/ai",
+  "skills": [
+    {
+      "id": "create-tra-test-competition",
+      "title": "Create a TRA test competition",
+      "appliesTo": ["TRA"],
+      "path": "skills/tra/create-tra-test-competition.md",
+      "url": "https://raw.githubusercontent.com/sporttech/sporttech.io-ovs-ai-skills/main/skills/tra/create-tra-test-competition.md",
+      "tags": ["TRA", "competition", "test-data", "mutation"],
+      "mutationRisk": "high"
+    },
+    {
+      "id": "add-test-participants",
+      "title": "Add TRA test participants",
+      "appliesTo": ["TRA"],
+      "path": "skills/tra/add-test-participants.md",
+      "url": "https://raw.githubusercontent.com/sporttech/sporttech.io-ovs-ai-skills/main/skills/tra/add-test-participants.md",
+      "tags": ["TRA", "participants", "test-data", "mutation"],
+      "mutationRisk": "high"
+    },
+    {
+      "id": "draw-stage",
+      "title": "Draw a TRA stage start list",
+      "appliesTo": ["TRA"],
+      "path": "skills/tra/draw-stage.md",
+      "url": "https://raw.githubusercontent.com/sporttech/sporttech.io-ovs-ai-skills/main/skills/tra/draw-stage.md",
+      "tags": ["TRA", "stage", "draw", "action", "mutation"],
+      "mutationRisk": "high"
+    },
+    {
+      "id": "configure-tra-fig-stages",
+      "title": "Configure TRA FIG stages",
+      "appliesTo": ["TRA"],
+      "path": "skills/tra/configure-tra-fig-stages.md",
+      "url": "https://raw.githubusercontent.com/sporttech/sporttech.io-ovs-ai-skills/main/skills/tra/configure-tra-fig-stages.md",
+      "tags": ["TRA", "FIG", "stages", "calculation", "mutation"],
+      "mutationRisk": "high"
+    }
+  ]
+}
