@@ -39,6 +39,15 @@
       "url": "https://raw.githubusercontent.com/sporttech/sporttech.io-ovs-ai-skills/main/skills/tra/configure-tra-fig-stages.md",
       "tags": ["TRA", "FIG", "stages", "calculation", "mutation"],
       "mutationRisk": "high"
+    },
+    {
+      "id": "create-sessions-from-schedule",
+      "title": "Create TRA sessions from a schedule",
+      "appliesTo": ["TRA"],
+      "path": "skills/tra/create-sessions-from-schedule.md",
+      "url": "https://raw.githubusercontent.com/sporttech/sporttech.io-ovs-ai-skills/main/skills/tra/create-sessions-from-schedule.md",
+      "tags": ["TRA", "sessions", "schedule", "refs", "start-list", "mutation"],
+      "mutationRisk": "high"
     }
   ]
 }
