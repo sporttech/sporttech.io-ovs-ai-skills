@@ -8,13 +8,14 @@ visually checked against the source document and approved before application.
 from __future__ import annotations
 
 import argparse
-import json
 import re
 import xml.etree.ElementTree as ET
 import zipfile
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
+from plan_table import write_rows
 
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
@@ -46,10 +47,10 @@ COMPETITION_MARKER_RE = re.compile(r"\b(flight\s+\d+|final)\b", re.IGNORECASE)
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Extract TRA schedule rows from DOCX tables into a JSON plan."
+        description="Extract TRA schedule rows from DOCX tables into a draft TSV plan."
     )
     parser.add_argument("--source", required=True, help="Source DOCX schedule.")
-    parser.add_argument("--output", required=True, help="Output JSON plan.")
+    parser.add_argument("--output", required=True, help="Output canonical TSV plan.")
     parser.add_argument("--year", type=int, required=True, help="Schedule year.")
     parser.add_argument(
         "--numbering",
@@ -131,7 +132,7 @@ def classify_lines(cell_text: str) -> tuple[list[dict[str, str]], list[str]]:
     return items, ignored
 
 
-def build_plan(args: argparse.Namespace) -> dict[str, Any]:
+def build_plan(args: argparse.Namespace) -> tuple[list[dict[str, Any]], int, int]:
     source = Path(args.source)
     sessions: list[dict[str, Any]] = []
     skipped: list[dict[str, Any]] = []
@@ -199,47 +200,62 @@ def build_plan(args: argparse.Namespace) -> dict[str, Any]:
                     }
                 )
 
-    return {
-        "kind": "ovs-tra-session-plan",
-        "version": 1,
-        "review": {
-            "status": "draft-extraction",
-            "required": True,
-            "notes": [
-                "Helper output only; the DOCX layout is not a fixed format.",
-                "Render and visually compare every schedule row and apparatus column.",
-                "Correct the JSON before requesting user approval or applying it.",
-            ],
-        },
-        "source": {
-            "scheduleFile": source.name,
-            "schedulePath": str(source),
-            "numbering": args.numbering,
-            "year": args.year,
-            "parser": "skills/tra/scripts/build_sessions_plan_from_docx.py",
-        },
-        "target": {"baseUrl": args.server} if args.server else {},
-        "summary": {
-            "sessionCount": len(sessions),
-            "scheduleDayCount": len(day_indexes),
-            "skippedCellCount": len(skipped),
-        },
-        "sessions": sessions,
-        "skipped": skipped,
+    common = {
+        "PlanKind": "ovs-session-plan",
+        "Version": 2,
+        "Mode": "create",
+        "PlanStatus": "draft",
     }
+    plan_rows = []
+    for session in sessions:
+        source_metadata = {
+            key: value
+            for key, value in session.items()
+            if key
+            not in {
+                "Number",
+                "Time",
+                "SessionTitle",
+                "items",
+                "ignoredItems",
+            }
+        }
+        plan_rows.append(
+            {
+                **common,
+                "RowType": "session",
+                "SessionID": "",
+                "Field:Number": session["Number"],
+                "Field:Time": session["Time"],
+                "Field:SessionTitle": session["SessionTitle"],
+                "Source.items": [item["raw"] for item in session["items"]],
+                "Source.IgnoredItems": session["ignoredItems"],
+                "Source": source_metadata,
+                "Details": {
+                    "reviewStatus": "draft-extraction",
+                    "reviewRequired": True,
+                },
+            }
+        )
+    for item in skipped:
+        plan_rows.append(
+            {
+                **common,
+                "RowType": "skipped",
+                "Source": item,
+                "Details": {"reviewStatus": "draft-extraction"},
+            }
+        )
+    return plan_rows, len(sessions), len(skipped)
 
 
 def main() -> int:
     args = parse_args()
-    plan = build_plan(args)
-    output = Path(args.output)
-    output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(
-        json.dumps(plan, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
+    rows, session_count, skipped_count = build_plan(args)
+    write_rows(args.output, rows)
     print(
-        f"Wrote {plan['summary']['sessionCount']} sessions and "
-        f"{plan['summary']['skippedCellCount']} skipped cells to {output}"
+        f"Wrote {session_count} sessions and {skipped_count} skipped cells "
+        f"to {args.output}"
     )
     return 0
 

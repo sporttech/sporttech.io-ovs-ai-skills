@@ -1,2 +1,4 @@
 plans/*
 plans
+__pycache__/
+*.py[cod]

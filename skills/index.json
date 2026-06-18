@@ -46,7 +46,25 @@
       "appliesTo": ["TRA"],
       "path": "skills/tra/create-sessions-from-schedule.md",
       "url": "https://raw.githubusercontent.com/sporttech/sporttech.io-ovs-ai-skills/main/skills/tra/create-sessions-from-schedule.md",
-      "tags": ["TRA", "sessions", "schedule", "refs", "start-list", "mutation"],
+      "tags": ["TRA", "sessions", "schedule", "approval", "mutation"],
+      "mutationRisk": "high"
+    },
+    {
+      "id": "assign-session-references-from-schedule",
+      "title": "Assign TRA session references from a schedule",
+      "appliesTo": ["TRA"],
+      "path": "skills/tra/assign-session-references-from-schedule.md",
+      "url": "https://raw.githubusercontent.com/sporttech/sporttech.io-ovs-ai-skills/main/skills/tra/assign-session-references-from-schedule.md",
+      "tags": ["TRA", "sessions", "references", "stages", "approval", "mutation"],
+      "mutationRisk": "high"
+    },
+    {
+      "id": "generate-session-start-lists",
+      "title": "Generate TRA session start lists",
+      "appliesTo": ["TRA"],
+      "path": "skills/tra/generate-session-start-lists.md",
+      "url": "https://raw.githubusercontent.com/sporttech/sporttech.io-ovs-ai-skills/main/skills/tra/generate-session-start-lists.md",
+      "tags": ["TRA", "sessions", "start-list", "frames", "approval", "mutation"],
       "mutationRisk": "high"
     }
   ]
