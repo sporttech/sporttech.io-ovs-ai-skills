@@ -219,6 +219,160 @@ def validate_refs(
     return validated
 
 
+def group_stage_memberships(
+    stages: dict[str, dict[str, Any]],
+) -> dict[int, list[tuple[int, int]]]:
+    memberships: dict[int, list[tuple[int, int]]] = {}
+    for raw_stage_id, stage in stages.items():
+        stage_id = int(stage.get("ID", raw_stage_id))
+        for group_index, raw_group_id in enumerate(stage.get("Groups") or []):
+            memberships.setdefault(int(raw_group_id), []).append(
+                (stage_id, group_index)
+            )
+    return memberships
+
+
+def ordered_ref_for_group(
+    session_id: int,
+    group_id: int,
+    group_frame: int,
+    memberships: dict[int, list[tuple[int, int]]],
+) -> dict[str, Any]:
+    candidates = memberships.get(group_id, [])
+    if len(candidates) != 1:
+        reason = "no stage" if not candidates else f"multiple stages {candidates}"
+        raise SystemExit(
+            f"Cannot determine a unique stage for GroupID={group_id} in "
+            f"SessionID={session_id}: {reason}. Ask the user to resolve the "
+            "reference mapping before approval."
+        )
+    stage_id, group_index = candidates[0]
+    return {
+        "sessionID": session_id,
+        "stageKey": ("stage", stage_id),
+        "stageLabel": f"StageID={stage_id}",
+        "groupIndex": group_index,
+        "GroupFrame": group_frame,
+        "GroupID": group_id,
+    }
+
+
+def ordered_ref_for_plan(
+    ref: dict[str, Any],
+    create_targets: dict[tuple[int, str], dict[str, Any]],
+    memberships: dict[int, list[tuple[int, int]]],
+) -> dict[str, Any]:
+    session_id = int(ref["sessionID"])
+    group_frame = int(ref["GroupFrame"])
+    group_id = ref.get("GroupID")
+    if group_id is not None:
+        return ordered_ref_for_group(
+            session_id, int(group_id), group_frame, memberships
+        )
+
+    target = (int(ref["targetCompetitionID"]), str(ref["targetStageKind"]))
+    stage = create_targets[target]
+    group_index = int(ref["groupIndex"])
+    stage_id = stage.get("stageID")
+    resolved_group_id = None
+    if stage_id is not None:
+        stage_key: tuple[Any, ...] = ("stage", int(stage_id))
+        stage_label = f"StageID={stage_id}"
+        group_ids = stage.get("groupIDs") or []
+        if group_index < len(group_ids):
+            resolved_group_id = int(group_ids[group_index])
+    else:
+        stage_key = ("stageCreate", target[0], target[1])
+        stage_label = f"CompetitionID={target[0]}, StageKind={target[1]}"
+    return {
+        "sessionID": session_id,
+        "stageKey": stage_key,
+        "stageLabel": stage_label,
+        "groupIndex": group_index,
+        "GroupFrame": group_frame,
+        "GroupID": resolved_group_id,
+    }
+
+
+def validate_reference_order(
+    mode: str,
+    refs: list[dict[str, Any]],
+    stage_creates: list[dict[str, Any]],
+    sessions: dict[str, dict[str, Any]],
+    stages: dict[str, dict[str, Any]],
+) -> None:
+    def display_order(values: list[tuple[int, int]]) -> str:
+        return ", ".join(
+            f"G{group_index + 1}/R{group_frame + 1}"
+            for group_index, group_frame in values
+        )
+
+    memberships = group_stage_memberships(stages)
+    create_targets = {
+        (int(entry["competitionID"]), str(entry["stageKind"])): entry
+        for entry in stage_creates
+    }
+    planned = [
+        ordered_ref_for_plan(ref, create_targets, memberships) for ref in refs
+    ]
+    target_session_ids = {int(ref["sessionID"]) for ref in refs}
+
+    ordered: list[dict[str, Any]] = []
+    existing_keys: set[tuple[int, int, int]] = set()
+    if mode == "apply":
+        for session_id in sorted(target_session_ids):
+            for group_id, group_frame in refs_for_session(
+                sessions[str(session_id)]
+            ):
+                ordered.append(
+                    ordered_ref_for_group(
+                        session_id,
+                        group_id,
+                        group_frame,
+                        memberships,
+                    )
+                )
+                existing_keys.add((session_id, group_id, group_frame))
+
+    for ref in planned:
+        group_id = ref.get("GroupID")
+        if group_id is not None and (
+            int(ref["sessionID"]),
+            int(group_id),
+            int(ref["GroupFrame"]),
+        ) in existing_keys:
+            continue
+        ordered.append(ref)
+
+    blocks: dict[tuple[int, tuple[Any, ...]], list[dict[str, Any]]] = {}
+    for ref in ordered:
+        key = (int(ref["sessionID"]), ref["stageKey"])
+        blocks.setdefault(key, []).append(ref)
+
+    for (session_id, _stage_key), block in blocks.items():
+        group_indexes = {int(ref["groupIndex"]) for ref in block}
+        group_frames = {int(ref["GroupFrame"]) for ref in block}
+        if len(group_indexes) < 2 or len(group_frames) < 2:
+            continue
+        actual = [
+            (int(ref["groupIndex"]), int(ref["GroupFrame"])) for ref in block
+        ]
+        expected = sorted(actual)
+        if actual == expected:
+            continue
+        suffix = (
+            " Use Mode=recreate for this session because apply preserves "
+            "existing references."
+            if mode == "apply"
+            else ""
+        )
+        raise SystemExit(
+            f"Non-canonical reference order for SessionID={session_id}, "
+            f"{block[0]['stageLabel']}: actual [{display_order(actual)}], "
+            f"expected group-major order [{display_order(expected)}].{suffix}"
+        )
+
+
 def stage_groups(base_url: str, token: str, stage_id: int) -> list[int]:
     document, _ = request_json(
         base_url, f"/api/stages/{stage_id}?fetch_stage_groups=true", token
@@ -278,6 +432,7 @@ def main() -> int:
         plan, writable_stages, stage_kinds, competitions, stages, groups
     )
     refs = validate_refs(plan, stage_creates, sessions, groups)
+    validate_reference_order(mode, refs, stage_creates, sessions, stages)
     creates_stages = any(entry.get("stageID") is None for entry in stage_creates)
     if creates_stages and not args.dry_run and not args.updated_plan:
         raise SystemExit(

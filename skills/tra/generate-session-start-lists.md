@@ -16,10 +16,14 @@ and will not run before approval of the clickable TSV.
 
 ## Read First
 
-1. Read the applied session and reference TSV files.
-2. Run `inspect_session_workflow.py` for a fresh OVS snapshot.
-3. Read
+1. Read
    [references/session-plan-contracts.md](references/session-plan-contracts.md).
+   Follow its canonical-artifact rules before implementing any phase logic: use
+   the phase-3 executor and matching helpers from one skill-pack revision,
+   confirm their CLI with `--help`, and do not use a local substitute while
+   that canonical path is available.
+2. Read the applied session and reference TSV files.
+3. Run `inspect_session_workflow.py` for a fresh OVS snapshot.
 4. Inspect current references, frames, and referenced group performances for
    every proposed session.
 5. Reuse the token file created during phase 1. Request credentials only if

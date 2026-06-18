@@ -23,6 +23,46 @@ For every gate, publish a clickable draft TSV, end with the exact CTA required
 by that phase recipe, and stop. Do not run the executor, request credentials, or
 set `PlanStatus=approved` until the user approves that exact file version.
 
+## Canonical Skill-Pack Artifacts
+
+The scripts in this skill-pack repository are the canonical execution path for
+all three phases. Before preparing or executing a phase, the agent MUST:
+
+1. read that phase recipe and this contract;
+2. use the canonical phase scripts from the same skill-pack revision as the
+   recipe;
+3. fetch every imported local helper from that same revision;
+4. run each phase executor with `--help` to confirm its command contract;
+5. use the canonical executor for dry-run and mutation after the phase approval
+   gate.
+
+A local checkout of this repository is canonical when the recipe, executor, and
+helpers all come from the same checked-out revision. When loading the skill pack
+remotely, resolve one repository commit and fetch all required files from that
+commit; do not mix files fetched from moving branches at different times.
+
+Canonical file sets:
+
+- phase 1: `inspect_session_workflow.py`,
+  `build_sessions_plan_from_docx.py`, `apply_sessions_plan.py`,
+  `plan_table.py`, and `ovs_plan_utils.py`;
+- phase 2: `inspect_session_workflow.py`,
+  `apply_session_references_plan.py`, `plan_table.py`, and
+  `ovs_plan_utils.py`;
+- phase 3: `inspect_session_workflow.py`,
+  `generate_session_start_lists.py`, `plan_table.py`, and
+  `ovs_plan_utils.py`.
+
+Do not create a custom executor, partially reimplement a canonical script, or
+substitute older or simplified helpers merely because local code is convenient.
+A custom fallback is allowed only when the canonical script is unavailable,
+cannot run after reasonable environment setup, or the user explicitly requests
+a custom implementation. Before falling back, report the canonical-path
+blocker and the behavioral differences or compatibility risks.
+
+Never replace an approval-gated dry-run with an earlier dry-run. Before
+approval, use `--help` and other non-executing inspection only.
+
 ## Credential Lifecycle
 
 - Request an OC password/token only after approval gate 1, immediately before
@@ -88,6 +128,27 @@ Rules:
   the next canonical version. Reapplying it does not create another session.
 - `RotationView` is an ordinary `Field:RotationView` column.
 
+Default field recommendations:
+
+- Generate the initial plan with day-coded `Field:Number` values: `101`, `102`,
+  `103`, then `201`, `202`, and so on. The leading digits are the ordinal
+  schedule day and the final two digits are the organiser session number within
+  that day. In formula form:
+  `dayOrdinal * 100 + organiserSessionNumber`.
+- Determine `dayOrdinal` from chronological schedule dates. Preserve the source
+  date and organiser session number in `Source` metadata so the numbering
+  remains auditable.
+- Other numbering schemes may be offered in the review summary after the
+  initial plan has been generated and before the approval CTA. If the user
+  selects one, publish a corrected draft and repeat the approval gate.
+- `Field:Time` contains only a short session date such as `Tue 7 Jul`. It must
+  not contain the session number, venue, stream, time range, or service
+  metadata.
+- `Field:SessionTitle` contains only the source apparatus, venue, or stream
+  name. It must not duplicate the date, add generic words such as `Session` or
+  `Поток`, or append an organiser session number already represented by
+  `Field:Number`.
+
 ## References Plan
 
 Use `PlanKind=ovs-session-refs-plan`, `Version=2`, and `Mode=apply` or
@@ -133,9 +194,21 @@ review columns. `StageID` remains visible because it is useful after apply.
 The reader continues to accept the legacy expanded ID columns, but the writer
 publishes the folded `Target` format.
 
-The row order is the final order in `recreate` mode and the add order for new
-references in `apply` mode. For normal TRA group-first ordering, place rows as
-`G1/E1`, `G1/E2`, `G2/E1`, `G2/E2`. The executor never sorts them.
+The phase-2 row order fully determines the reference order: it is the final
+order in `recreate` mode and the add order for new references in `apply` mode.
+Phase 3 preserves this order when generating start lists and never repairs it.
+
+Within one TRA stage, refs must be group-major and then routine-major:
+`G1/R1`, `G1/R2`, `G2/R1`, `G2/R2`. The round-major sequence `G1/R1`,
+`G2/R1`, `G1/R2`, `G2/R2` is invalid. References belonging to different stages
+may alternate by routine when the source schedule requires it; the executor
+does not reorder across stages. If that inter-stage order is ambiguous, resolve
+it with the user and repeat approval gate 2.
+
+Dry-run validates the plan order in `recreate` mode. In `apply` mode it
+validates the projected live order: existing refs followed by missing refs in
+plan order. If existing refs prevent a canonical result, use `recreate` for the
+affected sessions before phase 3.
 
 A mutating run that creates a stage requires `--updated-plan`. Existing
 `StageID` rows are checked against the live parent competition and group list.

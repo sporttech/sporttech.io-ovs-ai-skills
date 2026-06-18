@@ -22,11 +22,15 @@ Never collapse or skip these three approvals.
 
 ## Read First
 
-1. Run `inspect_session_workflow.py` to fetch `/api/ai` and the live event graph
-   into one reusable snapshot.
-2. Read and render the schedule when document layout matters.
-3. Read
+1. Read
    [references/session-plan-contracts.md](references/session-plan-contracts.md).
+   Follow its canonical-artifact rules before implementing any phase logic: use
+   the phase-1 executor and matching helpers from one skill-pack revision,
+   confirm their CLI with `--help`, and do not use a local substitute while
+   that canonical path is available.
+2. Run `inspect_session_workflow.py` to fetch `/api/ai` and the live event graph
+   into one reusable snapshot.
+3. Read and render the schedule when document layout matters.
 
 Resolve writable fields and runtime conventions from `/api/ai`. Do not inspect
 browser storage, local storage, unrelated files, or another user session for
@@ -43,7 +47,8 @@ keep the resulting token file for phases 2 and 3.
   line break with the rendered schedule.
 - Preserve original wording in `Source`.
 - Do not put organiser terminology or abbreviation dictionaries into scripts.
-- Let the agent and user decide numbering and displayed titles.
+- Use the default field conventions below unless the user has already specified
+  another format.
 - Express approved decisions explicitly in `Field:<name>` columns.
 - Keep `PlanStatus=draft` until the user approves this exact file version.
 
@@ -51,6 +56,24 @@ For TRA schedules, one non-empty apparatus/venue cell normally becomes one OVS
 session. Streams from the same organiser row normally share the approved
 `Session.Number`. Ignore service notes and `NO COMPETITION` cells unless the
 user explicitly asks to schedule them.
+
+Default field conventions:
+
+- Generate the initial plan with day-coded `Field:Number` values: `101`, `102`,
+  `103`, then `201`, `202`, and so on. The leading digits identify the ordinal
+  schedule day; the final two digits are the organiser session number within
+  that day. Derive the day ordinal from chronological schedule dates, not
+  weekday names.
+- After publishing the initial plan, the review summary may offer other
+  numbering schemes before the approval CTA. If the user chooses one, publish
+  a corrected draft and repeat the approval gate.
+- `Field:Time` contains only the session's short date, for example `Tue 7 Jul`.
+  Do not add a session number, venue, stream, time range, or service
+  information.
+- `Field:SessionTitle` contains only the apparatus, venue, or stream name from
+  the source schedule. Do not duplicate the date, add generic words such as
+  `Session` or `Поток`, or append an organiser session number already
+  represented by `Field:Number`.
 
 ## Approval Gate 1: Session Grid
 

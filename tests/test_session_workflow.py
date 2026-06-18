@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "skills" / "tra" / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
-from ovs_plan_utils import ApiError  # noqa: E402
+from ovs_plan_utils import ApiError, refs_for_session  # noqa: E402
 from plan_table import (  # noqa: E402
     load_refs_plan,
     load_session_plan,
@@ -227,10 +227,50 @@ class WorkflowTest(unittest.TestCase):
             sys, "argv", argv
         ):
             if error:
-                with self.assertRaises(error):
+                with self.assertRaises(error) as caught:
                     module.main()
-                return None
+                return caught.exception
             self.assertEqual(module.main(), 0)
+
+    def add_live_stage(
+        self, stage_id: int, competition_id: int, group_ids: list[int]
+    ) -> None:
+        self.ovs.stages[str(stage_id)] = {
+            "ID": stage_id,
+            "ParentID": competition_id,
+            "Groups": list(group_ids),
+        }
+        stages = self.ovs.competitions[str(competition_id)]["Stages"]
+        if stage_id not in stages:
+            stages.append(stage_id)
+        for group_id in group_ids:
+            self.ovs.groups.setdefault(
+                str(group_id), {"ID": group_id, "Performances": []}
+            )
+        self.ovs.next_stage = max(self.ovs.next_stage, stage_id + 1)
+        self.ovs.next_group = max(self.ovs.next_group, max(group_ids) + 1)
+
+    def write_reference_plan(
+        self,
+        name: str,
+        refs: list[dict],
+        mode: str = "recreate",
+        stage_creates: list[dict] | None = None,
+    ) -> Path:
+        path = self.directory / name
+        write_refs_plan(
+            str(path),
+            {
+                "mode": mode,
+                "status": "approved",
+                "stageCreates": stage_creates or [],
+                "refs": refs,
+                "ambiguous": [],
+                "unmatched": [],
+                "skipped": [],
+            },
+        )
+        return path
 
     def test_create_arbitrary_fields_and_reapply_without_duplicates(self) -> None:
         source = self.directory / "sessions.tsv"
@@ -553,6 +593,155 @@ class WorkflowTest(unittest.TestCase):
             },
         )
         self.run_main(apply_refs, "--plan", str(wrong_groups), error=SystemExit)
+        self.assertEqual(self.ovs.mutations, [])
+
+    def test_reference_order_accepts_group_major_and_recreate_applies_it(self) -> None:
+        self.add_live_stage(20, 10, [200, 201])
+        self.ovs.add_session(1, [200, 201, 200, 201])
+        self.ovs.sessions["1"]["GroupFrame"] = [0, 0, 1, 1]
+        refs = [
+            {"sessionID": 1, "GroupID": group_id, "GroupFrame": group_frame}
+            for group_id, group_frame in (
+                (200, 0),
+                (200, 1),
+                (201, 0),
+                (201, 1),
+            )
+        ]
+        plan = self.write_reference_plan("group-major.tsv", refs)
+
+        self.run_main(apply_refs, "--plan", str(plan), "--dry-run")
+        self.assertEqual(self.ovs.mutations, [])
+        self.run_main(apply_refs, "--plan", str(plan))
+        self.assertEqual(
+            refs_for_session(self.ovs.sessions["1"]),
+            [(200, 0), (200, 1), (201, 0), (201, 1)],
+        )
+
+    def test_reference_order_rejects_round_major_before_mutation(self) -> None:
+        self.add_live_stage(20, 10, [200, 201])
+        self.ovs.add_session(1)
+        refs = [
+            {"sessionID": 1, "GroupID": group_id, "GroupFrame": group_frame}
+            for group_id, group_frame in (
+                (200, 0),
+                (201, 0),
+                (200, 1),
+                (201, 1),
+            )
+        ]
+        plan = self.write_reference_plan("round-major.tsv", refs)
+
+        error = self.run_main(
+            apply_refs, "--plan", str(plan), "--dry-run", error=SystemExit
+        )
+        self.assertIn("Non-canonical reference order", str(error))
+        self.assertIn("G1/R1, G1/R2, G2/R1, G2/R2", str(error))
+        self.assertEqual(self.ovs.mutations, [])
+
+    def test_reference_order_allows_interleaved_stages(self) -> None:
+        self.add_live_stage(20, 10, [200, 201])
+        self.add_live_stage(21, 11, [202, 203])
+        self.ovs.add_session(1)
+        refs = [
+            {"sessionID": 1, "GroupID": group_id, "GroupFrame": group_frame}
+            for group_id, group_frame in (
+                (200, 0),
+                (202, 0),
+                (200, 1),
+                (202, 1),
+                (201, 0),
+                (203, 0),
+                (201, 1),
+                (203, 1),
+            )
+        ]
+        plan = self.write_reference_plan("interleaved-stages.tsv", refs)
+
+        self.run_main(apply_refs, "--plan", str(plan), "--dry-run")
+        self.assertEqual(self.ovs.mutations, [])
+
+    def test_reference_order_validates_new_stage_group_indexes(self) -> None:
+        self.ovs.add_session(1)
+        stage_create = {
+            "competitionID": 11,
+            "stageID": None,
+            "groupIDs": [],
+            "stageKind": "Final1",
+            "fields": {"PerfomanceFramesLimit": 2},
+            "source": {},
+        }
+        refs = [
+            {
+                "sessionID": 1,
+                "targetCompetitionID": 11,
+                "targetStageKind": "Final1",
+                "groupIndex": group_index,
+                "GroupFrame": group_frame,
+            }
+            for group_index, group_frame in ((0, 0), (0, 1), (1, 0), (1, 1))
+        ]
+        plan = self.write_reference_plan(
+            "new-stage-order.tsv", refs, stage_creates=[stage_create]
+        )
+
+        self.run_main(apply_refs, "--plan", str(plan), "--dry-run")
+        self.assertEqual(self.ovs.mutations, [])
+
+        invalid_refs = [
+            {
+                "sessionID": 1,
+                "targetCompetitionID": 11,
+                "targetStageKind": "Final1",
+                "groupIndex": group_index,
+                "GroupFrame": group_frame,
+            }
+            for group_index, group_frame in ((0, 0), (1, 0), (0, 1), (1, 1))
+        ]
+        invalid = self.write_reference_plan(
+            "new-stage-round-major.tsv",
+            invalid_refs,
+            stage_creates=[stage_create],
+        )
+        error = self.run_main(
+            apply_refs, "--plan", str(invalid), "--dry-run", error=SystemExit
+        )
+        self.assertIn("Non-canonical reference order", str(error))
+        self.assertEqual(self.ovs.mutations, [])
+
+    def test_apply_rejects_projected_noncanonical_order_and_requires_recreate(
+        self,
+    ) -> None:
+        self.add_live_stage(20, 10, [200, 201])
+        self.ovs.add_session(1, [200, 201])
+        plan = self.write_reference_plan(
+            "apply-cannot-reorder.tsv",
+            [
+                {"sessionID": 1, "GroupID": 200, "GroupFrame": 1},
+                {"sessionID": 1, "GroupID": 201, "GroupFrame": 1},
+            ],
+            mode="apply",
+        )
+
+        error = self.run_main(
+            apply_refs, "--plan", str(plan), error=SystemExit
+        )
+        self.assertIn("Mode=recreate", str(error))
+        self.assertEqual(self.ovs.mutations, [])
+
+    def test_reference_order_requires_unique_stage_membership(self) -> None:
+        self.add_live_stage(21, 11, [200])
+        self.ovs.add_session(1)
+        plan = self.write_reference_plan(
+            "ambiguous-stage.tsv",
+            [{"sessionID": 1, "GroupID": 200, "GroupFrame": 0}],
+        )
+
+        error = self.run_main(
+            apply_refs, "--plan", str(plan), "--dry-run", error=SystemExit
+        )
+        self.assertIn("Ask the user", str(error))
+        self.assertIn("multiple stages", str(error))
         self.assertEqual(self.ovs.mutations, [])
 
     def test_start_list_statuses_and_real_failure(self) -> None:

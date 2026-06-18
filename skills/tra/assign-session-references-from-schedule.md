@@ -23,10 +23,14 @@ clickable reference TSV.
 
 ## Read First
 
-1. Read the applied session TSV and its schedule provenance.
-2. Run `inspect_session_workflow.py` for a fresh OVS snapshot.
-3. Read
+1. Read
    [references/session-plan-contracts.md](references/session-plan-contracts.md).
+   Follow its canonical-artifact rules before implementing any phase logic: use
+   the phase-2 executor and matching helpers from one skill-pack revision,
+   confirm their CLI with `--help`, and do not use a local substitute while
+   that canonical path is available.
+2. Read the applied session TSV and its schedule provenance.
+3. Run `inspect_session_workflow.py` for a fresh OVS snapshot.
 4. Read live competitions, stages, groups, performance-frame limits, and
    existing session references from the snapshot.
 5. Reuse the token file created during phase 1. Request credentials only if
@@ -37,9 +41,15 @@ clickable reference TSV.
 - Map each schedule item explicitly to `SessionID`, competition, stage, group,
   and zero-based `GroupFrame`.
 - Add every selected group as its own `ref` row.
-- Preserve table row order as the requested reference order.
-- Use group-first ordering unless the schedule explicitly requires another
-  order: `G1/E1`, `G1/E2`, `G2/E1`, `G2/E2`.
+- Treat table row order as the final reference order. Phase 3 materializes this
+  order into start-list frames and never repairs it.
+- Within one stage, always use group-major, then routine-major order:
+  `G1/R1`, `G1/R2`, `G2/R1`, `G2/R2`. Never use the round-major order
+  `G1/R1`, `G2/R1`, `G1/R2`, `G2/R2`.
+- References from different stages may alternate by routine when the schedule
+  explicitly requires that order. If the inter-stage order is ambiguous, stop
+  before the approval CTA, ask the user to choose the intended sequence, then
+  publish the resolved draft.
 - Represent missing stages only with explicit `stageCreate` rows. Never infer or
   create a final stage silently.
 - Use `ambiguous`, `unmatched`, and `skipped` rows for unresolved items. Keep
@@ -75,6 +85,10 @@ After the user approves:
 7. publish the applied canonical TSV with unresolved rows preserved;
 8. preserve the token file for phase 3; do not clean it up at the phase
    boundary.
+
+If order is found to be wrong after apply, correct the affected session rows
+and rerun phase 2 in `recreate` mode before phase 3. `apply` cannot reorder
+references that already exist.
 
 Finish phase 2 with:
 
