@@ -51,6 +51,7 @@ Canonical file sets:
   `apply_session_references_plan.py`, `plan_table.py`, and
   `ovs_plan_utils.py`;
 - phase 3: `inspect_session_workflow.py`,
+  `validate_session_references_plan.py`,
   `generate_session_start_lists.py`, `plan_table.py`, and
   `ovs_plan_utils.py`.
 
@@ -256,6 +257,18 @@ non-group-major ordering inside each
 metadata mismatches and fragmented session blocks. Warnings require review but
 do not fail unless `--strict-warnings` is used.
 
+A `FINAL` schedule item must not be mapped to `StageKind=Qualification` based
+on `PerfomanceFramesLimit`, `GroupFrame`, or live graph shape. The validator
+also detects a `Details.mappingMode` beginning with `final-to-qualification`.
+Such a row is blocked unless the user directly requested the exception for that
+competition and the row records both:
+
+- `Details.finalInQualificationExplicitlyRequested=true`;
+- a non-empty `Details.finalMappingBasis` containing the instruction.
+
+General approval of the phase-2 TSV is not sufficient. Every confirmed
+exception must be listed separately in the approval summary.
+
 A mutating run that creates a stage requires `--updated-plan`. Existing
 `StageID` rows are checked against the live parent competition and group list.
 
@@ -274,7 +287,10 @@ Use `PlanKind=ovs-session-start-lists-plan`, `Version=1`, and `Mode=create` or
 `append`.
 
 Each row uses `RowType=session`, an explicit `SessionID`, and the same approval
-status rule. The executor reports:
+status rule. Phase 3 additionally requires `--references-plan` pointing to a
+canonical phase-2 TSV with `PlanStatus=applied`. The executor re-runs the
+offline reference validator before reading credentials or contacting OVS. The
+executor reports:
 
 - `generated`;
 - `no-refs`;
@@ -346,6 +362,7 @@ Start-list generation:
 python3 skills/tra/scripts/generate_session_start_lists.py \
   --base-url http://ovs.example \
   --plan start-lists.approved.tsv \
+  --references-plan refs.applied.tsv \
   --token-file token.txt \
   --audit-output start-lists.audit.json
 ```

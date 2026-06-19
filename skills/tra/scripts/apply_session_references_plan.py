@@ -20,6 +20,7 @@ from ovs_plan_utils import (
     writable_field_docs,
 )
 from plan_table import load_refs_plan, write_refs_plan
+from validate_session_references_plan import validate_plan, validation_error
 
 
 def parse_args() -> argparse.Namespace:
@@ -405,13 +406,17 @@ def resolve_ref(
 
 def main() -> int:
     args = parse_args()
-    token = read_token(args)
+    offline_report = validate_plan(args.plan)
+    offline_error = validation_error(offline_report)
+    if offline_error:
+        raise SystemExit(offline_error)
     plan = load_plan(args.plan)
     mode = plan["mode"]
     if not args.dry_run and plan.get("status") not in {"approved", "applied"}:
         raise SystemExit(
             "Mutating execution requires PlanStatus=approved or PlanStatus=applied."
         )
+    token = read_token(args)
     api_ai, _ = request_json(args.base_url, "/api/ai", token)
     if not isinstance(api_ai, dict):
         raise SystemExit("/api/ai did not return a JSON object.")

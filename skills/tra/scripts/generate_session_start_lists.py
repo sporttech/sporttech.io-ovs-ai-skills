@@ -11,6 +11,7 @@ from typing import Any
 
 from ovs_plan_utils import ApiError, collection_map, request_json
 from plan_table import load_start_lists_plan
+from validate_session_references_plan import validate_plan, validation_error
 
 
 def parse_args() -> argparse.Namespace:
@@ -19,6 +20,11 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--base-url", required=True)
     parser.add_argument("--plan", required=True)
+    parser.add_argument(
+        "--references-plan",
+        required=True,
+        help="Canonical applied phase-2 references TSV.",
+    )
     parser.add_argument("--token")
     parser.add_argument("--token-file")
     parser.add_argument("--dry-run", action="store_true")
@@ -78,12 +84,20 @@ def referenced_performance_count(
 
 def main() -> int:
     args = parse_args()
-    token = read_token(args)
     plan = load_plan(args.plan)
     if not args.dry_run and plan.get("status") not in {"approved", "applied"}:
         raise SystemExit(
             "Mutating execution requires PlanStatus=approved or PlanStatus=applied."
         )
+    references_report = validate_plan(args.references_plan)
+    references_error = validation_error(references_report)
+    if references_error:
+        raise SystemExit(references_error)
+    if references_report.get("planStatus") != "applied":
+        raise SystemExit(
+            "--references-plan must have PlanStatus=applied before phase 3."
+        )
+    token = read_token(args)
     session_ids = plan["sessionIDs"]
     before = collection_map(event_graph(args.base_url, token), "Sessions")
     missing = [session_id for session_id in session_ids if str(session_id) not in before]
@@ -147,6 +161,7 @@ def main() -> int:
         "kind": "ovs-session-start-lists-report",
         "version": 1,
         "sourcePlan": args.plan,
+        "sourceReferencesPlan": args.references_plan,
         "mode": plan["mode"],
         "dryRun": args.dry_run,
         "sessions": report_sessions,

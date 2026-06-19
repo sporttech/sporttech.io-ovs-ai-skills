@@ -257,15 +257,53 @@ class WorkflowTest(unittest.TestCase):
         refs: list[dict],
         mode: str = "recreate",
         stage_creates: list[dict] | None = None,
+        status: str = "approved",
     ) -> Path:
+        canonical_refs = []
+        for ref in refs:
+            item = dict(ref)
+            source = dict(item.get("source") or {})
+            session_id = int(item["sessionID"])
+            source.setdefault("sessionNumber", session_id + 100)
+            source.setdefault("sessionTitle", f"Session {session_id}")
+            if item.get("targetCompetitionID") is not None:
+                source.setdefault(
+                    "competitionTitle",
+                    f"Competition {item['targetCompetitionID']}",
+                )
+                source.setdefault("stageKind", item["targetStageKind"])
+                source.setdefault("groupNumber", int(item["groupIndex"]) + 1)
+            else:
+                group_id = int(item["GroupID"])
+                candidates = [
+                    stage
+                    for stage in self.ovs.stages.values()
+                    if group_id in (stage.get("Groups") or [])
+                ]
+                if candidates:
+                    stage = candidates[0]
+                    source.setdefault(
+                        "competitionTitle",
+                        f"Competition {stage['ParentID']}",
+                    )
+                    source.setdefault(
+                        "groupNumber",
+                        list(stage["Groups"]).index(group_id) + 1,
+                    )
+                else:
+                    source.setdefault("competitionTitle", "Competition")
+                    source.setdefault("groupNumber", 1)
+                source.setdefault("stageKind", "Qualification")
+            item["source"] = source
+            canonical_refs.append(item)
         path = self.directory / name
         write_refs_plan(
             str(path),
             {
                 "mode": mode,
-                "status": "approved",
+                "status": status,
                 "stageCreates": stage_creates or [],
-                "refs": refs,
+                "refs": canonical_refs,
                 "ambiguous": [],
                 "unmatched": [],
                 "skipped": [],
@@ -469,7 +507,14 @@ class WorkflowTest(unittest.TestCase):
                         "targetStageKind": "Final1",
                         "groupIndex": 0,
                         "GroupFrame": 0,
-                        "source": {"raw": "Exercise 1"},
+                        "source": {
+                            "raw": "Exercise 1",
+                            "sessionNumber": 101,
+                            "sessionTitle": "Session 1",
+                            "competitionTitle": "Competition 10",
+                            "stageKind": "Final1",
+                            "groupNumber": 1,
+                        },
                     },
                     {
                         "sessionID": 1,
@@ -477,7 +522,14 @@ class WorkflowTest(unittest.TestCase):
                         "targetStageKind": "Final1",
                         "groupIndex": 0,
                         "GroupFrame": 1,
-                        "source": {"raw": "Exercise 2"},
+                        "source": {
+                            "raw": "Exercise 2",
+                            "sessionNumber": 101,
+                            "sessionTitle": "Session 1",
+                            "competitionTitle": "Competition 10",
+                            "stageKind": "Final1",
+                            "groupNumber": 1,
+                        },
                     },
                 ],
                 "ambiguous": [{"source": {"raw": "Maybe"}, "reason": "review"}],
@@ -636,7 +688,7 @@ class WorkflowTest(unittest.TestCase):
         error = self.run_main(
             apply_refs, "--plan", str(plan), "--dry-run", error=SystemExit
         )
-        self.assertIn("Non-canonical reference order", str(error))
+        self.assertIn("noncanonical-order", str(error))
         self.assertIn("G1/R1, G1/R2, G2/R1, G2/R2", str(error))
         self.assertEqual(self.ovs.mutations, [])
 
@@ -707,7 +759,7 @@ class WorkflowTest(unittest.TestCase):
         error = self.run_main(
             apply_refs, "--plan", str(invalid), "--dry-run", error=SystemExit
         )
-        self.assertIn("Non-canonical reference order", str(error))
+        self.assertIn("noncanonical-order", str(error))
         self.assertEqual(self.ovs.mutations, [])
 
     def test_apply_rejects_projected_noncanonical_order_and_requires_recreate(
@@ -798,10 +850,201 @@ class WorkflowTest(unittest.TestCase):
         self.assertEqual(valid_report["summary"]["errors"], 0)
         self.assertEqual(valid_report["summary"]["warnings"], 0)
 
+    def test_final_to_qualification_requires_explicit_user_exception(self) -> None:
+        base = {
+            "PlanKind": "ovs-session-refs-plan",
+            "Version": 2,
+            "Mode": "recreate",
+            "PlanStatus": "draft",
+            "RowType": "ref",
+            "SessionID": 1,
+            "SessionNumber": 101,
+            "SessionTitle": "TRA 1",
+            "CompetitionTitle": "National 6 TRP Female",
+            "StageKind": "Qualification",
+            "GroupNumber": 1,
+            "ExerciseNumber": 2,
+            "Target": {"GroupID": 200, "GroupFrame": 1},
+            "Source": {
+                "raw": "National 6 TRP Female FINAL",
+                "competitionTitle": "National 6 TRP Female",
+                "stageKind": "Qualification",
+                "groupNumber": 1,
+                "sessionNumber": 101,
+            },
+            "Details": {"mappingMode": "final-to-qualification-frame-2"},
+        }
+
+        invalid = self.directory / "final-qualification-invalid.tsv"
+        write_rows(str(invalid), [base])
+        report = validate_refs.validate_plan(str(invalid))
+        self.assertEqual(
+            [item["code"] for item in report["errors"]],
+            ["final-mapped-to-qualification"],
+        )
+
+        first_routine = self.directory / "final-qualification-frame-zero.tsv"
+        write_rows(
+            str(first_routine),
+            [
+                {
+                    **base,
+                    "ExerciseNumber": 1,
+                    "Target": {"GroupID": 200, "GroupFrame": 0},
+                    "Details": {},
+                }
+            ],
+        )
+        self.assertEqual(
+            validate_refs.validate_plan(str(first_routine))["errors"][0]["code"],
+            "final-mapped-to-qualification",
+        )
+
+        mode_only = self.directory / "final-mode-only.tsv"
+        write_rows(str(mode_only), [{**base, "Source": {}}])
+        self.assertEqual(
+            validate_refs.validate_plan(str(mode_only))["errors"][0]["code"],
+            "final-mapped-to-qualification",
+        )
+
+        confirmed = self.directory / "final-qualification-confirmed.tsv"
+        write_rows(
+            str(confirmed),
+            [
+                {
+                    **base,
+                    "Details": {
+                        "mappingMode": "final-to-qualification-frame-2",
+                        "finalInQualificationExplicitlyRequested": True,
+                        "finalMappingBasis": (
+                            "User explicitly requested Qualification routine 2 "
+                            "for National 6 TRP Female."
+                        ),
+                    },
+                }
+            ],
+        )
+        confirmed_report = validate_refs.validate_plan(str(confirmed))
+        self.assertEqual(confirmed_report["summary"]["errors"], 0)
+        self.assertEqual(
+            confirmed_report["summary"]["confirmedFinalQualificationExceptions"],
+            1,
+        )
+
+        missing_basis = self.directory / "final-confirmation-without-basis.tsv"
+        write_rows(
+            str(missing_basis),
+            [
+                {
+                    **base,
+                    "Details": {
+                        "finalInQualificationExplicitlyRequested": True,
+                    },
+                }
+            ],
+        )
+        self.assertEqual(
+            validate_refs.validate_plan(str(missing_basis))["errors"][0]["code"],
+            "final-mapped-to-qualification",
+        )
+
+        final_stage = self.directory / "final-stage.tsv"
+        write_rows(
+            str(final_stage),
+            [
+                {
+                    **base,
+                    "StageKind": "Final1",
+                    "ExerciseNumber": 1,
+                    "Target": {
+                        "CompetitionID": 10,
+                        "StageKind": "Final1",
+                        "GroupIndex": 0,
+                        "GroupFrame": 0,
+                    },
+                    "Source": {
+                        **base["Source"],
+                        "stageKind": "Final1",
+                    },
+                    "Details": {"mappingMode": "final-to-created-final1-stage"},
+                }
+            ],
+        )
+        self.assertEqual(
+            validate_refs.validate_plan(str(final_stage))["summary"]["errors"],
+            0,
+        )
+
+        ambiguous = self.directory / "final-ambiguous.tsv"
+        write_rows(
+            str(ambiguous),
+            [
+                {
+                    "PlanKind": "ovs-session-refs-plan",
+                    "Version": 2,
+                    "Mode": "recreate",
+                    "PlanStatus": "draft",
+                    "RowType": "ambiguous",
+                    "SessionID": 1,
+                    "Source": {"raw": "National 6 TRP Female FINAL"},
+                    "Details": {"reason": "Final stage structure requires user input."},
+                }
+            ],
+        )
+        self.assertEqual(
+            validate_refs.validate_plan(str(ambiguous))["summary"]["errors"],
+            0,
+        )
+
+    def test_phase_two_semantic_validation_precedes_token_and_network(self) -> None:
+        plan = self.directory / "phase-two-semantic-error.tsv"
+        write_rows(
+            str(plan),
+            [
+                {
+                    "PlanKind": "ovs-session-refs-plan",
+                    "Version": 2,
+                    "Mode": "recreate",
+                    "PlanStatus": "approved",
+                    "RowType": "ref",
+                    "SessionID": 1,
+                    "SessionNumber": 101,
+                    "SessionTitle": "TRA 1",
+                    "CompetitionTitle": "Competition 10",
+                    "StageKind": "Qualification",
+                    "GroupNumber": 1,
+                    "ExerciseNumber": 2,
+                    "Target": {"GroupID": 200, "GroupFrame": 1},
+                    "Source": {"raw": "Competition 10 FINAL"},
+                    "Details": {},
+                }
+            ],
+        )
+        argv = [
+            apply_refs.__file__,
+            "--base-url",
+            "http://mock",
+            "--plan",
+            str(plan),
+            "--dry-run",
+        ]
+        with mock.patch.object(sys, "argv", argv), mock.patch.object(
+            apply_refs, "request_json"
+        ) as request:
+            with self.assertRaises(SystemExit) as caught:
+                apply_refs.main()
+        self.assertIn("final-mapped-to-qualification", str(caught.exception))
+        request.assert_not_called()
+
     def test_start_list_statuses_and_real_failure(self) -> None:
         self.ovs.add_session(1)
         self.ovs.add_session(2, [201])
         self.ovs.add_session(3, [200])
+        references = self.write_reference_plan(
+            "refs.applied.tsv",
+            [{"sessionID": 3, "GroupID": 200, "GroupFrame": 0}],
+            status="applied",
+        )
         source = self.directory / "start.tsv"
         write_rows(
             str(source),
@@ -822,6 +1065,8 @@ class WorkflowTest(unittest.TestCase):
             generate_lists,
             "--plan",
             str(source),
+            "--references-plan",
+            str(references),
             "--audit-output",
             str(audit),
         )
@@ -853,8 +1098,103 @@ class WorkflowTest(unittest.TestCase):
             generate_lists,
             "--plan",
             str(failure),
+            "--references-plan",
+            str(references),
             error=ApiError,
         )
+
+    def test_phase_three_requires_valid_applied_references_plan(self) -> None:
+        self.ovs.add_session(1)
+        start = self.directory / "start-guard.tsv"
+        write_rows(
+            str(start),
+            [
+                {
+                    "PlanKind": "ovs-session-start-lists-plan",
+                    "Version": 1,
+                    "Mode": "create",
+                    "PlanStatus": "approved",
+                    "RowType": "session",
+                    "SessionID": 1,
+                }
+            ],
+        )
+        draft_refs = self.write_reference_plan(
+            "refs.draft.tsv",
+            [{"sessionID": 1, "GroupID": 200, "GroupFrame": 0}],
+            status="draft",
+        )
+
+        error = self.run_main(
+            generate_lists,
+            "--plan",
+            str(start),
+            "--references-plan",
+            str(draft_refs),
+            error=SystemExit,
+        )
+        self.assertIn("PlanStatus=applied", str(error))
+        self.assertEqual(self.ovs.mutations, [])
+
+        semantic_error = self.directory / "refs.semantic-error.applied.tsv"
+        write_rows(
+            str(semantic_error),
+            [
+                {
+                    "PlanKind": "ovs-session-refs-plan",
+                    "Version": 2,
+                    "Mode": "recreate",
+                    "PlanStatus": "applied",
+                    "RowType": "ref",
+                    "SessionID": 1,
+                    "SessionNumber": 101,
+                    "SessionTitle": "TRA 1",
+                    "CompetitionTitle": "Competition 10",
+                    "StageKind": "Qualification",
+                    "GroupNumber": 1,
+                    "ExerciseNumber": 2,
+                    "Target": {"GroupID": 200, "GroupFrame": 1},
+                    "Source": {"raw": "Competition 10 FINAL"},
+                    "Details": {},
+                }
+            ],
+        )
+        with mock.patch.object(
+            generate_lists, "read_token"
+        ) as read_token, mock.patch.object(
+            generate_lists, "request_json"
+        ) as request, mock.patch.object(
+            sys,
+            "argv",
+            [
+                generate_lists.__file__,
+                "--base-url",
+                "http://mock",
+                "--plan",
+                str(start),
+                "--references-plan",
+                str(semantic_error),
+            ],
+        ):
+            with self.assertRaises(SystemExit) as caught:
+                generate_lists.main()
+        self.assertIn("final-mapped-to-qualification", str(caught.exception))
+        read_token.assert_not_called()
+        request.assert_not_called()
+
+        with mock.patch.object(
+            sys,
+            "argv",
+            [
+                generate_lists.__file__,
+                "--base-url",
+                "http://mock",
+                "--plan",
+                str(start),
+            ],
+        ):
+            with self.assertRaises(SystemExit):
+                generate_lists.parse_args()
 
     def test_read_only_inspector_builds_reusable_catalog(self) -> None:
         self.ovs.add_session(1)

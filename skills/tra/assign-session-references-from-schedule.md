@@ -57,6 +57,15 @@ qualification stage or to a separate final stage.
   publish the resolved draft.
 - Represent missing stages only with explicit `stageCreate` rows. Never infer or
   create a final stage silently.
+- Never infer that `FINAL` is another routine in `Qualification` from
+  `PerfomanceFramesLimit`, `GroupFrame`, or the live graph. A `FINAL` schedule
+  item mapped to `StageKind=Qualification` is invalid by default. If the stage
+  structure is unclear, publish an `ambiguous` row and ask the user.
+- Allow `FINAL` in `Qualification` only after a direct user instruction for the
+  named competition. Record
+  `Details.finalInQualificationExplicitlyRequested=true` and that instruction
+  in `Details.finalMappingBasis`. General approval of the TSV is not that
+  instruction.
 - Use `ambiguous`, `unmatched`, and `skipped` rows for unresolved items. Keep
   them visible in every subsequent TSV version.
 - Keep `PlanStatus=draft` until the user approves this exact file version.
@@ -74,8 +83,10 @@ After preparing or correcting the table:
 2. summarize reference rows, stage creations, ambiguous rows, unmatched rows,
    and skipped rows;
 3. call out every missing-stage decision explicitly;
-4. stop without dry-run, credential discovery, or OVS mutation;
-5. end the message with this explicit CTA:
+4. list every confirmed `FINAL`-in-`Qualification` exception and its user
+   basis; if none exist, say so;
+5. stop without dry-run, credential discovery, or OVS mutation;
+6. end the message with this explicit CTA:
 
 `Next: review <linked filename> and reply "approve references", or list corrections and missing-stage decisions.`
 
@@ -99,6 +110,16 @@ After the user approves:
 If order is found to be wrong after apply, correct the affected session rows
 and rerun phase 2 in `recreate` mode before phase 3. `apply` cannot reorder
 references that already exist.
+
+If an invalid `FINAL`-to-`Qualification` mapping is found after apply:
+
+1. stop phase 3 immediately;
+2. identify every affected `SessionID`;
+3. rebuild those sessions in a corrected phase-2 `recreate` draft;
+4. obtain explicit approval for every final-stage decision;
+5. apply and verify the corrected phase 2;
+6. discard any previous phase-3 draft and prepare a new one from the corrected
+   applied references TSV.
 
 Finish phase 2 with:
 

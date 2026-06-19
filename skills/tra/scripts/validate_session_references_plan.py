@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
@@ -67,10 +66,10 @@ def validate_plan(path: str) -> dict[str, Any]:
 
     errors: list[dict[str, Any]] = []
     warnings: list[dict[str, Any]] = []
+    confirmed_exceptions: list[dict[str, Any]] = []
     blocks: dict[tuple[int, str, str], list[dict[str, Any]]] = defaultdict(list)
     logical_refs: dict[tuple[int, str, str, int, int], int] = {}
     session_numbers: dict[int, set[int]] = defaultdict(set)
-    session_spans: dict[int, list[int]] = defaultdict(list)
     ref_count = 0
 
     for row_number, row in enumerate(rows, start=2):
@@ -109,7 +108,6 @@ def validate_plan(path: str) -> dict[str, Any]:
             continue
 
         session_numbers[session_id].add(session_number)
-        session_spans[session_id].append(row_number)
         item = {
             "row": row_number,
             "group": group_number,
@@ -176,6 +174,49 @@ def validate_plan(path: str) -> dict[str, Any]:
                 )
 
         source = decode(row.get("Source", "")) or {}
+        details = decode(row.get("Details", "")) or {}
+        raw = str(source.get("raw", "")) if isinstance(source, dict) else ""
+        mapping_mode = (
+            str(details.get("mappingMode", "")) if isinstance(details, dict) else ""
+        )
+        is_final_to_qualification = (
+            stage_kind.casefold() == "qualification"
+            and "FINAL" in raw.upper()
+        ) or mapping_mode.casefold().startswith("final-to-qualification")
+        if is_final_to_qualification:
+            explicitly_requested = (
+                isinstance(details, dict)
+                and details.get("finalInQualificationExplicitlyRequested") is True
+            )
+            basis = (
+                str(details.get("finalMappingBasis", "")).strip()
+                if isinstance(details, dict)
+                else ""
+            )
+            if not explicitly_requested or not basis:
+                errors.append(
+                    {
+                        "code": "final-mapped-to-qualification",
+                        "row": row_number,
+                        "message": (
+                            "FINAL must not be mapped to Qualification based on "
+                            "PerfomanceFramesLimit, GroupFrame, or the live graph. "
+                            "Use an ambiguous row until the user explicitly requests "
+                            "this exception, then record both "
+                            "Details.finalInQualificationExplicitlyRequested=true "
+                            "and a non-empty Details.finalMappingBasis."
+                        ),
+                    }
+                )
+            else:
+                confirmed_exceptions.append(
+                    {
+                        "row": row_number,
+                        "sessionID": session_id,
+                        "competitionTitle": competition_title,
+                        "basis": basis,
+                    }
+                )
         if isinstance(source, dict):
             comparisons = (
                 ("groupNumber", group_number, "GroupNumber"),
@@ -264,22 +305,40 @@ def validate_plan(path: str) -> dict[str, Any]:
         "kind": "ovs-session-refs-plan-validation",
         "version": 1,
         "plan": str(Path(path)),
+        "planStatus": rows[0]["PlanStatus"],
         "summary": {
             "refRows": ref_count,
             "blocks": len(blocks),
             "errors": len(errors),
             "warnings": len(warnings),
+            "confirmedFinalQualificationExceptions": len(confirmed_exceptions),
         },
         "errors": errors,
         "warnings": warnings,
+        "confirmedFinalQualificationExceptions": confirmed_exceptions,
     }
+
+
+def validation_error(report: dict[str, Any]) -> str | None:
+    errors = report.get("errors") or []
+    if not errors:
+        return None
+    preview = "; ".join(
+        f"{item['code']}: {item['message']}" for item in errors[:5]
+    )
+    remaining = len(errors) - 5
+    if remaining > 0:
+        preview += f"; and {remaining} more errors"
+    return f"Reference plan validation failed: {preview}"
 
 
 def print_report(report: dict[str, Any]) -> None:
     summary = report["summary"]
     print(
         f"Validated {summary['refRows']} refs in {summary['blocks']} blocks: "
-        f"{summary['errors']} errors, {summary['warnings']} warnings."
+        f"{summary['errors']} errors, {summary['warnings']} warnings, "
+        f"{summary['confirmedFinalQualificationExceptions']} confirmed "
+        "FINAL-to-Qualification exceptions."
     )
     for severity in ("errors", "warnings"):
         for item in report[severity]:
@@ -292,6 +351,12 @@ def print_report(report: dict[str, Any]) -> None:
                 f"{severity[:-1].upper()} {item['code']}{location} "
                 f"{item['message']}"
             )
+    for item in report["confirmedFinalQualificationExceptions"]:
+        print(
+            "CONFIRMED final-to-qualification"
+            f" row {item['row']}: SessionID={item['sessionID']}, "
+            f"{item['competitionTitle']}: {item['basis']}"
+        )
 
 
 def main() -> int:
