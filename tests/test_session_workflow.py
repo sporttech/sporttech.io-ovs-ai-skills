@@ -25,6 +25,7 @@ from plan_table import (  # noqa: E402
 
 apply_sessions = importlib.import_module("apply_sessions_plan")
 apply_refs = importlib.import_module("apply_session_references_plan")
+validate_refs = importlib.import_module("validate_session_references_plan")
 generate_lists = importlib.import_module("generate_session_start_lists")
 inspect_workflow = importlib.import_module("inspect_session_workflow")
 
@@ -743,6 +744,59 @@ class WorkflowTest(unittest.TestCase):
         self.assertIn("Ask the user", str(error))
         self.assertIn("multiple stages", str(error))
         self.assertEqual(self.ovs.mutations, [])
+
+    def test_offline_reference_validator_runs_after_each_draft_transform(
+        self,
+    ) -> None:
+        base = {
+            "PlanKind": "ovs-session-refs-plan",
+            "Version": 2,
+            "Mode": "recreate",
+            "PlanStatus": "draft",
+            "RowType": "ref",
+            "SessionID": 1,
+            "SessionNumber": 101,
+            "SessionTitle": "TRA 1",
+            "CompetitionTitle": "National 6 TRP Female",
+            "StageKind": "Qualification",
+        }
+
+        def row(group: int, exercise: int) -> dict:
+            return {
+                **base,
+                "GroupNumber": group,
+                "ExerciseNumber": exercise,
+                "Target": {
+                    "GroupID": 200 + group,
+                    "GroupFrame": exercise - 1,
+                },
+                "Source": {
+                    "competitionTitle": base["CompetitionTitle"],
+                    "stageKind": base["StageKind"],
+                    "groupNumber": group,
+                    "sessionNumber": base["SessionNumber"],
+                },
+            }
+
+        invalid = self.directory / "review-order-invalid.tsv"
+        write_rows(
+            str(invalid),
+            [row(group, exercise) for group, exercise in ((1, 1), (2, 1), (1, 2), (2, 2))],
+        )
+        invalid_report = validate_refs.validate_plan(str(invalid))
+        self.assertEqual(invalid_report["summary"]["errors"], 1)
+        self.assertEqual(
+            invalid_report["errors"][0]["code"], "noncanonical-order"
+        )
+
+        valid = self.directory / "review-order-valid.tsv"
+        write_rows(
+            str(valid),
+            [row(group, exercise) for group, exercise in ((1, 1), (1, 2), (2, 1), (2, 2))],
+        )
+        valid_report = validate_refs.validate_plan(str(valid))
+        self.assertEqual(valid_report["summary"]["errors"], 0)
+        self.assertEqual(valid_report["summary"]["warnings"], 0)
 
     def test_start_list_statuses_and_real_failure(self) -> None:
         self.ovs.add_session(1)

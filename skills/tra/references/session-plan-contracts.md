@@ -47,6 +47,7 @@ Canonical file sets:
   `build_sessions_plan_from_docx.py`, `apply_sessions_plan.py`,
   `plan_table.py`, and `ovs_plan_utils.py`;
 - phase 2: `inspect_session_workflow.py`,
+  `validate_session_references_plan.py`,
   `apply_session_references_plan.py`, `plan_table.py`, and
   `ovs_plan_utils.py`;
 - phase 3: `inspect_session_workflow.py`,
@@ -62,6 +63,35 @@ blocker and the behavioral differences or compatibility risks.
 
 Never replace an approval-gated dry-run with an earlier dry-run. Before
 approval, use `--help` and other non-executing inspection only.
+
+## Workflow Source Isolation
+
+A new workflow MUST derive decisions only from:
+
+- files explicitly supplied by the user for the current workflow;
+- canonical TSV artifacts produced and approved in earlier phases of this same
+  workflow;
+- a fresh OVS snapshot fetched for the current phase;
+- `/api/ai`, the live OVS graph, and the canonical skill-pack revision selected
+  for this workflow.
+
+Do not search, read, or infer rules from Codex session logs, archived chats,
+terminal history, JSONL traces, previous workflow directories, old snapshots,
+old audit JSON, or artifacts from another event unless the user explicitly
+supplies that exact artifact as current input. In particular, never inspect
+`~/.codex/sessions`, `~/.codex/archived_sessions`, or
+`~/.codex/session_index.jsonl` for examples or missing context.
+
+Historical workflow output is not a canonical example and must not be used to
+invent mappings such as whether `FINAL` means another `GroupFrame` or a separate
+stage. Resolve each such decision from the current schedule, current live
+stage/group data, `/api/ai`, and explicit user approval. If those sources do not
+determine the mapping uniquely, publish it as ambiguous and ask the user before
+the phase CTA.
+
+Create a fresh snapshot at the explicit path chosen for the current workflow.
+Never discover or reuse a snapshot merely because a similarly named JSON file
+already exists.
 
 ## Credential Lifecycle
 
@@ -209,6 +239,22 @@ Dry-run validates the plan order in `recreate` mode. In `apply` mode it
 validates the projected live order: existing refs followed by missing refs in
 plan order. If existing refs prevent a canonical result, use `recreate` for the
 affected sessions before phase 3.
+
+Before publishing any phase-2 draft, run the offline review validator. Run it
+again after every transformation of the TSV, including sorting or manual edits:
+
+```bash
+python3 skills/tra/scripts/validate_session_references_plan.py \
+  --plan refs.draft.tsv
+```
+
+The validator blocks duplicate logical refs, invalid human review fields,
+`ExerciseNumber`/`Target.GroupFrame` mismatches,
+`GroupNumber`/`Target.GroupIndex` mismatches, inconsistent session numbers, and
+non-group-major ordering inside each
+`SessionID + CompetitionTitle + StageKind` block. It warns about source/review
+metadata mismatches and fragmented session blocks. Warnings require review but
+do not fail unless `--strict-warnings` is used.
 
 A mutating run that creates a stage requires `--updated-plan`. Existing
 `StageID` rows are checked against the live parent competition and group list.

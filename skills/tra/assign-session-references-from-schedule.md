@@ -36,6 +36,11 @@ clickable reference TSV.
 5. Reuse the token file created during phase 1. Request credentials only if
    that token is absent or invalid.
 
+Use only current-workflow sources allowed by the contract. Never search prior
+session JSONL traces, old snapshots, audit JSON, or another workflow for a
+mapping example. A prior mapping is not evidence that `FINAL` belongs to the
+qualification stage or to a separate final stage.
+
 ## Prepare The Reference Table
 
 - Map each schedule item explicitly to `SessionID`, competition, stage, group,
@@ -55,6 +60,11 @@ clickable reference TSV.
 - Use `ambiguous`, `unmatched`, and `skipped` rows for unresolved items. Keep
   them visible in every subsequent TSV version.
 - Keep `PlanStatus=draft` until the user approves this exact file version.
+- Run `validate_session_references_plan.py --plan <draft.tsv>` immediately after
+  first generation and after every transformation, including sorting, row
+  insertion, and manual correction. Do not publish a draft with validator
+  errors. Review every warning and mention unresolved warnings in the approval
+  summary.
 
 ## Approval Gate 2: Session References
 
@@ -97,5 +107,7 @@ Finish phase 2 with:
 ## Included Tools
 
 - `inspect_session_workflow.py`: fetch one read-only OVS snapshot.
+- `validate_session_references_plan.py`: validate each review TSV offline before
+  publication and after every edit or sort.
 - `apply_session_references_plan.py`: dry-run and apply stage/reference rows.
 - `plan_table.py`: read and write canonical TSV tables.
