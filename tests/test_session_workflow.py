@@ -1044,6 +1044,7 @@ class WorkflowTest(unittest.TestCase):
         self.ovs.add_session(1)
         self.ovs.add_session(2, [201])
         self.ovs.add_session(3, [200])
+        self.ovs.sessions["3"]["RotationView"] = 4
         references = self.write_reference_plan(
             "refs.applied.tsv",
             [
@@ -1063,6 +1064,7 @@ class WorkflowTest(unittest.TestCase):
                     "PlanStatus": "approved",
                     "RowType": "session",
                     "SessionID": session_id,
+                    "Field:RotationView": 0,
                 }
                 for session_id in (1, 2, 3)
             ],
@@ -1085,6 +1087,19 @@ class WorkflowTest(unittest.TestCase):
             statuses,
             {1: "no-refs", 2: "refs-without-performances", 3: "generated"},
         )
+        self.assertEqual(
+            [self.ovs.sessions[str(session_id)]["RotationView"] for session_id in (1, 2, 3)],
+            [0, 0, 0],
+        )
+        mutation_paths = [
+            path
+            for method, path, _body in self.ovs.mutations
+            if path.startswith("/api/sessions/")
+        ]
+        self.assertLess(
+            mutation_paths.index("/api/sessions/3"),
+            mutation_paths.index("/api/sessions/3/generate"),
+        )
 
         self.ovs.add_session(4, [202])
         failure_references = self.write_reference_plan(
@@ -1103,6 +1118,7 @@ class WorkflowTest(unittest.TestCase):
                     "PlanStatus": "approved",
                     "RowType": "session",
                     "SessionID": 4,
+                    "Field:RotationView": 0,
                 }
             ],
         )
@@ -1128,6 +1144,7 @@ class WorkflowTest(unittest.TestCase):
                     "PlanStatus": "approved",
                     "RowType": "session",
                     "SessionID": 1,
+                    "Field:RotationView": 0,
                 }
             ],
         )
@@ -1147,6 +1164,30 @@ class WorkflowTest(unittest.TestCase):
         )
         self.assertIn("applied apply/recreate", str(error))
         self.assertEqual(self.ovs.mutations, [])
+
+        missing_rotation = self.directory / "start-missing-rotation.tsv"
+        write_rows(
+            str(missing_rotation),
+            [
+                {
+                    "PlanKind": "ovs-session-start-lists-plan",
+                    "Version": 1,
+                    "Mode": "create",
+                    "PlanStatus": "approved",
+                    "RowType": "session",
+                    "SessionID": 1,
+                }
+            ],
+        )
+        error = self.run_main(
+            generate_lists,
+            "--plan",
+            str(missing_rotation),
+            "--references-plan",
+            str(draft_refs),
+            error=SystemExit,
+        )
+        self.assertIn("Field:RotationView", str(error))
 
         semantic_error = self.directory / "refs.semantic-error.applied.tsv"
         write_rows(
@@ -1214,6 +1255,7 @@ class WorkflowTest(unittest.TestCase):
         self.ovs.add_session(1, [200])
         self.ovs.sessions["1"]["Number"] = 101
         self.ovs.sessions["1"]["SessionTitle"] = "TRA 1"
+        self.ovs.sessions["1"]["RotationView"] = 4
 
         snapshot = self.directory / "standalone-snapshot.json"
         argv = [
@@ -1265,6 +1307,7 @@ class WorkflowTest(unittest.TestCase):
                     "PlanStatus": "approved",
                     "RowType": "session",
                     "SessionID": 1,
+                    "Field:RotationView": 0,
                 }
             ],
         )
@@ -1276,6 +1319,7 @@ class WorkflowTest(unittest.TestCase):
             str(adopted_approved),
             "--dry-run",
         )
+        self.assertEqual(self.ovs.sessions["1"]["RotationView"], 4)
 
         self.ovs.sessions["1"]["GroupFrame"] = [1]
         error = self.run_main(

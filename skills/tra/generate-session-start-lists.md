@@ -41,6 +41,13 @@ and will not run before approval of the clickable TSV.
 ## Prepare The Start-List Table
 
 - Use one explicit `RowType=session` row per target `SessionID`.
+- Set an explicit `Field:RotationView` for every target session. Resolve valid
+  values from current `/api/ai` and use the localized choice table in the
+  contract. Never inherit this choice silently from the live session and never
+  default every session to `0`.
+- If the user has not already specified a rotation view, present the available
+  localized choices and ask them to choose. The user may choose one value for
+  all target sessions or different values per session.
 - Use `Mode=create` for normal regeneration and `Mode=append` only when the user
   explicitly wants to preserve existing frames.
 - Include every intentionally empty session in the review summary even if it is
@@ -65,8 +72,10 @@ After preparing or correcting the table:
 1. send a clickable link to the canonical TSV;
 2. summarize target sessions, generation mode, sessions without refs, and
    sessions expected to remain empty;
-3. stop without dry-run, credential discovery, or calling `sessions.generate`;
-4. end the message with this explicit CTA:
+3. summarize the selected `Field:RotationView` for every session, including its
+   localized human label;
+4. stop without dry-run, credential discovery, or calling `sessions.generate`;
+5. end the message with this explicit CTA:
 
 `Next: review <linked filename> and reply "approve start lists", or list the sessions or generation mode to change.`
 
@@ -82,8 +91,10 @@ After the user approves:
 3. run `generate_session_start_lists.py --references-plan
    <refs.applied-or-adopted.tsv> --dry-run`;
 4. if dry-run fails, correct and republish the draft for approval;
-5. run the executor without `--dry-run`;
-6. verify `Session.Frames` and publish the audit report;
+5. run the executor without `--dry-run`; it patches the approved
+   `Session.RotationView` immediately before `sessions.generate`;
+6. verify `Session.RotationView` and `Session.Frames`, then publish the audit
+   report;
 7. report `generated`, `no-refs`, `refs-without-performances`, and failures;
 8. delete the temporary token file only after the complete workflow has
    finished.

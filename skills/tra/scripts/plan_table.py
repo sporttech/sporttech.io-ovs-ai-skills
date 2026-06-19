@@ -221,17 +221,23 @@ def load_start_lists_plan(path: str) -> dict[str, Any]:
     rows = read_rows(path)
     if rows[0]["PlanKind"] != "ovs-session-start-lists-plan" or rows[0]["Version"] != "1":
         raise SystemExit("Expected an ovs-session-start-lists-plan version 1 table.")
-    session_ids = []
+    sessions = []
     for row in rows:
         if row["RowType"] != "session":
             raise SystemExit("Start-list plans may contain only RowType=session.")
-        session_ids.append(integer(row, "SessionID", True))
+        sessions.append(
+            {
+                "sessionID": integer(row, "SessionID", True),
+                "fields": field_values(row, "Field:"),
+            }
+        )
     return {
         "kind": rows[0]["PlanKind"],
         "version": 1,
         "mode": rows[0]["Mode"],
         "status": rows[0]["PlanStatus"],
-        "sessionIDs": session_ids,
+        "sessions": sessions,
+        "sessionIDs": [item["sessionID"] for item in sessions],
         "sourceTable": path,
     }
 

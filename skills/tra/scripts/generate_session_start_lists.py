@@ -9,7 +9,14 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from ovs_plan_utils import ApiError, collection_map, refs_for_session, request_json
+from ovs_plan_utils import (
+    ApiError,
+    collection_map,
+    refs_for_session,
+    request_json,
+    validate_fields,
+    writable_field_docs,
+)
 from plan_table import load_refs_plan, load_start_lists_plan
 from validate_session_references_plan import validate_plan, validation_error
 
@@ -56,6 +63,12 @@ def load_plan(path: str) -> dict[str, Any]:
         raise SystemExit("Every sessionID must be an integer.")
     if len(session_ids) != len(set(session_ids)):
         raise SystemExit("sessionIDs must be unique.")
+    for index, session in enumerate(plan["sessions"], start=1):
+        fields = session.get("fields")
+        if set(fields or {}) != {"RotationView"}:
+            raise SystemExit(
+                f"sessions[{index}] must contain exactly Field:RotationView."
+            )
     return plan
 
 
@@ -107,6 +120,16 @@ def main() -> int:
             "approved Mode=adopt live-reference plan."
         )
     token = read_token(args)
+    api_ai, _ = request_json(args.base_url, "/api/ai", token)
+    if not isinstance(api_ai, dict):
+        raise SystemExit("/api/ai did not return a JSON object.")
+    writable_sessions = writable_field_docs(api_ai, "Session")
+    planned_rotation = {
+        int(session["sessionID"]): validate_fields(
+            "Session", session["fields"], writable_sessions
+        )["RotationView"]
+        for session in plan["sessions"]
+    }
     session_ids = plan["sessionIDs"]
     before = collection_map(event_graph(args.base_url, token), "Sessions")
     missing = [session_id for session_id in session_ids if str(session_id) not in before]
@@ -145,6 +168,8 @@ def main() -> int:
                 key: before[str(session_id)].get(key)
                 for key in ("Number", "Time", "SessionTitle")
             },
+            "rotationViewBefore": before[str(session_id)].get("RotationView"),
+            "rotationViewPlanned": planned_rotation[session_id],
             "referenceCount": len(before[str(session_id)].get("Groups") or []),
             "framesBefore": len(before[str(session_id)].get("Frames") or []),
         }
@@ -152,6 +177,13 @@ def main() -> int:
     ]
     if not args.dry_run:
         for session_id in session_ids:
+            request_json(
+                args.base_url,
+                f"/api/sessions/{session_id}",
+                token,
+                "PATCH",
+                {"RotationView": planned_rotation[session_id]},
+            )
             request_json(
                 args.base_url,
                 f"/api/sessions/{session_id}/generate",
@@ -185,6 +217,7 @@ def main() -> int:
         report_sessions.append(
             {
                 **target,
+                "rotationViewAfter": after[str(session_id)].get("RotationView"),
                 "framesAfter": frames_after,
                 "referencedPerformanceCount": performances,
                 "status": status,
@@ -211,6 +244,17 @@ def main() -> int:
         for item in report_sessions
         if item["status"] == "performances-without-frames"
     ]
+    rotation_mismatches = [
+        item
+        for item in report_sessions
+        if not args.dry_run
+        and item["rotationViewAfter"] != item["rotationViewPlanned"]
+    ]
+    if rotation_mismatches:
+        raise ApiError(
+            "Sessions with RotationView verification mismatch: "
+            + ", ".join(str(item["sessionID"]) for item in rotation_mismatches)
+        )
     if failed:
         raise ApiError(
             "Sessions with referenced performances but no frames: "

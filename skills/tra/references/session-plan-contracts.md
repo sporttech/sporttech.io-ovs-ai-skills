@@ -307,8 +307,11 @@ all other sessions remain untouched.
 Use `PlanKind=ovs-session-start-lists-plan`, `Version=1`, and `Mode=create` or
 `append`.
 
-Each row uses `RowType=session`, an explicit `SessionID`, and the same approval
-status rule. Phase 3 additionally requires `--references-plan` pointing either
+Each row uses `RowType=session`, an explicit `SessionID`, exactly one writable
+field `Field:RotationView`, and the same approval status rule. Resolve allowed
+values from current `/api/ai`. The executor patches this approved field before
+generation and verifies the resulting value. Phase 3 additionally requires
+`--references-plan` pointing either
 to a phase-2 apply/recreate TSV with `PlanStatus=applied`, or to a `Mode=adopt`
 TSV with `PlanStatus=approved`. The executor re-runs the offline validator and
 compares its ordered refs with live OVS before generation. The executor reports:
@@ -317,6 +320,31 @@ compares its ordered refs with live OVS before generation. The executor reports:
 - `no-refs`;
 - `refs-without-performances`;
 - `performances-without-frames` as an error.
+
+### `Field:RotationView` choices
+
+The TRA UI uses this fixed value order:
+
+| Value | Localization key | Russian | English |
+| ---: | --- | --- | --- |
+| `0` | `RotationEmpty` | `не разделять` | `keep as one` |
+| `1` | `RotationByParticipant` | `ротации участников` | `participants rotation` |
+| `2` | `RotationByRoutine` | `этапу и номеру упражнения` | `stage and routine number` |
+| `3` | `RotationByRoutineNoRefSkip` | `этапу и номеру упражнения, добавив все этапы` | `stage and routine number, ensure all groups` |
+| `4` | `RotationByCandR` | `соревнованию, этапу и номеру упражнения` | `competition, stage, routine number` |
+| `5` | `RotationByCandRNoRefSkip` | `соревнованию, этапу и номеру упражнени, добавив все этапы` | `competition, stage, routine number, ensure all groups` |
+| `6` | `RotationByC` | `соревнованию` | `competition` |
+| `7` | `RotationByCNoRefSkip` | `соревнованию, добавив все этапы` | `competition, ensure all groups` |
+
+The Russian value-5 text intentionally preserves the current UI spelling.
+TRA declares `en`, `ru`, `ja`, and `cn`, but its `ja` and `cn` resources do not
+override these keys; they fall back to the English labels through
+`default_locale=en`.
+
+Before approval gate 3, show the choices in the user's locale and obtain an
+explicit selection. Do not treat the current live value as approval and do not
+default all sessions to `0`. Record the selected integer in each row; one value
+may be applied to all sessions only when the user chooses that explicitly.
 
 ## Executor Commands
 
