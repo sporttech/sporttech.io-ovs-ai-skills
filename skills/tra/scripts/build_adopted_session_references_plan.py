@@ -96,11 +96,21 @@ def build_plan(snapshot_path: str, session_ids: list[int] | None) -> dict[str, A
             stage = stages[str(stage_id)]
             competition_id = int(stage["ParentID"])
             competition = competitions.get(str(competition_id), {})
+            expected_exercise_count = stage.get("PerfomanceFramesLimit")
+            if (
+                not isinstance(expected_exercise_count, int)
+                or expected_exercise_count < 1
+            ):
+                raise SystemExit(
+                    f"StageID={stage_id} must expose a positive "
+                    "PerfomanceFramesLimit before its references can be adopted."
+                )
             refs.append(
                 {
                     "sessionID": session_id,
                     "GroupID": group_id,
                     "GroupFrame": group_frame,
+                    "expectedExerciseCount": expected_exercise_count,
                     "source": {
                         "sessionNumber": session.get("Number"),
                         "sessionTitle": session.get("SessionTitle") or "",
@@ -125,6 +135,7 @@ def build_plan(snapshot_path: str, session_ids: list[int] | None) -> dict[str, A
         "refs": refs,
         "ambiguous": [],
         "unmatched": [],
+        "omitted": [],
         "skipped": [],
     }
 

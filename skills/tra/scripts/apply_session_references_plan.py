@@ -32,8 +32,8 @@ def parse_args() -> argparse.Namespace:
         "--print-example",
         action="store_true",
         help=(
-            "Print a canonical draft TSV containing stageCreate, ref, and "
-            "skipped rows, then exit."
+            "Print a canonical draft TSV containing stageCreate, ref, omitted, "
+            "and skipped rows, then exit."
         ),
     )
     parser.add_argument("--token")
@@ -54,7 +54,7 @@ def example_plan() -> dict[str, Any]:
                 "stageID": None,
                 "groupIDs": [],
                 "stageKind": "Final1",
-                "fields": {"PerfomanceFramesLimit": 1},
+                "fields": {"PerfomanceFramesLimit": 2},
                 "source": {
                     "raw": "Women FINAL",
                     "competitionTitle": "Women Individual",
@@ -73,6 +73,7 @@ def example_plan() -> dict[str, Any]:
                 "targetStageKind": "Final1",
                 "groupIndex": 0,
                 "GroupFrame": 0,
+                "expectedExerciseCount": 2,
                 "source": {
                     "raw": "Women FINAL",
                     "sessionNumber": 501,
@@ -85,6 +86,28 @@ def example_plan() -> dict[str, Any]:
         ],
         "ambiguous": [],
         "unmatched": [],
+        "omitted": [
+            {
+                "sessionID": 501,
+                "targetCompetitionID": 10,
+                "targetStageKind": "Final1",
+                "groupIndex": 0,
+                "GroupFrame": 1,
+                "expectedExerciseCount": 2,
+                "source": {
+                    "raw": "Women exercise 2 omitted",
+                    "sessionNumber": 501,
+                    "sessionTitle": "TRA 1",
+                    "competitionTitle": "Women Individual",
+                    "stageKind": "Final1",
+                    "groupNumber": 1,
+                },
+                "omittedIntentionally": True,
+                "reason": (
+                    "User explicitly requested omitting exercise 2 for this group."
+                ),
+            }
+        ],
         "skipped": [
             {
                 "source": {
@@ -130,7 +153,14 @@ def load_plan(path: str) -> dict[str, Any]:
     plan = load_refs_plan(path)
     if plan.get("mode") not in {"apply", "recreate"}:
         raise SystemExit("Plan mode must be 'apply' or 'recreate'.")
-    for field in ("stageCreates", "refs", "ambiguous", "unmatched", "skipped"):
+    for field in (
+        "stageCreates",
+        "refs",
+        "ambiguous",
+        "unmatched",
+        "omitted",
+        "skipped",
+    ):
         if not isinstance(plan.get(field), list):
             raise SystemExit(f"Plan must contain a {field!r} array.")
     unresolved = len(plan["ambiguous"]) + len(plan["unmatched"])
@@ -255,10 +285,24 @@ def validate_refs(
             raise SystemExit(f"refs[{index}] must be an object.")
         session_id = entry.get("sessionID")
         group_frame = entry.get("GroupFrame")
+        expected_exercise_count = entry.get("expectedExerciseCount")
         if not isinstance(session_id, int) or str(session_id) not in sessions:
             raise SystemExit(f"refs[{index}].sessionID does not exist.")
         if not isinstance(group_frame, int) or isinstance(group_frame, bool) or group_frame < 0:
             raise SystemExit(f"refs[{index}].GroupFrame must be non-negative.")
+        if (
+            not isinstance(expected_exercise_count, int)
+            or isinstance(expected_exercise_count, bool)
+            or expected_exercise_count < 1
+        ):
+            raise SystemExit(
+                f"refs[{index}].expectedExerciseCount must be a positive integer."
+            )
+        if group_frame >= expected_exercise_count:
+            raise SystemExit(
+                f"refs[{index}].GroupFrame={group_frame} is outside "
+                f"expectedExerciseCount={expected_exercise_count}."
+            )
         group_id = entry.get("GroupID")
         target_competition_id = entry.get("targetCompetitionID")
         target_stage_kind = entry.get("targetStageKind")
@@ -316,6 +360,49 @@ def group_stage_memberships(
                 (stage_id, group_index)
             )
     return memberships
+
+
+def validate_expected_exercise_counts(
+    refs: list[dict[str, Any]],
+    stage_creates: list[dict[str, Any]],
+    stages: dict[str, dict[str, Any]],
+) -> None:
+    memberships = group_stage_memberships(stages)
+    create_targets = {
+        (entry["competitionID"], entry["stageKind"]): entry
+        for entry in stage_creates
+    }
+    for index, ref in enumerate(refs, start=1):
+        if ref.get("GroupID") is not None:
+            candidates = memberships.get(int(ref["GroupID"]), [])
+            if len(candidates) != 1:
+                continue
+            stage_id, _ = candidates[0]
+            stage = stages[str(stage_id)]
+            live_count = stage.get("PerfomanceFramesLimit")
+            label = f"StageID={stage_id}"
+        else:
+            target = (
+                ref["targetCompetitionID"],
+                ref["targetStageKind"],
+            )
+            stage = create_targets[target]
+            live_count = stage["fields"].get("PerfomanceFramesLimit")
+            label = (
+                f"competitionID={target[0]}, StageKind={target[1]}"
+            )
+        if not isinstance(live_count, int) or live_count < 1:
+            raise SystemExit(
+                f"{label} must expose a positive PerfomanceFramesLimit before "
+                "its references can be applied."
+            )
+        if ref["expectedExerciseCount"] != live_count:
+            raise SystemExit(
+                f"refs[{index}].expectedExerciseCount="
+                f"{ref['expectedExerciseCount']} does not match {label} "
+                f"PerfomanceFramesLimit={live_count}. Refresh the snapshot and "
+                "rebuild the phase-2 plan."
+            )
 
 
 def ordered_ref_for_group(
@@ -529,6 +616,7 @@ def main() -> int:
         plan, writable_stages, stage_kinds, competitions, stages, groups
     )
     refs = validate_refs(plan, stage_creates, sessions, groups)
+    validate_expected_exercise_counts(refs, stage_creates, stages)
     validate_reference_order(mode, refs, stage_creates, sessions, stages)
     creates_stages = any(entry.get("stageID") is None for entry in stage_creates)
     if creates_stages and not args.dry_run and not args.updated_plan:

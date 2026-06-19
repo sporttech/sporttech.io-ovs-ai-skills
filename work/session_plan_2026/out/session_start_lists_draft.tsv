@@ -1,0 +1,46 @@
+PlanKind	Version	Mode	PlanStatus	RowType	SessionID	SessionNumber	SessionTitle	Field:RotationView	Source	Details
+ovs-session-start-lists-plan	1	create	approved	session	0	102	TRA 1	4	{"framesBefore": 0, "performanceCountBefore": 15, "referenceCount": 3, "time": "Tue 7 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	1	102	TRA 2	4	{"framesBefore": 0, "performanceCountBefore": 23, "referenceCount": 5, "time": "Tue 7 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	2	102	TUM	4	{"framesBefore": 0, "performanceCountBefore": 29, "referenceCount": 5, "time": "Tue 7 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	3	103	TRA 1	4	{"framesBefore": 0, "performanceCountBefore": 11, "referenceCount": 2, "time": "Tue 7 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	4	103	TRA 2	4	{"framesBefore": 0, "performanceCountBefore": 22, "referenceCount": 3, "time": "Tue 7 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	5	103	DMT	4	{"framesBefore": 0, "performanceCountBefore": 21, "referenceCount": 5, "time": "Tue 7 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	6	103	TUM	4	{"framesBefore": 0, "performanceCountBefore": 15, "referenceCount": 3, "time": "Tue 7 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	7	201	TRA 1	4	{"framesBefore": 0, "performanceCountBefore": 11, "referenceCount": 2, "time": "Wed 8 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	8	201	TRA 2	4	{"framesBefore": 0, "performanceCountBefore": 18, "referenceCount": 3, "time": "Wed 8 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	9	201	DMT	4	{"framesBefore": 0, "performanceCountBefore": 11, "referenceCount": 4, "time": "Wed 8 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	10	201	TUM	4	{"framesBefore": 0, "performanceCountBefore": 11, "referenceCount": 4, "time": "Wed 8 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	11	202	TRA 1	4	{"framesBefore": 0, "performanceCountBefore": 5, "referenceCount": 2, "time": "Wed 8 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	12	202	TRA 2	4	{"framesBefore": 0, "performanceCountBefore": 8, "referenceCount": 2, "time": "Wed 8 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	13	202	DMT	4	{"framesBefore": 0, "performanceCountBefore": 36, "referenceCount": 6, "time": "Wed 8 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	14	202	TUM	4	{"framesBefore": 0, "performanceCountBefore": 53, "referenceCount": 6, "time": "Wed 8 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	15	301	TRA 1	4	{"framesBefore": 0, "performanceCountBefore": 11, "referenceCount": 2, "time": "Fri 10 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	16	301	TRA 2	4	{"framesBefore": 0, "performanceCountBefore": 26, "referenceCount": 5, "time": "Fri 10 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	17	301	DMT	4	{"framesBefore": 0, "performanceCountBefore": 22, "referenceCount": 3, "time": "Fri 10 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	18	301	TUM	4	{"framesBefore": 0, "performanceCountBefore": 13, "referenceCount": 4, "time": "Fri 10 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	19	302	TRA 1	4	{"framesBefore": 0, "performanceCountBefore": 36, "referenceCount": 5, "time": "Fri 10 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	20	302	TRA 2	4	{"framesBefore": 0, "performanceCountBefore": 35, "referenceCount": 5, "time": "Fri 10 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	21	302	DMT	4	{"framesBefore": 0, "performanceCountBefore": 17, "referenceCount": 2, "time": "Fri 10 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	22	302	TUM	4	{"framesBefore": 0, "performanceCountBefore": 13, "referenceCount": 4, "time": "Fri 10 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	23	303	TRA 1	4	{"framesBefore": 0, "performanceCountBefore": 19, "referenceCount": 2, "time": "Fri 10 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	24	303	TRA 2	4	{"framesBefore": 0, "performanceCountBefore": 14, "referenceCount": 2, "time": "Fri 10 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	25	303	DMT	4	{"framesBefore": 0, "performanceCountBefore": 17, "referenceCount": 2, "time": "Fri 10 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	26	303	TUM	4	{"framesBefore": 0, "performanceCountBefore": 18, "referenceCount": 5, "time": "Fri 10 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	27	401	TRA 1	4	{"framesBefore": 0, "performanceCountBefore": 23, "referenceCount": 3, "time": "Sat 11 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	28	401	TRA 2	4	{"framesBefore": 0, "performanceCountBefore": 14, "referenceCount": 3, "time": "Sat 11 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	29	401	DMT	4	{"framesBefore": 0, "performanceCountBefore": 38, "referenceCount": 4, "time": "Sat 11 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	30	402	TRA 1	4	{"framesBefore": 0, "performanceCountBefore": 24, "referenceCount": 4, "time": "Sat 11 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	31	402	TRA 2	4	{"framesBefore": 0, "performanceCountBefore": 19, "referenceCount": 3, "time": "Sat 11 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	32	402	DMT	4	{"framesBefore": 0, "performanceCountBefore": 18, "referenceCount": 5, "time": "Sat 11 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	33	402	TUM	4	{"framesBefore": 0, "performanceCountBefore": 23, "referenceCount": 5, "time": "Sat 11 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	34	403	TRA 1	4	{"framesBefore": 0, "performanceCountBefore": 0, "referenceCount": 2, "time": "Sat 11 Jul"}	{"note": "Expected refs-without-performances until referenced groups receive performances."}
+ovs-session-start-lists-plan	1	create	approved	session	35	403	TRA 2	4	{"framesBefore": 0, "performanceCountBefore": 0, "referenceCount": 2, "time": "Sat 11 Jul"}	{"note": "Expected refs-without-performances until referenced groups receive performances."}
+ovs-session-start-lists-plan	1	create	approved	session	36	403	DMT	4	{"framesBefore": 0, "performanceCountBefore": 0, "referenceCount": 4, "time": "Sat 11 Jul"}	{"note": "Expected refs-without-performances until referenced groups receive performances."}
+ovs-session-start-lists-plan	1	create	approved	session	37	403	TUM	4	{"framesBefore": 0, "performanceCountBefore": 7, "referenceCount": 4, "time": "Sat 11 Jul"}	
+ovs-session-start-lists-plan	1	create	approved	session	38	501	TRA 1	4	{"framesBefore": 0, "performanceCountBefore": 0, "referenceCount": 2, "time": "Sun 12 Jul"}	{"note": "Expected refs-without-performances until referenced groups receive performances."}
+ovs-session-start-lists-plan	1	create	approved	session	39	501	TRA 2	4	{"framesBefore": 0, "performanceCountBefore": 0, "referenceCount": 2, "time": "Sun 12 Jul"}	{"note": "Expected refs-without-performances until referenced groups receive performances."}
+ovs-session-start-lists-plan	1	create	approved	session	40	501	DMT	4	{"framesBefore": 0, "performanceCountBefore": 0, "referenceCount": 4, "time": "Sun 12 Jul"}	{"note": "Expected refs-without-performances until referenced groups receive performances."}
+ovs-session-start-lists-plan	1	create	approved	omitted	41	502	TRA 1		{"framesBefore": 0, "performanceCountBefore": 0, "referenceCount": 0, "time": "Sun 12 Jul"}	{"reason": "No approved live refs for this session after phase 2; team/all-around items were intentionally skipped."}
+ovs-session-start-lists-plan	1	create	approved	omitted	42	502	TRA 2		{"framesBefore": 0, "performanceCountBefore": 0, "referenceCount": 0, "time": "Sun 12 Jul"}	{"reason": "No approved live refs for this session after phase 2; team/all-around items were intentionally skipped."}
+ovs-session-start-lists-plan	1	create	approved	omitted	43	502	DMT		{"framesBefore": 0, "performanceCountBefore": 0, "referenceCount": 0, "time": "Sun 12 Jul"}	{"reason": "No approved live refs for this session after phase 2; team/all-around items were intentionally skipped."}
+ovs-session-start-lists-plan	1	create	approved	omitted	44	502	TUM		{"framesBefore": 0, "performanceCountBefore": 0, "referenceCount": 0, "time": "Sun 12 Jul"}	{"reason": "No approved live refs for this session after phase 2; team/all-around items were intentionally skipped."}

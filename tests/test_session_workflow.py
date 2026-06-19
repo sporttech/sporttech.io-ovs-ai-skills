@@ -102,7 +102,14 @@ class MockOVS:
             "10": {"ID": 10, "Stages": [20]},
             "11": {"ID": 11, "Stages": []},
         }
-        self.stages = {"20": {"ID": 20, "ParentID": 10, "Groups": [200]}}
+        self.stages = {
+            "20": {
+                "ID": 20,
+                "ParentID": 10,
+                "Groups": [200],
+                "PerfomanceFramesLimit": 1,
+            }
+        }
         self.groups = {
             "200": {"ID": 200, "Performances": [1, 2]},
             "201": {"ID": 201, "Performances": []},
@@ -238,12 +245,17 @@ class WorkflowTest(unittest.TestCase):
             self.assertEqual(module.main(), 0)
 
     def add_live_stage(
-        self, stage_id: int, competition_id: int, group_ids: list[int]
+        self,
+        stage_id: int,
+        competition_id: int,
+        group_ids: list[int],
+        frames_limit: int = 2,
     ) -> None:
         self.ovs.stages[str(stage_id)] = {
             "ID": stage_id,
             "ParentID": competition_id,
             "Groups": list(group_ids),
+            "PerfomanceFramesLimit": frames_limit,
         }
         stages = self.ovs.competitions[str(competition_id)]["Stages"]
         if stage_id not in stages:
@@ -262,10 +274,32 @@ class WorkflowTest(unittest.TestCase):
         mode: str = "recreate",
         stage_creates: list[dict] | None = None,
         status: str = "approved",
+        omitted: list[dict] | None = None,
     ) -> Path:
+        expected_counts: dict[tuple, int] = {}
+        for ref in refs:
+            identity = (
+                ref.get("GroupID"),
+                ref.get("targetCompetitionID"),
+                ref.get("targetStageKind"),
+                ref.get("groupIndex"),
+            )
+            expected_counts[identity] = max(
+                expected_counts.get(identity, 0),
+                int(ref["GroupFrame"]) + 1,
+            )
         canonical_refs = []
         for ref in refs:
             item = dict(ref)
+            identity = (
+                item.get("GroupID"),
+                item.get("targetCompetitionID"),
+                item.get("targetStageKind"),
+                item.get("groupIndex"),
+            )
+            item.setdefault(
+                "expectedExerciseCount", expected_counts[identity]
+            )
             source = dict(item.get("source") or {})
             session_id = int(item["sessionID"])
             source.setdefault("sessionNumber", session_id + 100)
@@ -310,6 +344,7 @@ class WorkflowTest(unittest.TestCase):
                 "refs": canonical_refs,
                 "ambiguous": [],
                 "unmatched": [],
+                "omitted": omitted or [],
                 "skipped": [],
             },
         )
@@ -511,6 +546,7 @@ class WorkflowTest(unittest.TestCase):
                         "targetStageKind": "Final1",
                         "groupIndex": 0,
                         "GroupFrame": 0,
+                        "expectedExerciseCount": 2,
                         "source": {
                             "raw": "Exercise 1",
                             "sessionNumber": 101,
@@ -526,6 +562,7 @@ class WorkflowTest(unittest.TestCase):
                         "targetStageKind": "Final1",
                         "groupIndex": 0,
                         "GroupFrame": 1,
+                        "expectedExerciseCount": 2,
                         "source": {
                             "raw": "Exercise 2",
                             "sessionNumber": 101,
@@ -779,7 +816,9 @@ class WorkflowTest(unittest.TestCase):
         plan = self.write_reference_plan(
             "apply-cannot-reorder.tsv",
             [
+                {"sessionID": 1, "GroupID": 200, "GroupFrame": 0},
                 {"sessionID": 1, "GroupID": 200, "GroupFrame": 1},
+                {"sessionID": 1, "GroupID": 201, "GroupFrame": 0},
                 {"sessionID": 1, "GroupID": 201, "GroupFrame": 1},
             ],
             mode="apply",
@@ -820,6 +859,7 @@ class WorkflowTest(unittest.TestCase):
             "SessionTitle": "TRA 1",
             "CompetitionTitle": "National 6 TRP Female",
             "StageKind": "Qualification",
+            "ExpectedExerciseCount": 2,
         }
 
         def row(group: int, exercise: int) -> dict:
@@ -859,6 +899,121 @@ class WorkflowTest(unittest.TestCase):
         self.assertEqual(valid_report["summary"]["errors"], 0)
         self.assertEqual(valid_report["summary"]["warnings"], 0)
 
+    def test_reference_validator_blocks_missing_second_exercise(self) -> None:
+        plan = self.write_reference_plan(
+            "missing-second-exercise.tsv",
+            [
+                {
+                    "sessionID": 1,
+                    "GroupID": 200,
+                    "GroupFrame": 0,
+                    "expectedExerciseCount": 2,
+                }
+            ],
+            status="draft",
+        )
+
+        report = validate_refs.validate_plan(str(plan))
+
+        self.assertIn(
+            "missing-group-exercises",
+            {item["code"] for item in report["errors"]},
+        )
+        completeness = next(
+            result
+            for result in report["ruleResults"]
+            if result["rule"] == "exercise-completeness"
+        )
+        self.assertEqual(completeness["status"], "failed")
+        self.assertEqual(
+            completeness["errors"][0]["code"],
+            "missing-group-exercises",
+        )
+
+    def test_reference_validator_accepts_explicit_exercise_omission(self) -> None:
+        source = {
+            "raw": "National 6 TUM Female exercise 2 omitted",
+            "sessionNumber": 101,
+            "sessionTitle": "TUM",
+            "competitionTitle": "Competition 10",
+            "stageKind": "Qualification",
+            "groupNumber": 1,
+        }
+        plan = self.write_reference_plan(
+            "second-exercise-omitted.tsv",
+            [
+                {
+                    "sessionID": 1,
+                    "GroupID": 200,
+                    "GroupFrame": 0,
+                    "expectedExerciseCount": 2,
+                }
+            ],
+            status="draft",
+            omitted=[
+                {
+                    "sessionID": 1,
+                    "GroupID": 200,
+                    "GroupFrame": 1,
+                    "expectedExerciseCount": 2,
+                    "source": source,
+                    "omittedIntentionally": True,
+                    "reason": (
+                        "User explicitly requested omitting exercise 2 for "
+                        "this group."
+                    ),
+                }
+            ],
+        )
+
+        report = validate_refs.validate_plan(str(plan))
+
+        self.assertEqual(report["summary"]["errors"], 0)
+        self.assertEqual(report["summary"]["rules"], len(validate_refs.RULES))
+        self.assertTrue(
+            all(
+                {"rule", "status", "errors", "warnings", "data"} <= set(result)
+                for result in report["ruleResults"]
+            )
+        )
+
+    def test_reference_validator_rejects_unconfirmed_omission(self) -> None:
+        plan = self.write_reference_plan(
+            "second-exercise-unconfirmed.tsv",
+            [
+                {
+                    "sessionID": 1,
+                    "GroupID": 200,
+                    "GroupFrame": 0,
+                    "expectedExerciseCount": 2,
+                }
+            ],
+            status="draft",
+            omitted=[
+                {
+                    "sessionID": 1,
+                    "GroupID": 200,
+                    "GroupFrame": 1,
+                    "expectedExerciseCount": 2,
+                    "source": {
+                        "sessionNumber": 101,
+                        "sessionTitle": "TUM",
+                        "competitionTitle": "Competition 10",
+                        "stageKind": "Qualification",
+                        "groupNumber": 1,
+                    },
+                    "reason": "The schedule did not mention exercise 2.",
+                }
+            ],
+        )
+
+        report = validate_refs.validate_plan(str(plan))
+
+        self.assertIn(
+            "omission-not-explicit",
+            {item["code"] for item in report["errors"]},
+        )
+
     def test_final_to_qualification_requires_explicit_user_exception(self) -> None:
         base = {
             "PlanKind": "ovs-session-refs-plan",
@@ -872,8 +1027,9 @@ class WorkflowTest(unittest.TestCase):
             "CompetitionTitle": "National 6 TRP Female",
             "StageKind": "Qualification",
             "GroupNumber": 1,
-            "ExerciseNumber": 2,
-            "Target": {"GroupID": 200, "GroupFrame": 1},
+            "ExerciseNumber": 1,
+            "ExpectedExerciseCount": 1,
+            "Target": {"GroupID": 200, "GroupFrame": 0},
             "Source": {
                 "raw": "National 6 TRP Female FINAL",
                 "competitionTitle": "National 6 TRP Female",
@@ -881,7 +1037,7 @@ class WorkflowTest(unittest.TestCase):
                 "groupNumber": 1,
                 "sessionNumber": 101,
             },
-            "Details": {"mappingMode": "final-to-qualification-frame-2"},
+            "Details": {"mappingMode": "final-to-qualification-frame-1"},
         }
 
         invalid = self.directory / "final-qualification-invalid.tsv"
@@ -898,8 +1054,6 @@ class WorkflowTest(unittest.TestCase):
             [
                 {
                     **base,
-                    "ExerciseNumber": 1,
-                    "Target": {"GroupID": 200, "GroupFrame": 0},
                     "Details": {},
                 }
             ],
@@ -923,10 +1077,10 @@ class WorkflowTest(unittest.TestCase):
                 {
                     **base,
                     "Details": {
-                        "mappingMode": "final-to-qualification-frame-2",
+                        "mappingMode": "final-to-qualification-frame-1",
                         "finalInQualificationExplicitlyRequested": True,
                         "finalMappingBasis": (
-                            "User explicitly requested Qualification routine 2 "
+                            "User explicitly requested Qualification routine 1 "
                             "for National 6 TRP Female."
                         ),
                     },
@@ -965,6 +1119,7 @@ class WorkflowTest(unittest.TestCase):
                     **base,
                     "StageKind": "Final1",
                     "ExerciseNumber": 1,
+                    "ExpectedExerciseCount": 1,
                     "Target": {
                         "CompetitionID": 10,
                         "StageKind": "Final1",
@@ -1066,7 +1221,7 @@ class WorkflowTest(unittest.TestCase):
         rows = read_rows(str(output))
         self.assertEqual(
             {row["RowType"] for row in rows},
-            {"stageCreate", "ref", "skipped"},
+            {"stageCreate", "ref", "omitted", "skipped"},
         )
         self.assertEqual(
             validate_refs.validate_plan(str(output))["summary"]["errors"], 0
@@ -1090,6 +1245,7 @@ class WorkflowTest(unittest.TestCase):
                     "StageKind": "Qualification",
                     "GroupNumber": 1,
                     "ExerciseNumber": 2,
+                    "ExpectedExerciseCount": 2,
                     "Target": {"GroupID": 200, "GroupFrame": 1},
                     "Source": {"raw": "Competition 10 FINAL"},
                     "Details": {},
@@ -1351,6 +1507,7 @@ class WorkflowTest(unittest.TestCase):
                     "StageKind": "Qualification",
                     "GroupNumber": 1,
                     "ExerciseNumber": 2,
+                    "ExpectedExerciseCount": 2,
                     "Target": {"GroupID": 200, "GroupFrame": 1},
                     "Source": {"raw": "Competition 10 FINAL"},
                     "Details": {},

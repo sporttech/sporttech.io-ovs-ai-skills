@@ -135,6 +135,7 @@ def load_refs_plan(path: str) -> dict[str, Any]:
         "refs": [],
         "ambiguous": [],
         "unmatched": [],
+        "omitted": [],
         "skipped": [],
         "sourceTable": path,
     }
@@ -205,6 +206,52 @@ def load_refs_plan(path: str) -> dict[str, Any]:
                             if target.get("GroupFrame") is not None
                             else integer(row, "ExerciseNumber", True) - 1
                         )
+                    ),
+                    "expectedExerciseCount": integer(
+                        row, "ExpectedExerciseCount", True
+                    ),
+                    "source": source,
+                    **details,
+                }
+            )
+        elif row_type == "omitted":
+            target = decode(row.get("Target", "")) or {}
+            if not isinstance(target, dict):
+                raise SystemExit("Target must be a JSON object when present.")
+            plan["omitted"].append(
+                {
+                    "sessionID": integer(row, "SessionID", True),
+                    "GroupID": (
+                        integer(row, "GroupID")
+                        if (row.get("GroupID") or "").strip()
+                        else target.get("GroupID")
+                    ),
+                    "targetCompetitionID": (
+                        integer(row, "TargetCompetitionID")
+                        if (row.get("TargetCompetitionID") or "").strip()
+                        else target.get("CompetitionID")
+                    ),
+                    "targetStageKind": (
+                        (row.get("TargetStageKind") or "").strip()
+                        or target.get("StageKind")
+                        or None
+                    ),
+                    "groupIndex": (
+                        integer(row, "GroupIndex")
+                        if (row.get("GroupIndex") or "").strip()
+                        else target.get("GroupIndex")
+                    ),
+                    "GroupFrame": (
+                        integer(row, "GroupFrame")
+                        if (row.get("GroupFrame") or "").strip()
+                        else (
+                            int(target["GroupFrame"])
+                            if target.get("GroupFrame") is not None
+                            else integer(row, "ExerciseNumber", True) - 1
+                        )
+                    ),
+                    "expectedExerciseCount": integer(
+                        row, "ExpectedExerciseCount", True
                     ),
                     "source": source,
                     **details,
@@ -289,6 +336,7 @@ def write_rows(path: str, rows: list[dict[str, Any]]) -> None:
         "StageKind",
         "GroupNumber",
         "ExerciseNumber",
+        "ExpectedExerciseCount",
     ]
     field_headers = sorted(key for key in present if key.startswith("Field:"))
     source_headers = [
@@ -430,6 +478,7 @@ def write_refs_plan(path: str, plan: dict[str, Any]) -> None:
         "targetStageKind",
         "groupIndex",
         "GroupFrame",
+        "expectedExerciseCount",
         "source",
     }
     for ref in plan.get("refs", []):
@@ -451,6 +500,7 @@ def write_refs_plan(path: str, plan: dict[str, Any]) -> None:
                     if ref.get("GroupFrame") is not None
                     else None
                 ),
+                "ExpectedExerciseCount": ref.get("expectedExerciseCount"),
                 "Target": (
                     {"GroupID": ref.get("GroupID")}
                     if ref.get("GroupID") is not None
@@ -464,6 +514,54 @@ def write_refs_plan(path: str, plan: dict[str, Any]) -> None:
                 "Source": review_source(ref),
                 "Details": {
                     key: value for key, value in ref.items() if key not in ref_keys
+                },
+            }
+        )
+    omission_keys = {
+        "sessionID",
+        "GroupID",
+        "targetCompetitionID",
+        "targetStageKind",
+        "groupIndex",
+        "GroupFrame",
+        "expectedExerciseCount",
+        "source",
+    }
+    for omission in plan.get("omitted", []):
+        source = review_source(omission)
+        rows.append(
+            {
+                **common,
+                "RowType": "omitted",
+                "SessionID": omission.get("sessionID"),
+                "SessionNumber": source.get("sessionNumber"),
+                "SessionTitle": source.get("sessionTitle"),
+                "CompetitionTitle": source.get(
+                    "competitionTitle", source.get("competitionName")
+                ),
+                "StageKind": source.get("stageKind"),
+                "GroupNumber": source.get("groupNumber"),
+                "ExerciseNumber": (
+                    int(omission["GroupFrame"]) + 1
+                    if omission.get("GroupFrame") is not None
+                    else None
+                ),
+                "ExpectedExerciseCount": omission.get("expectedExerciseCount"),
+                "Target": (
+                    {"GroupID": omission.get("GroupID")}
+                    if omission.get("GroupID") is not None
+                    else {
+                        "CompetitionID": omission.get("targetCompetitionID"),
+                        "StageKind": omission.get("targetStageKind"),
+                        "GroupIndex": omission.get("groupIndex"),
+                    }
+                )
+                | {"GroupFrame": omission.get("GroupFrame")},
+                "Source": source,
+                "Details": {
+                    key: value
+                    for key, value in omission.items()
+                    if key not in omission_keys
                 },
             }
         )

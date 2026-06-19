@@ -1,0 +1,18 @@
+{
+  "kind": "ovs-session-refs-plan-validation",
+  "version": 1,
+  "plan": "work/session_plan_2026/out/session_refs_applied.tsv",
+  "planStatus": "applied",
+  "summary": {
+    "refRows": 143,
+    "blocks": 116,
+    "errors": 0,
+    "warnings": 0,
+    "confirmedFinalQualificationExceptions": 0,
+    "unresolvedRows": 0
+  },
+  "errors": [],
+  "warnings": [],
+  "confirmedFinalQualificationExceptions": [],
+  "unresolvedRows": []
+}

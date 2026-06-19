@@ -50,7 +50,26 @@ qualification stage or to a separate final stage.
 
 - Map each schedule item explicitly to `SessionID`, competition, stage, group,
   and zero-based `GroupFrame`.
+- Treat schedule labels such as `Flight`, `Group`, `Round`, `Exercise`,
+  `Routine`, and their localized abbreviations as user-defined terminology.
+  Analyze the schedule and live graph first, but if a label can mean either a
+  group number or an exercise number, stop before publishing the approval CTA
+  and ask the user what that label means. Do not silently choose one
+  interpretation. Preserve the answer in `Source` or `Details`.
 - Add every selected group as its own `ref` row.
+- Copy the live stage `PerfomanceFramesLimit` into
+  `ExpectedExerciseCount` on every `ref` row. For a stage being created, use
+  its planned `StageField:PerfomanceFramesLimit`.
+- Once any exercise from a group is included in a session, represent every
+  exercise from `1` through `ExpectedExerciseCount`. Use a `ref` row when the
+  exercise is included. An absent exercise is a blocking validation error
+  unless the user directly confirms the omission.
+- Record a confirmed missing exercise as its own `RowType=omitted` row with
+  the same session, competition, stage, group, target identity, and
+  `ExpectedExerciseCount`; set `ExerciseNumber` to the omitted exercise and
+  record `Details.omittedIntentionally=true` plus a non-empty
+  `Details.reason` containing the user's instruction. General approval of the
+  TSV is not confirmation of an omission.
 - Treat table row order as the final reference order. Phase 3 materializes this
   order into start-list frames and never repairs it.
 - Within one stage, always use group-major, then routine-major order:
@@ -85,7 +104,7 @@ qualification stage or to a separate final stage.
   instruction.
 - Use `ambiguous` and `unmatched` only in review drafts. They are discussion
   markers, not executable outcomes. Convert every one to `stageCreate` + `ref`
-  or to `skipped` before approval.
+  rows, an explicit exercise-level `omitted` row, or `skipped` before approval.
 - Keep approved `skipped` rows visible in subsequent TSV versions so phase 3
   can explain intentionally omitted sessions.
 - Keep `PlanStatus=draft` until the user approves this exact file version.
@@ -100,14 +119,16 @@ qualification stage or to a separate final stage.
 After preparing or correcting the table:
 
 1. send a clickable link to the canonical TSV;
-2. summarize reference rows, stage creations, ambiguous rows, unmatched rows,
-   and proposed or approved skips;
+2. summarize reference rows, stage creations, exercise omissions, ambiguous
+   rows, unmatched rows, and proposed or approved skips;
 3. call out every missing-stage proposal explicitly and obtain a concrete
    create-or-skip decision for each one before accepting `approve references`;
 4. list every confirmed `FINAL`-in-`Qualification` exception and its user
    basis; if none exist, say so;
-5. stop without dry-run, credential discovery, or OVS mutation;
-6. end the message with this explicit CTA:
+5. list every `RowType=omitted` exercise and the direct user instruction that
+   authorized it; if none exist, say so;
+6. stop without dry-run, credential discovery, or OVS mutation;
+7. end the message with this explicit CTA:
 
 `Next: review <linked filename> and reply "approve references", or list corrections and missing-stage decisions.`
 

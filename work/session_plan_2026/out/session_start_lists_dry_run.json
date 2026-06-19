@@ -1,0 +1,724 @@
+{
+  "kind": "ovs-session-start-lists-report",
+  "version": 1,
+  "sourcePlan": "work/session_plan_2026/out/session_start_lists_draft.tsv",
+  "sourceReferencesPlan": "work/session_plan_2026/out/session_refs_applied.tsv",
+  "mode": "create",
+  "dryRun": true,
+  "sessions": [
+    {
+      "sessionID": 0,
+      "fields": {
+        "Number": 102,
+        "Time": "Tue 7 Jul",
+        "SessionTitle": "TRA 1"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 3,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 1,
+      "fields": {
+        "Number": 102,
+        "Time": "Tue 7 Jul",
+        "SessionTitle": "TRA 2"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 5,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 2,
+      "fields": {
+        "Number": 102,
+        "Time": "Tue 7 Jul",
+        "SessionTitle": "TUM"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 5,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 3,
+      "fields": {
+        "Number": 103,
+        "Time": "Tue 7 Jul",
+        "SessionTitle": "TRA 1"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 2,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 4,
+      "fields": {
+        "Number": 103,
+        "Time": "Tue 7 Jul",
+        "SessionTitle": "TRA 2"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 3,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 5,
+      "fields": {
+        "Number": 103,
+        "Time": "Tue 7 Jul",
+        "SessionTitle": "DMT"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 5,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 6,
+      "fields": {
+        "Number": 103,
+        "Time": "Tue 7 Jul",
+        "SessionTitle": "TUM"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 3,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 7,
+      "fields": {
+        "Number": 201,
+        "Time": "Wed 8 Jul",
+        "SessionTitle": "TRA 1"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 2,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 8,
+      "fields": {
+        "Number": 201,
+        "Time": "Wed 8 Jul",
+        "SessionTitle": "TRA 2"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 3,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 9,
+      "fields": {
+        "Number": 201,
+        "Time": "Wed 8 Jul",
+        "SessionTitle": "DMT"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 4,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 10,
+      "fields": {
+        "Number": 201,
+        "Time": "Wed 8 Jul",
+        "SessionTitle": "TUM"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 4,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 11,
+      "fields": {
+        "Number": 202,
+        "Time": "Wed 8 Jul",
+        "SessionTitle": "TRA 1"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 2,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 12,
+      "fields": {
+        "Number": 202,
+        "Time": "Wed 8 Jul",
+        "SessionTitle": "TRA 2"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 2,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 13,
+      "fields": {
+        "Number": 202,
+        "Time": "Wed 8 Jul",
+        "SessionTitle": "DMT"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 6,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 14,
+      "fields": {
+        "Number": 202,
+        "Time": "Wed 8 Jul",
+        "SessionTitle": "TUM"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 6,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 15,
+      "fields": {
+        "Number": 301,
+        "Time": "Fri 10 Jul",
+        "SessionTitle": "TRA 1"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 2,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 16,
+      "fields": {
+        "Number": 301,
+        "Time": "Fri 10 Jul",
+        "SessionTitle": "TRA 2"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 5,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 17,
+      "fields": {
+        "Number": 301,
+        "Time": "Fri 10 Jul",
+        "SessionTitle": "DMT"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 3,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 18,
+      "fields": {
+        "Number": 301,
+        "Time": "Fri 10 Jul",
+        "SessionTitle": "TUM"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 4,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 19,
+      "fields": {
+        "Number": 302,
+        "Time": "Fri 10 Jul",
+        "SessionTitle": "TRA 1"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 5,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 20,
+      "fields": {
+        "Number": 302,
+        "Time": "Fri 10 Jul",
+        "SessionTitle": "TRA 2"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 5,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 21,
+      "fields": {
+        "Number": 302,
+        "Time": "Fri 10 Jul",
+        "SessionTitle": "DMT"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 2,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 22,
+      "fields": {
+        "Number": 302,
+        "Time": "Fri 10 Jul",
+        "SessionTitle": "TUM"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 4,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 23,
+      "fields": {
+        "Number": 303,
+        "Time": "Fri 10 Jul",
+        "SessionTitle": "TRA 1"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 2,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 24,
+      "fields": {
+        "Number": 303,
+        "Time": "Fri 10 Jul",
+        "SessionTitle": "TRA 2"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 2,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 25,
+      "fields": {
+        "Number": 303,
+        "Time": "Fri 10 Jul",
+        "SessionTitle": "DMT"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 2,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 26,
+      "fields": {
+        "Number": 303,
+        "Time": "Fri 10 Jul",
+        "SessionTitle": "TUM"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 5,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 27,
+      "fields": {
+        "Number": 401,
+        "Time": "Sat 11 Jul",
+        "SessionTitle": "TRA 1"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 3,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 28,
+      "fields": {
+        "Number": 401,
+        "Time": "Sat 11 Jul",
+        "SessionTitle": "TRA 2"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 3,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 29,
+      "fields": {
+        "Number": 401,
+        "Time": "Sat 11 Jul",
+        "SessionTitle": "DMT"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 4,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 30,
+      "fields": {
+        "Number": 402,
+        "Time": "Sat 11 Jul",
+        "SessionTitle": "TRA 1"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 4,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 31,
+      "fields": {
+        "Number": 402,
+        "Time": "Sat 11 Jul",
+        "SessionTitle": "TRA 2"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 3,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 32,
+      "fields": {
+        "Number": 402,
+        "Time": "Sat 11 Jul",
+        "SessionTitle": "DMT"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 5,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 33,
+      "fields": {
+        "Number": 402,
+        "Time": "Sat 11 Jul",
+        "SessionTitle": "TUM"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 5,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 34,
+      "fields": {
+        "Number": 403,
+        "Time": "Sat 11 Jul",
+        "SessionTitle": "TRA 1"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 2,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 35,
+      "fields": {
+        "Number": 403,
+        "Time": "Sat 11 Jul",
+        "SessionTitle": "TRA 2"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 2,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 36,
+      "fields": {
+        "Number": 403,
+        "Time": "Sat 11 Jul",
+        "SessionTitle": "DMT"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 4,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 37,
+      "fields": {
+        "Number": 403,
+        "Time": "Sat 11 Jul",
+        "SessionTitle": "TUM"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 4,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 38,
+      "fields": {
+        "Number": 501,
+        "Time": "Sun 12 Jul",
+        "SessionTitle": "TRA 1"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 2,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 39,
+      "fields": {
+        "Number": 501,
+        "Time": "Sun 12 Jul",
+        "SessionTitle": "TRA 2"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 2,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    },
+    {
+      "sessionID": 40,
+      "fields": {
+        "Number": 501,
+        "Time": "Sun 12 Jul",
+        "SessionTitle": "DMT"
+      },
+      "rotationViewBefore": 0,
+      "rotationViewPlanned": 4,
+      "referenceCount": 4,
+      "framesBefore": 0,
+      "rotationViewAfter": 0,
+      "framesAfter": 0,
+      "referencedPerformanceCount": null,
+      "status": "not-run"
+    }
+  ],
+  "omittedSessions": [
+    {
+      "sessionID": 41,
+      "sessionNumber": 502,
+      "sessionTitle": "TRA 1",
+      "source": {
+        "framesBefore": 0,
+        "performanceCountBefore": 0,
+        "referenceCount": 0,
+        "time": "Sun 12 Jul"
+      },
+      "details": {
+        "reason": "No approved live refs for this session after phase 2; team/all-around items were intentionally skipped."
+      }
+    },
+    {
+      "sessionID": 42,
+      "sessionNumber": 502,
+      "sessionTitle": "TRA 2",
+      "source": {
+        "framesBefore": 0,
+        "performanceCountBefore": 0,
+        "referenceCount": 0,
+        "time": "Sun 12 Jul"
+      },
+      "details": {
+        "reason": "No approved live refs for this session after phase 2; team/all-around items were intentionally skipped."
+      }
+    },
+    {
+      "sessionID": 43,
+      "sessionNumber": 502,
+      "sessionTitle": "DMT",
+      "source": {
+        "framesBefore": 0,
+        "performanceCountBefore": 0,
+        "referenceCount": 0,
+        "time": "Sun 12 Jul"
+      },
+      "details": {
+        "reason": "No approved live refs for this session after phase 2; team/all-around items were intentionally skipped."
+      }
+    },
+    {
+      "sessionID": 44,
+      "sessionNumber": 502,
+      "sessionTitle": "TUM",
+      "source": {
+        "framesBefore": 0,
+        "performanceCountBefore": 0,
+        "referenceCount": 0,
+        "time": "Sun 12 Jul"
+      },
+      "details": {
+        "reason": "No approved live refs for this session after phase 2; team/all-around items were intentionally skipped."
+      }
+    }
+  ]
+}

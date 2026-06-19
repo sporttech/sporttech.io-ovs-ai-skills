@@ -227,6 +227,7 @@ from the current `/api/ai`. Every other required Stage field must be present.
 | `StageKind` | yes | Human-facing stage kind |
 | `GroupNumber` | yes | One-based group number inside the stage |
 | `ExerciseNumber` | yes | One-based exercise/routine number |
+| `ExpectedExerciseCount` | yes | Positive `Stage.PerfomanceFramesLimit` from the current snapshot or planned stage |
 | `Target` | yes | Folded JSON containing technical IDs and zero-based frame |
 | `Source` | no | Schedule provenance |
 | `Details` | no | Additional review metadata |
@@ -240,6 +241,19 @@ review columns. `StageID` remains visible because it is useful after apply.
 
 The reader continues to accept the legacy expanded ID columns, but the writer
 publishes the folded `Target` format.
+
+If a session contains any exercise for a group, the phase-2 plan must account
+for every exercise from `1` through `ExpectedExerciseCount`. Normally each is a
+`ref` row. A direct user decision to omit one exercise must be represented by a
+separate `RowType=omitted` row with the same visible identity and target,
+`Details.omittedIntentionally=true`, and a non-empty `Details.reason`.
+`approve references` alone does not authorize an omission. The canonical row
+type and flag are spelled `omitted` and `omittedIntentionally`.
+
+`ExpectedExerciseCount` is copied from the current live stage
+`PerfomanceFramesLimit`, or from `StageField:PerfomanceFramesLimit` for a stage
+being created. Dry-run verifies it against the live/planned stage and fails if
+the plan is stale or inconsistent.
 
 The phase-2 row order fully determines the reference order: it is the final
 order in `recreate` mode and the add order for new references in `apply` mode.
@@ -265,6 +279,11 @@ python3 skills/tra/scripts/validate_session_references_plan.py \
   --plan refs.draft.tsv
 ```
 
+The validator is a rule engine. Each independent check returns a `RuleResult`
+with `rule`, `status`, `errors`, `warnings`, and `data`; the report exposes
+these under `ruleResults` and also aggregates compatible top-level
+`errors`/`warnings`.
+
 The validator blocks duplicate logical refs, invalid human review fields,
 `ExerciseNumber`/`Target.GroupFrame` mismatches,
 `GroupNumber`/`Target.GroupIndex` mismatches, inconsistent session numbers, and
@@ -272,6 +291,11 @@ non-group-major ordering inside each
 `SessionID + CompetitionTitle + StageKind` block. It warns about source/review
 metadata mismatches and fragmented session blocks. Warnings require review but
 do not fail unless `--strict-warnings` is used.
+
+The `exercise-completeness` rule blocks a group as soon as at least one
+exercise is included but any exercise through `ExpectedExerciseCount` is
+neither included nor explicitly omitted. The `omitted-exercise-details` rule
+blocks omission rows without a direct user confirmation flag and reason.
 
 A `FINAL` schedule item must not be mapped to `StageKind=Qualification` based
 on `PerfomanceFramesLimit`, `GroupFrame`, or live graph shape. The validator
@@ -302,9 +326,11 @@ For an uncertain human stage label, preserve the original schedule text in
 - `Details.proposalBasis`: why schedule context and live data suggest it;
 - alternatives useful for the user's decision.
 
-The user must resolve each row to one of two executable outcomes:
+The user must resolve each row to one of three executable outcomes:
 
 - explicit `stageCreate` followed by the required `ref` rows;
+- explicit exercise-level `omitted` with
+  `Details.omittedIntentionally=true` and `Details.reason`;
 - explicit `skipped` with a non-empty `Details.reason`.
 
 The canonical creation row is `stageCreate`, never `addStage`. General

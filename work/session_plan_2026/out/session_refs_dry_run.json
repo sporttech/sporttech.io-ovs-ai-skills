@@ -1,0 +1,3594 @@
+{
+  "kind": "ovs-session-refs-plan",
+  "version": 2,
+  "mode": "apply",
+  "status": "approved",
+  "stageCreates": [
+    {
+      "competitionID": 74,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 6 SYN Combined",
+        "raw": "SYN Nat 6 Combined FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 73,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 5 SYN Combined",
+        "raw": "SYN Nat 5 Combined FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 75,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 7 SYN Combined",
+        "raw": "SYN Nat 7 Combined FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 51,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 6 TUM Female",
+        "raw": "Nat 6 TUM Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 52,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 6 TUM Male",
+        "raw": "Nat 6 TUM Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 9,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 6 TRP Male",
+        "raw": "Nat 6 TRP Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 7,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 6 TRP Female",
+        "raw": "Nat 6 TRP Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 22,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 5 DMT Female",
+        "raw": "Nat 5 DMT Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 23,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 5 DMT Male",
+        "raw": "Nat 5 DMT Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 53,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 7 TUM Female",
+        "raw": "Nat 7 TUM Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 5,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 5 TRP Male",
+        "raw": "Nat 5 TRP Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 8,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 5 TRP Female",
+        "raw": "Nat 5 TRP Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 28,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 7 DMT Male",
+        "raw": "Nat 7 DMT Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 26,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 7 DMT Female",
+        "raw": "Nat 7 DMT Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 54,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 7 TUM Male",
+        "raw": "Nat 7 TUM Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 50,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 5 TUM Male",
+        "raw": "Nat 5 TUM Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 11,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 7 TRP Male",
+        "raw": "Nat 7 TRP Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 10,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 7 TRP Female",
+        "raw": "Nat 7 TRP Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 25,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 6 DMT Male",
+        "raw": "Nat 6 DMT Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 24,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 6 DMT Female",
+        "raw": "Nat 6 DMT Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 49,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "National 5 TUM Female",
+        "raw": "Nat 5 TUM Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 80,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Youth SYN Male",
+        "raw": "SYN Youth Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 79,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Youth SYN Female",
+        "raw": "SYN Youth Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 78,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Senior SYN Mixed",
+        "raw": "SYN Senior Mixed FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 59,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Youth U15 TUM Female",
+        "raw": "Youth U15 TUM Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 60,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Youth U15 TUM Male",
+        "raw": "Youth U15 TUM Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 71,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Junior SYN Male",
+        "raw": "SYN Junior Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 72,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Junior SYN Female",
+        "raw": "SYN Junior Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 57,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Youth U13 TUM Female",
+        "raw": "Youth U13 TUM Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 58,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Youth U13 TUM Male",
+        "raw": "Youth U13 TUM Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 44,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Junior U17 TUM Female",
+        "raw": "Junior U17 TUM Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 48,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Junior U17 TUM Male",
+        "raw": "Junior U17 TUM Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 15,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Youth U13 TRP Male",
+        "raw": "Youth U13 TRP Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 14,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Youth U13 TRP Female",
+        "raw": "Youth U13 TRP Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 77,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Senior SYN Male",
+        "raw": "SYN Senior Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 76,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Senior SYN Female",
+        "raw": "SYN Senior Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 31,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Youth U13 DMT Male",
+        "raw": "Youth U13 DMT Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 30,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Youth U13 DMT Female",
+        "raw": "Youth U13 DMT Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 47,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Junior 17+ TUM Female",
+        "raw": "Junior 17+ TUM Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 46,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Junior 17+ TUM Male",
+        "raw": "Junior 17+ TUM Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 2,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Junior 17+ TRP Male",
+        "raw": "Junior 17+ TRP Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 13,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Senior TRP Male",
+        "raw": "Senior TRP Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 3,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Junior 17+ TRP Female",
+        "raw": "Junior 17+ TRP Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 12,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Senior TRP Female",
+        "raw": "Senior TRP Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 32,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Youth U15 DMT Female",
+        "raw": "Youth U15 DMT Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 33,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Youth U15 DMT Male",
+        "raw": "Youth U15 DMT Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 19,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Junior U17 DMT Female",
+        "raw": "Junior U17 DMT Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 18,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Junior U17 DMT Male",
+        "raw": "Junior U17 DMT Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 55,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Senior TUM Female",
+        "raw": "Senior TUM Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 56,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Senior TUM Male",
+        "raw": "Senior TUM Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 17,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Youth U15 TRP Male",
+        "raw": "Youth U15 TRP Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 6,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Junior U17 TRP Male",
+        "raw": "Junior U17 TRP Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 16,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Youth U15 TRP Female",
+        "raw": "Youth U15 TRP Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 4,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Junior U17 TRP Female",
+        "raw": "Junior U17 TRP Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 21,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Junior 17+ DMT Female",
+        "raw": "Junior 17+ DMT Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 20,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Junior 17+ DMT Male",
+        "raw": "Junior 17+ DMT Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 27,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Senior DMT Female",
+        "raw": "Senior DMT Female FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    },
+    {
+      "competitionID": 29,
+      "stageID": null,
+      "groupIDs": [],
+      "stageKind": "Final1",
+      "fields": {
+        "PerfomanceFramesLimit": 1
+      },
+      "source": {
+        "competitionTitle": "Senior DMT Male",
+        "raw": "Senior DMT Male FINAL"
+      },
+      "details": {
+        "proposalBasis": "Schedule marks this item as FINAL and the live event currently exposes only the qualification-stage shape, so a separate Final1 stage is proposed."
+      },
+      "stageKindValue": 8
+    }
+  ],
+  "refs": [
+    {
+      "sessionID": 0,
+      "GroupID": 74,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 SYN Combined",
+        "groupNumber": 1,
+        "raw": "SYN Nat 6 Combined Flight 1",
+        "sessionID": 0,
+        "sessionNumber": 102,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 0,
+      "GroupID": 105,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 SYN Combined",
+        "groupNumber": 2,
+        "raw": "SYN Nat 6 Combined Flight 2",
+        "sessionID": 0,
+        "sessionNumber": 102,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 0,
+      "GroupID": null,
+      "targetCompetitionID": 74,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 SYN Combined",
+        "groupNumber": 1,
+        "raw": "SYN Nat 6 Combined FINAL",
+        "sessionID": 0,
+        "sessionNumber": 102,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 1,
+      "GroupID": 73,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 SYN Combined",
+        "groupNumber": 1,
+        "raw": "SYN Nat 5 Combined Flight 1",
+        "sessionID": 1,
+        "sessionNumber": 102,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 1,
+      "GroupID": 104,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 SYN Combined",
+        "groupNumber": 2,
+        "raw": "SYN Nat 5 Combined Flight 2",
+        "sessionID": 1,
+        "sessionNumber": 102,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 1,
+      "GroupID": null,
+      "targetCompetitionID": 73,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 SYN Combined",
+        "groupNumber": 1,
+        "raw": "SYN Nat 5 Combined FINAL",
+        "sessionID": 1,
+        "sessionNumber": 102,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 1,
+      "GroupID": 75,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 7 SYN Combined",
+        "groupNumber": 1,
+        "raw": "SYN Nat 7 Combined Flight 1",
+        "sessionID": 1,
+        "sessionNumber": 102,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 1,
+      "GroupID": null,
+      "targetCompetitionID": 75,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 7 SYN Combined",
+        "groupNumber": 1,
+        "raw": "SYN Nat 7 Combined FINAL",
+        "sessionID": 1,
+        "sessionNumber": 102,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 2,
+      "GroupID": 51,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 TUM Female",
+        "groupNumber": 1,
+        "raw": "Nat 6 TUM Female Flight 1",
+        "sessionID": 2,
+        "sessionNumber": 102,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 2,
+      "GroupID": 98,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 TUM Female",
+        "groupNumber": 2,
+        "raw": "Nat 6 TUM Female Flight 2",
+        "sessionID": 2,
+        "sessionNumber": 102,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 2,
+      "GroupID": null,
+      "targetCompetitionID": 51,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 TUM Female",
+        "groupNumber": 1,
+        "raw": "Nat 6 TUM Female FINAL",
+        "sessionID": 2,
+        "sessionNumber": 102,
+        "sessionTitle": "TUM",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 2,
+      "GroupID": 52,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 TUM Male",
+        "groupNumber": 1,
+        "raw": "Nat 6 TUM Male Flight 1",
+        "sessionID": 2,
+        "sessionNumber": 102,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 2,
+      "GroupID": null,
+      "targetCompetitionID": 52,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 TUM Male",
+        "groupNumber": 1,
+        "raw": "Nat 6 TUM Male FINAL",
+        "sessionID": 2,
+        "sessionNumber": 102,
+        "sessionTitle": "TUM",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 3,
+      "GroupID": 9,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 TRP Male",
+        "groupNumber": 1,
+        "raw": "Nat 6 TRP Male Flight 1",
+        "sessionID": 3,
+        "sessionNumber": 103,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 3,
+      "GroupID": null,
+      "targetCompetitionID": 9,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 TRP Male",
+        "groupNumber": 1,
+        "raw": "Nat 6 TRP Male FINAL",
+        "sessionID": 3,
+        "sessionNumber": 103,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 4,
+      "GroupID": 7,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 TRP Female",
+        "groupNumber": 1,
+        "raw": "Nat 6 TRP Female Flight 1",
+        "sessionID": 4,
+        "sessionNumber": 103,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 4,
+      "GroupID": 97,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 TRP Female",
+        "groupNumber": 2,
+        "raw": "Nat 6 TRP Female Flight 2",
+        "sessionID": 4,
+        "sessionNumber": 103,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 4,
+      "GroupID": null,
+      "targetCompetitionID": 7,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 TRP Female",
+        "groupNumber": 1,
+        "raw": "Nat 6 TRP Female FINAL",
+        "sessionID": 4,
+        "sessionNumber": 103,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 5,
+      "GroupID": 22,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 DMT Female",
+        "groupNumber": 1,
+        "raw": "Nat 5 DMT Female Flight 1",
+        "sessionID": 5,
+        "sessionNumber": 103,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 5,
+      "GroupID": 89,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 DMT Female",
+        "groupNumber": 2,
+        "raw": "Nat 5 DMT Female Flight 2",
+        "sessionID": 5,
+        "sessionNumber": 103,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 5,
+      "GroupID": null,
+      "targetCompetitionID": 22,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 DMT Female",
+        "groupNumber": 1,
+        "raw": "Nat 5 DMT Female FINAL",
+        "sessionID": 5,
+        "sessionNumber": 103,
+        "sessionTitle": "DMT",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 5,
+      "GroupID": 23,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 DMT Male",
+        "groupNumber": 1,
+        "raw": "Nat 5 DMT Male Flight 1",
+        "sessionID": 5,
+        "sessionNumber": 103,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 5,
+      "GroupID": null,
+      "targetCompetitionID": 23,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 DMT Male",
+        "groupNumber": 1,
+        "raw": "Nat 5 DMT Male FINAL",
+        "sessionID": 5,
+        "sessionNumber": 103,
+        "sessionTitle": "DMT",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 6,
+      "GroupID": 53,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 7 TUM Female",
+        "groupNumber": 1,
+        "raw": "Nat 7 TUM Female Flight 1",
+        "sessionID": 6,
+        "sessionNumber": 103,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 6,
+      "GroupID": 99,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 7 TUM Female",
+        "groupNumber": 2,
+        "raw": "Nat 7 TUM Female Flight 2",
+        "sessionID": 6,
+        "sessionNumber": 103,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 6,
+      "GroupID": null,
+      "targetCompetitionID": 53,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 7 TUM Female",
+        "groupNumber": 1,
+        "raw": "Nat 7 TUM Female FINAL",
+        "sessionID": 6,
+        "sessionNumber": 103,
+        "sessionTitle": "TUM",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 7,
+      "GroupID": 5,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 TRP Male",
+        "groupNumber": 1,
+        "raw": "Nat 5 TRP Male Flight 1",
+        "sessionID": 7,
+        "sessionNumber": 201,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 7,
+      "GroupID": null,
+      "targetCompetitionID": 5,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 TRP Male",
+        "groupNumber": 1,
+        "raw": "Nat 5 TRP Male FINAL",
+        "sessionID": 7,
+        "sessionNumber": 201,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 8,
+      "GroupID": 8,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 TRP Female",
+        "groupNumber": 1,
+        "raw": "Nat 5 TRP Female Flight 1",
+        "sessionID": 8,
+        "sessionNumber": 201,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 8,
+      "GroupID": 90,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 TRP Female",
+        "groupNumber": 2,
+        "raw": "Nat 5 TRP Female Flight 2",
+        "sessionID": 8,
+        "sessionNumber": 201,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 8,
+      "GroupID": null,
+      "targetCompetitionID": 8,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 TRP Female",
+        "groupNumber": 1,
+        "raw": "Nat 5 TRP Female FINAL",
+        "sessionID": 8,
+        "sessionNumber": 201,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 9,
+      "GroupID": 28,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 7 DMT Male",
+        "groupNumber": 1,
+        "raw": "Nat 7 DMT Male Flight 1",
+        "sessionID": 9,
+        "sessionNumber": 201,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 9,
+      "GroupID": null,
+      "targetCompetitionID": 28,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 7 DMT Male",
+        "groupNumber": 1,
+        "raw": "Nat 7 DMT Male FINAL",
+        "sessionID": 9,
+        "sessionNumber": 201,
+        "sessionTitle": "DMT",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 9,
+      "GroupID": 26,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 7 DMT Female",
+        "groupNumber": 1,
+        "raw": "Nat 7 DMT Female Flight 1",
+        "sessionID": 9,
+        "sessionNumber": 201,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 9,
+      "GroupID": null,
+      "targetCompetitionID": 26,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 7 DMT Female",
+        "groupNumber": 1,
+        "raw": "Nat 7 DMT Female FINAL",
+        "sessionID": 9,
+        "sessionNumber": 201,
+        "sessionTitle": "DMT",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 10,
+      "GroupID": 54,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 7 TUM Male",
+        "groupNumber": 1,
+        "raw": "Nat 7 TUM Male Flight 1",
+        "sessionID": 10,
+        "sessionNumber": 201,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 10,
+      "GroupID": null,
+      "targetCompetitionID": 54,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 7 TUM Male",
+        "groupNumber": 1,
+        "raw": "Nat 7 TUM Male FINAL",
+        "sessionID": 10,
+        "sessionNumber": 201,
+        "sessionTitle": "TUM",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 10,
+      "GroupID": 50,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 TUM Male",
+        "groupNumber": 1,
+        "raw": "Nat 5 TUM Male Flight 1",
+        "sessionID": 10,
+        "sessionNumber": 201,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 10,
+      "GroupID": null,
+      "targetCompetitionID": 50,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 TUM Male",
+        "groupNumber": 1,
+        "raw": "Nat 5 TUM Male FINAL",
+        "sessionID": 10,
+        "sessionNumber": 201,
+        "sessionTitle": "TUM",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 11,
+      "GroupID": 11,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 7 TRP Male",
+        "groupNumber": 1,
+        "raw": "Nat 7 TRP Male Flight 1",
+        "sessionID": 11,
+        "sessionNumber": 202,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 11,
+      "GroupID": null,
+      "targetCompetitionID": 11,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 7 TRP Male",
+        "groupNumber": 1,
+        "raw": "Nat 7 TRP Male FINAL",
+        "sessionID": 11,
+        "sessionNumber": 202,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 12,
+      "GroupID": 10,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 7 TRP Female",
+        "groupNumber": 1,
+        "raw": "Nat 7 TRP Female Flight 1",
+        "sessionID": 12,
+        "sessionNumber": 202,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 12,
+      "GroupID": null,
+      "targetCompetitionID": 10,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 7 TRP Female",
+        "groupNumber": 1,
+        "raw": "Nat 7 TRP Female FINAL",
+        "sessionID": 12,
+        "sessionNumber": 202,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 13,
+      "GroupID": 25,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 DMT Male",
+        "groupNumber": 1,
+        "raw": "Nat 6 DMT Male Flight 1",
+        "sessionID": 13,
+        "sessionNumber": 202,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 13,
+      "GroupID": 96,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 DMT Male",
+        "groupNumber": 2,
+        "raw": "Nat 6 DMT Male Flight 2",
+        "sessionID": 13,
+        "sessionNumber": 202,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 13,
+      "GroupID": null,
+      "targetCompetitionID": 25,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 DMT Male",
+        "groupNumber": 1,
+        "raw": "Nat 6 DMT Male FINAL",
+        "sessionID": 13,
+        "sessionNumber": 202,
+        "sessionTitle": "DMT",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 13,
+      "GroupID": 24,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 DMT Female",
+        "groupNumber": 1,
+        "raw": "Nat 6 DMT Female Flight 1",
+        "sessionID": 13,
+        "sessionNumber": 202,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 13,
+      "GroupID": 95,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 DMT Female",
+        "groupNumber": 2,
+        "raw": "Nat 6 DMT Female Flight 2",
+        "sessionID": 13,
+        "sessionNumber": 202,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 13,
+      "GroupID": null,
+      "targetCompetitionID": 24,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 6 DMT Female",
+        "groupNumber": 1,
+        "raw": "Nat 6 DMT Female FINAL",
+        "sessionID": 13,
+        "sessionNumber": 202,
+        "sessionTitle": "DMT",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 14,
+      "GroupID": 49,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 TUM Female",
+        "groupNumber": 1,
+        "raw": "Nat 5 TUM Female Flight 1",
+        "sessionID": 14,
+        "sessionNumber": 202,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 14,
+      "GroupID": 91,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 TUM Female",
+        "groupNumber": 2,
+        "raw": "Nat 5 TUM Female Flight 2",
+        "sessionID": 14,
+        "sessionNumber": 202,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 14,
+      "GroupID": 92,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 TUM Female",
+        "groupNumber": 3,
+        "raw": "Nat 5 TUM Female Flight 3",
+        "sessionID": 14,
+        "sessionNumber": 202,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 14,
+      "GroupID": 93,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 TUM Female",
+        "groupNumber": 4,
+        "raw": "Nat 5 TUM Female Flight 4",
+        "sessionID": 14,
+        "sessionNumber": 202,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 14,
+      "GroupID": 94,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 TUM Female",
+        "groupNumber": 5,
+        "raw": "Nat 5 TUM Female Flight 5",
+        "sessionID": 14,
+        "sessionNumber": 202,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 14,
+      "GroupID": null,
+      "targetCompetitionID": 49,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "National 5 TUM Female",
+        "groupNumber": 1,
+        "raw": "Nat 5 TUM Female FINAL",
+        "sessionID": 14,
+        "sessionNumber": 202,
+        "sessionTitle": "TUM",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 15,
+      "GroupID": 80,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth SYN Male",
+        "groupNumber": 1,
+        "raw": "SYN Youth Male Flight 1",
+        "sessionID": 15,
+        "sessionNumber": 301,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 15,
+      "GroupID": null,
+      "targetCompetitionID": 80,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth SYN Male",
+        "groupNumber": 1,
+        "raw": "SYN Youth Male FINAL",
+        "sessionID": 15,
+        "sessionNumber": 301,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 16,
+      "GroupID": 79,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth SYN Female",
+        "groupNumber": 1,
+        "raw": "SYN Youth Female Flight 1",
+        "sessionID": 16,
+        "sessionNumber": 301,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 16,
+      "GroupID": null,
+      "targetCompetitionID": 79,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth SYN Female",
+        "groupNumber": 1,
+        "raw": "SYN Youth Female FINAL",
+        "sessionID": 16,
+        "sessionNumber": 301,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 16,
+      "GroupID": 78,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior SYN Mixed",
+        "groupNumber": 1,
+        "raw": "SYN Senior Mixed Flight 1",
+        "sessionID": 16,
+        "sessionNumber": 301,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 16,
+      "GroupID": 106,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior SYN Mixed",
+        "groupNumber": 2,
+        "raw": "SYN Senior Mixed Flight 2",
+        "sessionID": 16,
+        "sessionNumber": 301,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 16,
+      "GroupID": null,
+      "targetCompetitionID": 78,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior SYN Mixed",
+        "groupNumber": 1,
+        "raw": "SYN Senior Mixed FINAL",
+        "sessionID": 16,
+        "sessionNumber": 301,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 17,
+      "GroupID": 19,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior U17 DMT Female",
+        "groupNumber": 1,
+        "raw": "Junior U17 DMT Female Flight 1",
+        "sessionID": 17,
+        "sessionNumber": 301,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 17,
+      "GroupID": 18,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior U17 DMT Male",
+        "groupNumber": 1,
+        "raw": "Junior U17 DMT Male Flight 1",
+        "sessionID": 17,
+        "sessionNumber": 301,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 17,
+      "GroupID": 81,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior U17 DMT Male",
+        "groupNumber": 2,
+        "raw": "Junior U17 DMT Male Flight 2",
+        "sessionID": 17,
+        "sessionNumber": 301,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 18,
+      "GroupID": 59,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U15 TUM Female",
+        "groupNumber": 1,
+        "raw": "Youth U15 TUM Female Flight 1",
+        "sessionID": 18,
+        "sessionNumber": 301,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 18,
+      "GroupID": null,
+      "targetCompetitionID": 59,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U15 TUM Female",
+        "groupNumber": 1,
+        "raw": "Youth U15 TUM Female FINAL",
+        "sessionID": 18,
+        "sessionNumber": 301,
+        "sessionTitle": "TUM",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 18,
+      "GroupID": 60,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U15 TUM Male",
+        "groupNumber": 1,
+        "raw": "Youth U15 TUM Male Flight 1",
+        "sessionID": 18,
+        "sessionNumber": 301,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 18,
+      "GroupID": null,
+      "targetCompetitionID": 60,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U15 TUM Male",
+        "groupNumber": 1,
+        "raw": "Youth U15 TUM Male FINAL",
+        "sessionID": 18,
+        "sessionNumber": 301,
+        "sessionTitle": "TUM",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 19,
+      "GroupID": 71,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior SYN Male",
+        "groupNumber": 1,
+        "raw": "SYN Junior Male Flight 1",
+        "sessionID": 19,
+        "sessionNumber": 302,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 19,
+      "GroupID": 103,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior SYN Male",
+        "groupNumber": 2,
+        "raw": "SYN Junior Male Flight 2",
+        "sessionID": 19,
+        "sessionNumber": 302,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 19,
+      "GroupID": null,
+      "targetCompetitionID": 71,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior SYN Male",
+        "groupNumber": 1,
+        "raw": "SYN Junior Male FINAL",
+        "sessionID": 19,
+        "sessionNumber": 302,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 19,
+      "GroupID": 2,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior 17+ TRP Male",
+        "groupNumber": 1,
+        "raw": "Junior 17+ TRP Male Flight 1",
+        "sessionID": 19,
+        "sessionNumber": 302,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 19,
+      "GroupID": 87,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior 17+ TRP Male",
+        "groupNumber": 2,
+        "raw": "Junior 17+ TRP Male Flight 2",
+        "sessionID": 19,
+        "sessionNumber": 302,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 20,
+      "GroupID": 72,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior SYN Female",
+        "groupNumber": 1,
+        "raw": "SYN Junior Female Flight 1",
+        "sessionID": 20,
+        "sessionNumber": 302,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 20,
+      "GroupID": 102,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior SYN Female",
+        "groupNumber": 2,
+        "raw": "SYN Junior Female Flight 2",
+        "sessionID": 20,
+        "sessionNumber": 302,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 20,
+      "GroupID": null,
+      "targetCompetitionID": 72,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior SYN Female",
+        "groupNumber": 1,
+        "raw": "SYN Junior Female FINAL",
+        "sessionID": 20,
+        "sessionNumber": 302,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 20,
+      "GroupID": 3,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior 17+ TRP Female",
+        "groupNumber": 1,
+        "raw": "Junior 17+ TRP Female Flight 1",
+        "sessionID": 20,
+        "sessionNumber": 302,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 20,
+      "GroupID": 86,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior 17+ TRP Female",
+        "groupNumber": 2,
+        "raw": "Junior 17+ TRP Female Flight 2",
+        "sessionID": 20,
+        "sessionNumber": 302,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 21,
+      "GroupID": 29,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior DMT Male",
+        "groupNumber": 1,
+        "raw": "Senior DMT Male Flight 1",
+        "sessionID": 21,
+        "sessionNumber": 302,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 21,
+      "GroupID": 27,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior DMT Female",
+        "groupNumber": 1,
+        "raw": "Senior DMT Female Flight 1",
+        "sessionID": 21,
+        "sessionNumber": 302,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 22,
+      "GroupID": 57,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U13 TUM Female",
+        "groupNumber": 1,
+        "raw": "Youth U13 TUM Female Flight 1",
+        "sessionID": 22,
+        "sessionNumber": 302,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 22,
+      "GroupID": null,
+      "targetCompetitionID": 57,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U13 TUM Female",
+        "groupNumber": 1,
+        "raw": "Youth U13 TUM Female FINAL",
+        "sessionID": 22,
+        "sessionNumber": 302,
+        "sessionTitle": "TUM",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 22,
+      "GroupID": 58,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U13 TUM Male",
+        "groupNumber": 1,
+        "raw": "Youth U13 TUM Male Flight 1",
+        "sessionID": 22,
+        "sessionNumber": 302,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 22,
+      "GroupID": null,
+      "targetCompetitionID": 58,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U13 TUM Male",
+        "groupNumber": 1,
+        "raw": "Youth U13 TUM Male FINAL",
+        "sessionID": 22,
+        "sessionNumber": 302,
+        "sessionTitle": "TUM",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 23,
+      "GroupID": 13,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior TRP Male",
+        "groupNumber": 1,
+        "raw": "Senior TRP Male Flight 1",
+        "sessionID": 23,
+        "sessionNumber": 303,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 23,
+      "GroupID": 101,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior TRP Male",
+        "groupNumber": 2,
+        "raw": "Senior TRP Male Flight 2",
+        "sessionID": 23,
+        "sessionNumber": 303,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 24,
+      "GroupID": 12,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior TRP Female",
+        "groupNumber": 1,
+        "raw": "Senior TRP Female Flight 1",
+        "sessionID": 24,
+        "sessionNumber": 303,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 24,
+      "GroupID": 100,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior TRP Female",
+        "groupNumber": 2,
+        "raw": "Senior TRP Female Flight 2",
+        "sessionID": 24,
+        "sessionNumber": 303,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 25,
+      "GroupID": 32,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U15 DMT Female",
+        "groupNumber": 1,
+        "raw": "Youth U15 DMT Female Flight 1",
+        "sessionID": 25,
+        "sessionNumber": 303,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 25,
+      "GroupID": 33,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U15 DMT Male",
+        "groupNumber": 1,
+        "raw": "Youth U15 DMT Male Flight 1",
+        "sessionID": 25,
+        "sessionNumber": 303,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 26,
+      "GroupID": 44,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior U17 TUM Female",
+        "groupNumber": 1,
+        "raw": "Junior U17 TUM Female Flight 1",
+        "sessionID": 26,
+        "sessionNumber": 303,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 26,
+      "GroupID": 83,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior U17 TUM Female",
+        "groupNumber": 2,
+        "raw": "Junior U17 TUM Female Flight 2",
+        "sessionID": 26,
+        "sessionNumber": 303,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 26,
+      "GroupID": null,
+      "targetCompetitionID": 44,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior U17 TUM Female",
+        "groupNumber": 1,
+        "raw": "Junior U17 TUM Female FINAL",
+        "sessionID": 26,
+        "sessionNumber": 303,
+        "sessionTitle": "TUM",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 26,
+      "GroupID": 48,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior U17 TUM Male",
+        "groupNumber": 1,
+        "raw": "Junior U17 TUM Male Flight 1",
+        "sessionID": 26,
+        "sessionNumber": 303,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 26,
+      "GroupID": null,
+      "targetCompetitionID": 48,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior U17 TUM Male",
+        "groupNumber": 1,
+        "raw": "Junior U17 TUM Male FINAL",
+        "sessionID": 26,
+        "sessionNumber": 303,
+        "sessionTitle": "TUM",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 27,
+      "GroupID": 15,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U13 TRP Male",
+        "groupNumber": 1,
+        "raw": "Youth U13 TRP Male Flight 1",
+        "sessionID": 27,
+        "sessionNumber": 401,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 27,
+      "GroupID": null,
+      "targetCompetitionID": 15,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U13 TRP Male",
+        "groupNumber": 1,
+        "raw": "Youth U13 TRP Male FINAL",
+        "sessionID": 27,
+        "sessionNumber": 401,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 27,
+      "GroupID": 17,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U15 TRP Male",
+        "groupNumber": 1,
+        "raw": "Youth U15 TRP Male Flight 1",
+        "sessionID": 27,
+        "sessionNumber": 401,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 28,
+      "GroupID": 14,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U13 TRP Female",
+        "groupNumber": 1,
+        "raw": "Youth U13 TRP Female Flight 1",
+        "sessionID": 28,
+        "sessionNumber": 401,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 28,
+      "GroupID": null,
+      "targetCompetitionID": 14,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U13 TRP Female",
+        "groupNumber": 1,
+        "raw": "Youth U13 TRP Female FINAL",
+        "sessionID": 28,
+        "sessionNumber": 401,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 28,
+      "GroupID": 16,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U15 TRP Female",
+        "groupNumber": 1,
+        "raw": "Youth U15 TRP Female Flight 1",
+        "sessionID": 28,
+        "sessionNumber": 401,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 29,
+      "GroupID": 21,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior 17+ DMT Female",
+        "groupNumber": 1,
+        "raw": "Junior 17+ DMT Female Flight 1",
+        "sessionID": 29,
+        "sessionNumber": 401,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 29,
+      "GroupID": 84,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior 17+ DMT Female",
+        "groupNumber": 2,
+        "raw": "Junior 17+ DMT Female Flight 2",
+        "sessionID": 29,
+        "sessionNumber": 401,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 29,
+      "GroupID": 20,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior 17+ DMT Male",
+        "groupNumber": 1,
+        "raw": "Junior 17+ DMT Male Flight 1",
+        "sessionID": 29,
+        "sessionNumber": 401,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 29,
+      "GroupID": 85,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior 17+ DMT Male",
+        "groupNumber": 2,
+        "raw": "Junior 17+ DMT Male Flight 2",
+        "sessionID": 29,
+        "sessionNumber": 401,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 30,
+      "GroupID": 77,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior SYN Male",
+        "groupNumber": 1,
+        "raw": "SYN Senior Male Flight 1",
+        "sessionID": 30,
+        "sessionNumber": 402,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 30,
+      "GroupID": null,
+      "targetCompetitionID": 77,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior SYN Male",
+        "groupNumber": 1,
+        "raw": "SYN Senior Male FINAL",
+        "sessionID": 30,
+        "sessionNumber": 402,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 30,
+      "GroupID": 6,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior U17 TRP Male",
+        "groupNumber": 1,
+        "raw": "Junior U17 TRP Male Flight 1",
+        "sessionID": 30,
+        "sessionNumber": 402,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 30,
+      "GroupID": 82,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior U17 TRP Male",
+        "groupNumber": 2,
+        "raw": "Junior U17 TRP Male Flight 2",
+        "sessionID": 30,
+        "sessionNumber": 402,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 31,
+      "GroupID": 76,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior SYN Female",
+        "groupNumber": 1,
+        "raw": "SYN Senior Female Flight 1",
+        "sessionID": 31,
+        "sessionNumber": 402,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 31,
+      "GroupID": null,
+      "targetCompetitionID": 76,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior SYN Female",
+        "groupNumber": 1,
+        "raw": "SYN Senior Female FINAL",
+        "sessionID": 31,
+        "sessionNumber": 402,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 31,
+      "GroupID": 4,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior U17 TRP Female",
+        "groupNumber": 1,
+        "raw": "Junior U17 TRP Female Flight 1",
+        "sessionID": 31,
+        "sessionNumber": 402,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 32,
+      "GroupID": 31,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U13 DMT Male",
+        "groupNumber": 1,
+        "raw": "Youth U13 DMT Male Flight 1",
+        "sessionID": 32,
+        "sessionNumber": 402,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 32,
+      "GroupID": 107,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U13 DMT Male",
+        "groupNumber": 2,
+        "raw": "Youth U13 DMT Male Flight 2",
+        "sessionID": 32,
+        "sessionNumber": 402,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 32,
+      "GroupID": null,
+      "targetCompetitionID": 31,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U13 DMT Male",
+        "groupNumber": 1,
+        "raw": "Youth U13 DMT Male FINAL",
+        "sessionID": 32,
+        "sessionNumber": 402,
+        "sessionTitle": "DMT",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 32,
+      "GroupID": 30,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U13 DMT Female",
+        "groupNumber": 1,
+        "raw": "Youth U13 DMT Female Flight 1",
+        "sessionID": 32,
+        "sessionNumber": 402,
+        "sessionTitle": "DMT",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 32,
+      "GroupID": null,
+      "targetCompetitionID": 30,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U13 DMT Female",
+        "groupNumber": 1,
+        "raw": "Youth U13 DMT Female FINAL",
+        "sessionID": 32,
+        "sessionNumber": 402,
+        "sessionTitle": "DMT",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 33,
+      "GroupID": 47,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior 17+ TUM Female",
+        "groupNumber": 1,
+        "raw": "Junior 17+ TUM Female Flight 1",
+        "sessionID": 33,
+        "sessionNumber": 402,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 33,
+      "GroupID": 88,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior 17+ TUM Female",
+        "groupNumber": 2,
+        "raw": "Junior 17+ TUM Female Flight 2",
+        "sessionID": 33,
+        "sessionNumber": 402,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 33,
+      "GroupID": null,
+      "targetCompetitionID": 47,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior 17+ TUM Female",
+        "groupNumber": 1,
+        "raw": "Junior 17+ TUM Female FINAL",
+        "sessionID": 33,
+        "sessionNumber": 402,
+        "sessionTitle": "TUM",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 33,
+      "GroupID": 46,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior 17+ TUM Male",
+        "groupNumber": 1,
+        "raw": "Junior 17+ TUM Male Flight 1",
+        "sessionID": 33,
+        "sessionNumber": 402,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 33,
+      "GroupID": null,
+      "targetCompetitionID": 46,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior 17+ TUM Male",
+        "groupNumber": 1,
+        "raw": "Junior 17+ TUM Male FINAL",
+        "sessionID": 33,
+        "sessionNumber": 402,
+        "sessionTitle": "TUM",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 34,
+      "GroupID": null,
+      "targetCompetitionID": 2,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior 17+ TRP Male",
+        "groupNumber": 1,
+        "raw": "Junior 17+ TRP Male FINAL",
+        "sessionID": 34,
+        "sessionNumber": 403,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 34,
+      "GroupID": null,
+      "targetCompetitionID": 13,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior TRP Male",
+        "groupNumber": 1,
+        "raw": "Senior TRP Male FINAL",
+        "sessionID": 34,
+        "sessionNumber": 403,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 35,
+      "GroupID": null,
+      "targetCompetitionID": 3,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior 17+ TRP Female",
+        "groupNumber": 1,
+        "raw": "Junior 17+ TRP Female FINAL",
+        "sessionID": 35,
+        "sessionNumber": 403,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 35,
+      "GroupID": null,
+      "targetCompetitionID": 12,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior TRP Female",
+        "groupNumber": 1,
+        "raw": "Senior TRP Female FINAL",
+        "sessionID": 35,
+        "sessionNumber": 403,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 36,
+      "GroupID": null,
+      "targetCompetitionID": 32,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U15 DMT Female",
+        "groupNumber": 1,
+        "raw": "Youth U15 DMT Female FINAL",
+        "sessionID": 36,
+        "sessionNumber": 403,
+        "sessionTitle": "DMT",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 36,
+      "GroupID": null,
+      "targetCompetitionID": 33,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U15 DMT Male",
+        "groupNumber": 1,
+        "raw": "Youth U15 DMT Male FINAL",
+        "sessionID": 36,
+        "sessionNumber": 403,
+        "sessionTitle": "DMT",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 36,
+      "GroupID": null,
+      "targetCompetitionID": 19,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior U17 DMT Female",
+        "groupNumber": 1,
+        "raw": "Junior U17 DMT Female FINAL",
+        "sessionID": 36,
+        "sessionNumber": 403,
+        "sessionTitle": "DMT",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 36,
+      "GroupID": null,
+      "targetCompetitionID": 18,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior U17 DMT Male",
+        "groupNumber": 1,
+        "raw": "Junior U17 DMT Male FINAL",
+        "sessionID": 36,
+        "sessionNumber": 403,
+        "sessionTitle": "DMT",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 37,
+      "GroupID": 55,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior TUM Female",
+        "groupNumber": 1,
+        "raw": "Senior TUM Female Flight 1",
+        "sessionID": 37,
+        "sessionNumber": 403,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 37,
+      "GroupID": 56,
+      "targetCompetitionID": null,
+      "targetStageKind": null,
+      "groupIndex": null,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior TUM Male",
+        "groupNumber": 1,
+        "raw": "Senior TUM Male Flight 1",
+        "sessionID": 37,
+        "sessionNumber": 403,
+        "sessionTitle": "TUM",
+        "stageKind": "Qualification"
+      }
+    },
+    {
+      "sessionID": 37,
+      "GroupID": null,
+      "targetCompetitionID": 55,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior TUM Female",
+        "groupNumber": 1,
+        "raw": "Senior TUM Female FINAL",
+        "sessionID": 37,
+        "sessionNumber": 403,
+        "sessionTitle": "TUM",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 37,
+      "GroupID": null,
+      "targetCompetitionID": 56,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior TUM Male",
+        "groupNumber": 1,
+        "raw": "Senior TUM Male FINAL",
+        "sessionID": 37,
+        "sessionNumber": 403,
+        "sessionTitle": "TUM",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 38,
+      "GroupID": null,
+      "targetCompetitionID": 17,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U15 TRP Male",
+        "groupNumber": 1,
+        "raw": "Youth U15 TRP Male FINAL",
+        "sessionID": 38,
+        "sessionNumber": 501,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 38,
+      "GroupID": null,
+      "targetCompetitionID": 6,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior U17 TRP Male",
+        "groupNumber": 1,
+        "raw": "Junior U17 TRP Male FINAL",
+        "sessionID": 38,
+        "sessionNumber": 501,
+        "sessionTitle": "TRA 1",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 39,
+      "GroupID": null,
+      "targetCompetitionID": 16,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Youth U15 TRP Female",
+        "groupNumber": 1,
+        "raw": "Youth U15 TRP Female FINAL",
+        "sessionID": 39,
+        "sessionNumber": 501,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 39,
+      "GroupID": null,
+      "targetCompetitionID": 4,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior U17 TRP Female",
+        "groupNumber": 1,
+        "raw": "Junior U17 TRP Female FINAL",
+        "sessionID": 39,
+        "sessionNumber": 501,
+        "sessionTitle": "TRA 2",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 40,
+      "GroupID": null,
+      "targetCompetitionID": 21,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior 17+ DMT Female",
+        "groupNumber": 1,
+        "raw": "Junior 17+ DMT Female FINAL",
+        "sessionID": 40,
+        "sessionNumber": 501,
+        "sessionTitle": "DMT",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 40,
+      "GroupID": null,
+      "targetCompetitionID": 20,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Junior 17+ DMT Male",
+        "groupNumber": 1,
+        "raw": "Junior 17+ DMT Male FINAL",
+        "sessionID": 40,
+        "sessionNumber": 501,
+        "sessionTitle": "DMT",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 40,
+      "GroupID": null,
+      "targetCompetitionID": 27,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior DMT Female",
+        "groupNumber": 1,
+        "raw": "Senior DMT Female FINAL",
+        "sessionID": 40,
+        "sessionNumber": 501,
+        "sessionTitle": "DMT",
+        "stageKind": "Final1"
+      }
+    },
+    {
+      "sessionID": 40,
+      "GroupID": null,
+      "targetCompetitionID": 29,
+      "targetStageKind": "Final1",
+      "groupIndex": 0,
+      "GroupFrame": 0,
+      "source": {
+        "competitionTitle": "Senior DMT Male",
+        "groupNumber": 1,
+        "raw": "Senior DMT Male FINAL",
+        "sessionID": 40,
+        "sessionNumber": 501,
+        "sessionTitle": "DMT",
+        "stageKind": "Final1"
+      }
+    }
+  ],
+  "ambiguous": [],
+  "unmatched": [],
+  "skipped": [
+    {
+      "source": {
+        "raw": "International TEAM TRP Male FINAL",
+        "sessionID": 41,
+        "sessionNumber": 502,
+        "sessionTitle": "TRA 1"
+      },
+      "reason": "No matching live competition exists in the current event for this team/all-around item; phase 2 cannot create competitions."
+    },
+    {
+      "source": {
+        "raw": "TEAM All AROUND FINAL TRP Male",
+        "sessionID": 41,
+        "sessionNumber": 502,
+        "sessionTitle": "TRA 1"
+      },
+      "reason": "No matching live competition exists in the current event for this team/all-around item; phase 2 cannot create competitions."
+    },
+    {
+      "source": {
+        "raw": "International TEAM TRP Female FINAL",
+        "sessionID": 42,
+        "sessionNumber": 502,
+        "sessionTitle": "TRA 2"
+      },
+      "reason": "No matching live competition exists in the current event for this team/all-around item; phase 2 cannot create competitions."
+    },
+    {
+      "source": {
+        "raw": "TEAM All AROUND FINAL TRP Female",
+        "sessionID": 42,
+        "sessionNumber": 502,
+        "sessionTitle": "TRA 2"
+      },
+      "reason": "No matching live competition exists in the current event for this team/all-around item; phase 2 cannot create competitions."
+    },
+    {
+      "source": {
+        "raw": "International TEAM DMT Male FINAL",
+        "sessionID": 43,
+        "sessionNumber": 502,
+        "sessionTitle": "DMT"
+      },
+      "reason": "No matching live competition exists in the current event for this team/all-around item; phase 2 cannot create competitions."
+    },
+    {
+      "source": {
+        "raw": "International TEAM DMT Female FINAL",
+        "sessionID": 43,
+        "sessionNumber": 502,
+        "sessionTitle": "DMT"
+      },
+      "reason": "No matching live competition exists in the current event for this team/all-around item; phase 2 cannot create competitions."
+    },
+    {
+      "source": {
+        "raw": "TEAM ALL AROUND FINAL DMT Female",
+        "sessionID": 43,
+        "sessionNumber": 502,
+        "sessionTitle": "DMT"
+      },
+      "reason": "No matching live competition exists in the current event for this team/all-around item; phase 2 cannot create competitions."
+    },
+    {
+      "source": {
+        "raw": "TEAM ALL AROUND FINAL DMT Male",
+        "sessionID": 43,
+        "sessionNumber": 502,
+        "sessionTitle": "DMT"
+      },
+      "reason": "No matching live competition exists in the current event for this team/all-around item; phase 2 cannot create competitions."
+    },
+    {
+      "source": {
+        "raw": "International TEAM TUM Male FINAL",
+        "sessionID": 44,
+        "sessionNumber": 502,
+        "sessionTitle": "TUM"
+      },
+      "reason": "No matching live competition exists in the current event for this team/all-around item; phase 2 cannot create competitions."
+    },
+    {
+      "source": {
+        "raw": "International TEAM TUM Female FINAL",
+        "sessionID": 44,
+        "sessionNumber": 502,
+        "sessionTitle": "TUM"
+      },
+      "reason": "No matching live competition exists in the current event for this team/all-around item; phase 2 cannot create competitions."
+    },
+    {
+      "source": {
+        "raw": "TEAM ALL AROUND FINAL TUM Male",
+        "sessionID": 44,
+        "sessionNumber": 502,
+        "sessionTitle": "TUM"
+      },
+      "reason": "No matching live competition exists in the current event for this team/all-around item; phase 2 cannot create competitions."
+    },
+    {
+      "source": {
+        "raw": "TEAM ALL AROUND FINAL TUM Female",
+        "sessionID": 44,
+        "sessionNumber": 502,
+        "sessionTitle": "TUM"
+      },
+      "reason": "No matching live competition exists in the current event for this team/all-around item; phase 2 cannot create competitions."
+    }
+  ],
+  "sourceTable": "work/session_plan_2026/out/session_refs_draft.tsv",
+  "apply": {
+    "baseUrl": "http://192.168.31.22:48145",
+    "mode": "apply",
+    "dryRun": true,
+    "targetSessionIDs": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40
+    ],
+    "createdStages": 0,
+    "removedRefs": [],
+    "addedRefs": [],
+    "verification": {
+      "status": "not-run"
+    }
+  }
+}
