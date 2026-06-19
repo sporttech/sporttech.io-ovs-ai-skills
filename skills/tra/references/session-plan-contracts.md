@@ -51,6 +51,7 @@ Canonical file sets:
   `apply_session_references_plan.py`, `plan_table.py`, and
   `ovs_plan_utils.py`;
 - phase 3: `inspect_session_workflow.py`,
+  `build_adopted_session_references_plan.py`,
   `validate_session_references_plan.py`,
   `generate_session_start_lists.py`, `plan_table.py`, and
   `ovs_plan_utils.py`.
@@ -98,6 +99,9 @@ already exists.
 
 - Request an OC password/token only after approval gate 1, immediately before
   the first dry-run that requires authentication.
+- In a standalone phase that must read an authenticated OVS before its first
+  approval gate, request credentials only when the read actually fails or the
+  user has explicitly supplied them. Read access does not authorize mutation.
 - Exchange a password for a token once with `POST /api/access_tokens/`.
 - Read the token only from the last path segment of the HTTP `Location` response
   header. The response body is empty and must never be parsed as JSON or treated
@@ -183,7 +187,9 @@ Default field recommendations:
 ## References Plan
 
 Use `PlanKind=ovs-session-refs-plan`, `Version=2`, and `Mode=apply` or
-`recreate`.
+`recreate` for phase-2 mutation. Use `Mode=adopt` only as a read-only,
+user-approved description of refs that were assembled manually in live OVS.
+`apply_session_references_plan.py` must never execute `Mode=adopt`.
 
 ### `stageCreate` rows
 
@@ -281,16 +287,31 @@ never applied.
 In recreate mode, only sessions named by `ref` rows are cleared. References in
 all other sessions remain untouched.
 
+### Decoupled phase inputs
+
+- Standalone phase 2 may target existing live sessions without a phase-1 TSV.
+  Read their IDs and human fields from a fresh snapshot, then use the ordinary
+  phase-2 draft, approval, dry-run, and apply workflow.
+- Standalone phase 3 may adopt manually assembled live refs. Build a
+  `Mode=adopt`, `PlanStatus=draft` TSV from a fresh snapshot, validate it,
+  publish it for explicit reference approval, then set
+  `PlanStatus=approved`. This artifact is never applied to OVS.
+- Approval of an adopted refs TSV uses the exact CTA from the phase-3 recipe
+  and is independent of the later start-list approval.
+- Phase 3 compares the exact ordered `(GroupID, GroupFrame)` list for every
+  target session against `--references-plan` before generation. Any live drift
+  requires a fresh adopted draft and approval.
+
 ## Start-List Plan
 
 Use `PlanKind=ovs-session-start-lists-plan`, `Version=1`, and `Mode=create` or
 `append`.
 
 Each row uses `RowType=session`, an explicit `SessionID`, and the same approval
-status rule. Phase 3 additionally requires `--references-plan` pointing to a
-canonical phase-2 TSV with `PlanStatus=applied`. The executor re-runs the
-offline reference validator before reading credentials or contacting OVS. The
-executor reports:
+status rule. Phase 3 additionally requires `--references-plan` pointing either
+to a phase-2 apply/recreate TSV with `PlanStatus=applied`, or to a `Mode=adopt`
+TSV with `PlanStatus=approved`. The executor re-runs the offline validator and
+compares its ordered refs with live OVS before generation. The executor reports:
 
 - `generated`;
 - `no-refs`;
@@ -359,10 +380,16 @@ python3 skills/tra/scripts/apply_session_references_plan.py \
 Start-list generation:
 
 ```bash
+# Standalone phase 3: first export and approve the live refs.
+python3 skills/tra/scripts/build_adopted_session_references_plan.py \
+  --snapshot workflow-snapshot.json \
+  --output refs.adopted.draft.tsv \
+  --session-id 12
+
 python3 skills/tra/scripts/generate_session_start_lists.py \
   --base-url http://ovs.example \
   --plan start-lists.approved.tsv \
-  --references-plan refs.applied.tsv \
+  --references-plan refs.applied-or-adopted.tsv \
   --token-file token.txt \
   --audit-output start-lists.audit.json
 ```

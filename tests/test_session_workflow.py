@@ -18,6 +18,7 @@ from ovs_plan_utils import ApiError, refs_for_session  # noqa: E402
 from plan_table import (  # noqa: E402
     load_refs_plan,
     load_session_plan,
+    read_rows,
     write_refs_plan,
     write_rows,
     write_session_plan,
@@ -25,6 +26,9 @@ from plan_table import (  # noqa: E402
 
 apply_sessions = importlib.import_module("apply_sessions_plan")
 apply_refs = importlib.import_module("apply_session_references_plan")
+build_adopted_refs = importlib.import_module(
+    "build_adopted_session_references_plan"
+)
 validate_refs = importlib.import_module("validate_session_references_plan")
 generate_lists = importlib.import_module("generate_session_start_lists")
 inspect_workflow = importlib.import_module("inspect_session_workflow")
@@ -1042,7 +1046,10 @@ class WorkflowTest(unittest.TestCase):
         self.ovs.add_session(3, [200])
         references = self.write_reference_plan(
             "refs.applied.tsv",
-            [{"sessionID": 3, "GroupID": 200, "GroupFrame": 0}],
+            [
+                {"sessionID": 2, "GroupID": 201, "GroupFrame": 0},
+                {"sessionID": 3, "GroupID": 200, "GroupFrame": 0},
+            ],
             status="applied",
         )
         source = self.directory / "start.tsv"
@@ -1080,6 +1087,11 @@ class WorkflowTest(unittest.TestCase):
         )
 
         self.ovs.add_session(4, [202])
+        failure_references = self.write_reference_plan(
+            "failure-refs.applied.tsv",
+            [{"sessionID": 4, "GroupID": 202, "GroupFrame": 0}],
+            status="applied",
+        )
         failure = self.directory / "failure.tsv"
         write_rows(
             str(failure),
@@ -1099,7 +1111,7 @@ class WorkflowTest(unittest.TestCase):
             "--plan",
             str(failure),
             "--references-plan",
-            str(references),
+            str(failure_references),
             error=ApiError,
         )
 
@@ -1133,7 +1145,7 @@ class WorkflowTest(unittest.TestCase):
             str(draft_refs),
             error=SystemExit,
         )
-        self.assertIn("PlanStatus=applied", str(error))
+        self.assertIn("applied apply/recreate", str(error))
         self.assertEqual(self.ovs.mutations, [])
 
         semantic_error = self.directory / "refs.semantic-error.applied.tsv"
@@ -1195,6 +1207,87 @@ class WorkflowTest(unittest.TestCase):
         ):
             with self.assertRaises(SystemExit):
                 generate_lists.parse_args()
+
+    def test_standalone_phase_three_adopts_and_verifies_live_refs(self) -> None:
+        self.ovs.competitions["10"]["Title"] = "Competition 10"
+        self.ovs.stages["20"]["Kind"] = 0
+        self.ovs.add_session(1, [200])
+        self.ovs.sessions["1"]["Number"] = 101
+        self.ovs.sessions["1"]["SessionTitle"] = "TRA 1"
+
+        snapshot = self.directory / "standalone-snapshot.json"
+        argv = [
+            inspect_workflow.__file__,
+            "--base-url",
+            "http://mock",
+            "--output",
+            str(snapshot),
+        ]
+        with mock.patch.object(
+            inspect_workflow, "request_json", self.ovs.request
+        ), mock.patch.object(sys, "argv", argv):
+            self.assertEqual(inspect_workflow.main(), 0)
+
+        adopted_draft = self.directory / "refs.adopted.draft.tsv"
+        argv = [
+            build_adopted_refs.__file__,
+            "--snapshot",
+            str(snapshot),
+            "--output",
+            str(adopted_draft),
+            "--session-id",
+            "1",
+        ]
+        with mock.patch.object(sys, "argv", argv):
+            self.assertEqual(build_adopted_refs.main(), 0)
+        adopted = load_refs_plan(str(adopted_draft))
+        self.assertEqual(adopted["mode"], "adopt")
+        self.assertEqual(adopted["status"], "draft")
+        self.assertEqual(
+            [(item["GroupID"], item["GroupFrame"]) for item in adopted["refs"]],
+            [(200, 0)],
+        )
+
+        adopted_approved = self.directory / "refs.adopted.approved.tsv"
+        rows = read_rows(str(adopted_draft))
+        for row in rows:
+            row["PlanStatus"] = "approved"
+        write_rows(str(adopted_approved), rows)
+
+        start = self.directory / "standalone-start.tsv"
+        write_rows(
+            str(start),
+            [
+                {
+                    "PlanKind": "ovs-session-start-lists-plan",
+                    "Version": 1,
+                    "Mode": "create",
+                    "PlanStatus": "approved",
+                    "RowType": "session",
+                    "SessionID": 1,
+                }
+            ],
+        )
+        self.run_main(
+            generate_lists,
+            "--plan",
+            str(start),
+            "--references-plan",
+            str(adopted_approved),
+            "--dry-run",
+        )
+
+        self.ovs.sessions["1"]["GroupFrame"] = [1]
+        error = self.run_main(
+            generate_lists,
+            "--plan",
+            str(start),
+            "--references-plan",
+            str(adopted_approved),
+            "--dry-run",
+            error=SystemExit,
+        )
+        self.assertIn("Live session references differ", str(error))
 
     def test_read_only_inspector_builds_reusable_catalog(self) -> None:
         self.ovs.add_session(1)

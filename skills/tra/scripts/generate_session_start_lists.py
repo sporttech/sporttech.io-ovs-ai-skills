@@ -9,8 +9,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from ovs_plan_utils import ApiError, collection_map, request_json
-from plan_table import load_start_lists_plan
+from ovs_plan_utils import ApiError, collection_map, refs_for_session, request_json
+from plan_table import load_refs_plan, load_start_lists_plan
 from validate_session_references_plan import validate_plan, validation_error
 
 
@@ -93,9 +93,18 @@ def main() -> int:
     references_error = validation_error(references_report)
     if references_error:
         raise SystemExit(references_error)
-    if references_report.get("planStatus") != "applied":
+    references_plan = load_refs_plan(args.references_plan)
+    references_mode = references_plan.get("mode")
+    references_status = references_report.get("planStatus")
+    accepted_references_source = (
+        references_mode in {"apply", "recreate"} and references_status == "applied"
+    ) or (
+        references_mode == "adopt" and references_status == "approved"
+    )
+    if not accepted_references_source:
         raise SystemExit(
-            "--references-plan must have PlanStatus=applied before phase 3."
+            "--references-plan must be an applied apply/recreate plan or an "
+            "approved Mode=adopt live-reference plan."
         )
     token = read_token(args)
     session_ids = plan["sessionIDs"]
@@ -103,6 +112,31 @@ def main() -> int:
     missing = [session_id for session_id in session_ids if str(session_id) not in before]
     if missing:
         raise SystemExit(f"Sessions missing from target server: {missing}")
+
+    expected_refs: dict[int, list[tuple[int, int]]] = {}
+    for ref in references_plan["refs"]:
+        group_id = ref.get("GroupID")
+        if group_id is None:
+            raise SystemExit(
+                "--references-plan must contain resolved GroupID values before phase 3."
+            )
+        expected_refs.setdefault(int(ref["sessionID"]), []).append(
+            (int(group_id), int(ref["GroupFrame"]))
+        )
+    mismatches = {
+        session_id: {
+            "expected": expected_refs.get(session_id, []),
+            "actual": refs_for_session(before[str(session_id)]),
+        }
+        for session_id in session_ids
+        if refs_for_session(before[str(session_id)])
+        != expected_refs.get(session_id, [])
+    }
+    if mismatches:
+        raise SystemExit(
+            "Live session references differ from --references-plan: "
+            + json.dumps(mismatches, ensure_ascii=False, sort_keys=True)
+        )
 
     targets = [
         {

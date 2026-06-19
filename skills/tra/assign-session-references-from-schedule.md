@@ -7,14 +7,15 @@ OVS competitions, stages, groups, and exercise indexes; publish the complete
 mapping for approval; then apply exactly the approved references and stage
 creations.
 
-Require the applied phase-1 session TSV containing actual `SessionID` values.
-Do not generate start lists in this recipe.
+Use either the applied phase-1 session TSV or existing live sessions from a
+fresh workflow snapshot. Do not generate start lists in this recipe.
 
 ## Mandatory Opening Message
 
-Tell the user this is phase 2 of 3:
+Tell the user this is phase 2 of 3 in a complete schedule workflow, or a
+standalone references workflow when the sessions already exist:
 
-1. session grid — already applied;
+1. session grid — already applied or adopted from live OVS;
 2. session references — current phase and approval gate;
 3. start-list generation — separate future approval gate.
 
@@ -29,7 +30,11 @@ clickable reference TSV.
    the phase-2 executor and matching helpers from one skill-pack revision,
    confirm their CLI with `--help`, and do not use a local substitute while
    that canonical path is available.
-2. Read the applied session TSV and its schedule provenance.
+2. Select one session source:
+   - normal workflow: read the applied phase-1 TSV and its schedule provenance;
+   - standalone phase 2: use existing `SessionID`, `Number`, `SessionTitle`, and
+     current refs from a fresh workflow snapshot. State that phase 1 is out of
+     scope and do not invent missing schedule provenance.
 3. Run `inspect_session_workflow.py` for a fresh OVS snapshot.
 4. Read live competitions, stages, groups, performance-frame limits, and
    existing session references from the snapshot.
@@ -124,6 +129,10 @@ If an invalid `FINAL`-to-`Qualification` mapping is found after apply:
 Finish phase 2 with:
 
 `Phase 2 complete. Next: prepare a separate start-list generation TSV; sessions.generate will not run before approval gate 3.`
+
+In standalone phase 2, the same approval gate, validator, dry-run, apply, and
+verification rules remain mandatory. Existing sessions are input, not evidence
+that their current refs or stage semantics are correct.
 
 ## Included Tools
 
