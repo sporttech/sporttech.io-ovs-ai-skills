@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -25,14 +26,91 @@ from validate_session_references_plan import validate_plan, validation_error
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Apply an ovs-session-refs-plan v2.")
-    parser.add_argument("--base-url", required=True)
-    parser.add_argument("--plan", required=True)
+    parser.add_argument("--base-url")
+    parser.add_argument("--plan")
+    parser.add_argument(
+        "--print-example",
+        action="store_true",
+        help=(
+            "Print a canonical draft TSV containing stageCreate, ref, and "
+            "skipped rows, then exit."
+        ),
+    )
     parser.add_argument("--token")
     parser.add_argument("--token-file")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--updated-plan", help="Write canonical TSV with actual IDs.")
     parser.add_argument("--audit-output", help="Optional JSON execution audit.")
     return parser.parse_args()
+
+
+def example_plan() -> dict[str, Any]:
+    return {
+        "mode": "recreate",
+        "status": "draft",
+        "stageCreates": [
+            {
+                "competitionID": 10,
+                "stageID": None,
+                "groupIDs": [],
+                "stageKind": "Final1",
+                "fields": {"PerfomanceFramesLimit": 1},
+                "source": {
+                    "raw": "Women FINAL",
+                    "competitionTitle": "Women Individual",
+                },
+                "details": {
+                    "userDecisionBasis": (
+                        "User approved creating a separate Final1 stage."
+                    )
+                },
+            }
+        ],
+        "refs": [
+            {
+                "sessionID": 501,
+                "targetCompetitionID": 10,
+                "targetStageKind": "Final1",
+                "groupIndex": 0,
+                "GroupFrame": 0,
+                "source": {
+                    "raw": "Women FINAL",
+                    "sessionNumber": 501,
+                    "sessionTitle": "TRA 1",
+                    "competitionTitle": "Women Individual",
+                    "stageKind": "Final1",
+                    "groupNumber": 1,
+                },
+            }
+        ],
+        "ambiguous": [],
+        "unmatched": [],
+        "skipped": [
+            {
+                "source": {
+                    "raw": "Men Final 2",
+                    "sessionID": 502,
+                    "sessionNumber": 502,
+                    "sessionTitle": "TRA 2",
+                    "competitionTitle": "Men Individual",
+                },
+                "reason": (
+                    "User approved omitting this schedule item; no stage will "
+                    "be created."
+                ),
+            }
+        ],
+    }
+
+
+def print_example() -> None:
+    with tempfile.TemporaryDirectory() as directory:
+        path = Path(directory) / "session-refs.example.tsv"
+        write_refs_plan(str(path), example_plan())
+        error = validation_error(validate_plan(str(path)))
+        if error:
+            raise SystemExit(f"Built-in canonical example is invalid: {error}")
+        sys.stdout.write(path.read_text(encoding="utf-8-sig"))
 
 
 def read_token(args: argparse.Namespace) -> str:
@@ -55,6 +133,13 @@ def load_plan(path: str) -> dict[str, Any]:
     for field in ("stageCreates", "refs", "ambiguous", "unmatched", "skipped"):
         if not isinstance(plan.get(field), list):
             raise SystemExit(f"Plan must contain a {field!r} array.")
+    unresolved = len(plan["ambiguous"]) + len(plan["unmatched"])
+    if unresolved:
+        raise SystemExit(
+            f"Reference plan contains {unresolved} unresolved ambiguous/unmatched "
+            "rows. Resolve each row to stageCreate + ref or skipped before "
+            "dry-run or apply."
+        )
     return plan
 
 
@@ -406,6 +491,13 @@ def resolve_ref(
 
 def main() -> int:
     args = parse_args()
+    if args.print_example:
+        print_example()
+        return 0
+    if not args.base_url or not args.plan:
+        raise SystemExit(
+            "--base-url and --plan are required unless --print-example is used."
+        )
     offline_report = validate_plan(args.plan)
     offline_error = validation_error(offline_report)
     if offline_error:

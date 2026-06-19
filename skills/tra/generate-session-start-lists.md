@@ -41,6 +41,9 @@ and will not run before approval of the clickable TSV.
 ## Prepare The Start-List Table
 
 - Use one explicit `RowType=session` row per target `SessionID`.
+- Exclude sessions with zero refs from executable rows. Represent each one as
+  `RowType=omitted` with `SessionID`, human-facing session number/title, and a
+  non-empty `Details.reason`, such as an approved phase-2 skip or no live refs.
 - Set an explicit `Field:RotationView` for every target session. Resolve valid
   values from current `/api/ai` and use the localized choice table in the
   contract. Never inherit this choice silently from the live session and never
@@ -50,9 +53,10 @@ and will not run before approval of the clickable TSV.
   all target sessions or different values per session.
 - Use `Mode=create` for normal regeneration and `Mode=append` only when the user
   explicitly wants to preserve existing frames.
-- Include every intentionally empty session in the review summary even if it is
-  omitted from generation.
-- Explain sessions with no refs or referenced groups without performances.
+- Include every `omitted` row in the review summary.
+- Explain that `refs-without-performances` is an expected non-error state,
+  commonly seen for final sessions whose performances have not been created
+  yet. It does not mean that `sessions.generate` failed.
 - Keep `PlanStatus=draft` until the user approves this exact file version.
 - For standalone phase 3, approval of the adopted refs TSV is separate from
   approval of the start-list TSV. Never collapse these two approvals.
@@ -70,8 +74,9 @@ After approval, prepare the separate start-list draft and use approval gate 3.
 After preparing or correcting the table:
 
 1. send a clickable link to the canonical TSV;
-2. summarize target sessions, generation mode, sessions without refs, and
-   sessions expected to remain empty;
+2. summarize target sessions, generation mode, every omitted session and its
+   reason, and sessions expected to remain empty because referenced groups do
+   not yet contain performances;
 3. summarize the selected `Field:RotationView` for every session, including its
    localized human label;
 4. stop without dry-run, credential discovery, or calling `sessions.generate`;
@@ -95,7 +100,8 @@ After the user approves:
    `Session.RotationView` immediately before `sessions.generate`;
 6. verify `Session.RotationView` and `Session.Frames`, then publish the audit
    report;
-7. report `generated`, `no-refs`, `refs-without-performances`, and failures;
+7. report `generated`, intentionally omitted sessions,
+   expected `refs-without-performances`, and failures;
 8. delete the temporary token file only after the complete workflow has
    finished.
 

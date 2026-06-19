@@ -119,6 +119,21 @@ def main() -> int:
             "--references-plan must be an applied apply/recreate plan or an "
             "approved Mode=adopt live-reference plan."
         )
+    expected_ref_counts: dict[int, int] = {}
+    for ref in references_plan["refs"]:
+        session_id = int(ref["sessionID"])
+        expected_ref_counts[session_id] = expected_ref_counts.get(session_id, 0) + 1
+    zero_ref_targets = [
+        session_id
+        for session_id in plan["sessionIDs"]
+        if expected_ref_counts.get(session_id, 0) == 0
+    ]
+    if zero_ref_targets:
+        raise SystemExit(
+            "Start-list target sessions have zero refs in --references-plan: "
+            f"{zero_ref_targets}. Replace their RowType=session rows with "
+            "RowType=omitted and record Details.reason."
+        )
     token = read_token(args)
     api_ai, _ = request_json(args.base_url, "/api/ai", token)
     if not isinstance(api_ai, dict):
@@ -232,6 +247,7 @@ def main() -> int:
         "mode": plan["mode"],
         "dryRun": args.dry_run,
         "sessions": report_sessions,
+        "omittedSessions": plan["omitted"],
     }
     if args.audit_output:
         Path(args.audit_output).write_text(

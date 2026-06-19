@@ -60,8 +60,20 @@ qualification stage or to a separate final stage.
   explicitly requires that order. If the inter-stage order is ambiguous, stop
   before the approval CTA, ask the user to choose the intended sequence, then
   publish the resolved draft.
-- Represent missing stages only with explicit `stageCreate` rows. Never infer or
-  create a final stage silently.
+- Interpret human stage labels such as `Final`, `Финал`, `Final 1`, `Final 2`,
+  abbreviations, and localized variants from the schedule context, adjacent
+  items, and current live graph. Make a best-effort proposal instead of asking
+  the user to perform the initial analysis.
+- If the likely stage does not exist or the mapping is not certain, publish a
+  review-only `ambiguous` row. Preserve the original text in `Source.raw` and
+  record a concrete `Details.proposedAction` (`stageCreate` or `skipped`),
+  `Details.proposedStageKind` when proposing creation,
+  `Details.proposalBasis`, and the relevant alternatives.
+- Resolve every such row with the user before approval. The only final outcomes
+  for a missing stage are explicit `stageCreate` + `ref` rows, or an explicit
+  `skipped` row with `Details.reason`. Never infer, create, or omit a stage
+  silently. Do not invent `RowType=addStage`; the canonical row type is
+  `stageCreate`.
 - Never infer that `FINAL` is another routine in `Qualification` from
   `PerfomanceFramesLimit`, `GroupFrame`, or the live graph. A `FINAL` schedule
   item mapped to `StageKind=Qualification` is invalid by default. If the stage
@@ -71,8 +83,11 @@ qualification stage or to a separate final stage.
   `Details.finalInQualificationExplicitlyRequested=true` and that instruction
   in `Details.finalMappingBasis`. General approval of the TSV is not that
   instruction.
-- Use `ambiguous`, `unmatched`, and `skipped` rows for unresolved items. Keep
-  them visible in every subsequent TSV version.
+- Use `ambiguous` and `unmatched` only in review drafts. They are discussion
+  markers, not executable outcomes. Convert every one to `stageCreate` + `ref`
+  or to `skipped` before approval.
+- Keep approved `skipped` rows visible in subsequent TSV versions so phase 3
+  can explain intentionally omitted sessions.
 - Keep `PlanStatus=draft` until the user approves this exact file version.
 - Run `validate_session_references_plan.py --plan <draft.tsv>` immediately after
   first generation and after every transformation, including sorting, row
@@ -86,8 +101,9 @@ After preparing or correcting the table:
 
 1. send a clickable link to the canonical TSV;
 2. summarize reference rows, stage creations, ambiguous rows, unmatched rows,
-   and skipped rows;
-3. call out every missing-stage decision explicitly;
+   and proposed or approved skips;
+3. call out every missing-stage proposal explicitly and obtain a concrete
+   create-or-skip decision for each one before accepting `approve references`;
 4. list every confirmed `FINAL`-in-`Qualification` exception and its user
    basis; if none exist, say so;
 5. stop without dry-run, credential discovery, or OVS mutation;
@@ -95,8 +111,9 @@ After preparing or correcting the table:
 
 `Next: review <linked filename> and reply "approve references", or list corrections and missing-stage decisions.`
 
-Approval applies only to that exact file version. Any correction or resolved
-ambiguity creates a new draft and repeats this gate.
+`approve references` does not resolve an `ambiguous` or `unmatched` row. If any
+remain, request the missing create-or-skip decisions, publish a new draft, and
+repeat the gate. Approval applies only to the exact fully resolved file version.
 
 ## Apply Approved References
 
@@ -108,7 +125,7 @@ After the user approves:
 4. if dry-run fails, correct and republish the draft for approval;
 5. apply with `--updated-plan` whenever stages will be created;
 6. verify live reference order and created stage/group IDs;
-7. publish the applied canonical TSV with unresolved rows preserved;
+7. publish the applied canonical TSV with approved `skipped` rows preserved;
 8. preserve the token file for phase 3; do not clean it up at the phase
    boundary.
 
@@ -140,4 +157,6 @@ that their current refs or stage semantics are correct.
 - `validate_session_references_plan.py`: validate each review TSV offline before
   publication and after every edit or sort.
 - `apply_session_references_plan.py`: dry-run and apply stage/reference rows.
+  Use `--print-example` to print a canonical validator-compatible
+  `stageCreate + ref + skipped` TSV.
 - `plan_table.py`: read and write canonical TSV tables.

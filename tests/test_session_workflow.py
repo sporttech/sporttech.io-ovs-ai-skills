@@ -536,9 +536,14 @@ class WorkflowTest(unittest.TestCase):
                         },
                     },
                 ],
-                "ambiguous": [{"source": {"raw": "Maybe"}, "reason": "review"}],
+                "ambiguous": [],
                 "unmatched": [],
-                "skipped": [],
+                "skipped": [
+                    {
+                        "source": {"raw": "Maybe"},
+                        "reason": "User approved omitting this schedule item.",
+                    }
+                ],
             },
         )
         self.run_main(
@@ -560,7 +565,7 @@ class WorkflowTest(unittest.TestCase):
             list(zip(self.ovs.sessions["2"]["Groups"], self.ovs.sessions["2"]["GroupFrame"])),
             [(200, 0)],
         )
-        self.assertEqual(len(plan["ambiguous"]), 1)
+        self.assertEqual(len(plan["skipped"]), 1)
         header = applied.read_text(encoding="utf-8-sig").splitlines()[0].split("\t")
         self.assertIn("CompetitionTitle", header)
         self.assertIn("GroupNumber", header)
@@ -999,6 +1004,73 @@ class WorkflowTest(unittest.TestCase):
             validate_refs.validate_plan(str(ambiguous))["summary"]["errors"],
             0,
         )
+        ambiguous_report = validate_refs.validate_plan(str(ambiguous))
+        self.assertEqual(ambiguous_report["summary"]["unresolvedRows"], 1)
+        self.assertIn(
+            "unresolved-row",
+            {item["code"] for item in ambiguous_report["warnings"]},
+        )
+
+    def test_phase_two_rejects_unresolved_approved_plan_before_network(self) -> None:
+        for row_type in ("ambiguous", "unmatched"):
+            plan = self.directory / f"{row_type}-approved.tsv"
+            write_rows(
+                str(plan),
+                [
+                    {
+                        "PlanKind": "ovs-session-refs-plan",
+                        "Version": 2,
+                        "Mode": "recreate",
+                        "PlanStatus": "approved",
+                        "RowType": row_type,
+                        "SessionID": 1,
+                        "Source": {"raw": "Women Final B"},
+                        "Details": {
+                            "proposedAction": "stageCreate",
+                            "proposedStageKind": "Final2",
+                            "proposalBasis": (
+                                "The schedule label most likely names a second final."
+                            ),
+                        },
+                    }
+                ],
+            )
+            report = validate_refs.validate_plan(str(plan))
+            self.assertIn(
+                "unresolved-row", {item["code"] for item in report["errors"]}
+            )
+            argv = [
+                apply_refs.__file__,
+                "--base-url",
+                "http://mock",
+                "--plan",
+                str(plan),
+                "--dry-run",
+            ]
+            with mock.patch.object(sys, "argv", argv), mock.patch.object(
+                apply_refs, "request_json"
+            ) as request:
+                with self.assertRaises(SystemExit):
+                    apply_refs.main()
+            request.assert_not_called()
+
+    def test_phase_two_print_example_is_canonical_and_valid(self) -> None:
+        output = self.directory / "example.tsv"
+        argv = [apply_refs.__file__, "--print-example"]
+        with mock.patch.object(sys, "argv", argv), mock.patch(
+            "sys.stdout.write"
+        ) as write:
+            self.assertEqual(apply_refs.main(), 0)
+        rendered = "".join(call.args[0] for call in write.call_args_list)
+        output.write_text(rendered, encoding="utf-8")
+        rows = read_rows(str(output))
+        self.assertEqual(
+            {row["RowType"] for row in rows},
+            {"stageCreate", "ref", "skipped"},
+        )
+        self.assertEqual(
+            validate_refs.validate_plan(str(output))["summary"]["errors"], 0
+        )
 
     def test_phase_two_semantic_validation_precedes_token_and_network(self) -> None:
         plan = self.directory / "phase-two-semantic-error.tsv"
@@ -1066,9 +1138,27 @@ class WorkflowTest(unittest.TestCase):
                     "SessionID": session_id,
                     "Field:RotationView": 0,
                 }
-                for session_id in (1, 2, 3)
+                for session_id in (2, 3)
             ],
         )
+        start_rows = read_rows(str(source))
+        start_rows.append(
+            {
+                **{
+                    key: value
+                    for key, value in start_rows[0].items()
+                    if key not in {"Field:RotationView"}
+                },
+                "RowType": "omitted",
+                "SessionID": "1",
+                "SessionNumber": "101",
+                "SessionTitle": "Empty final",
+                "Details": json.dumps(
+                    {"reason": "No refs were approved in phase 2."}
+                ),
+            }
+        )
+        write_rows(str(source), start_rows)
         audit = self.directory / "start.json"
         self.run_main(
             generate_lists,
@@ -1085,8 +1175,10 @@ class WorkflowTest(unittest.TestCase):
         }
         self.assertEqual(
             statuses,
-            {1: "no-refs", 2: "refs-without-performances", 3: "generated"},
+            {2: "refs-without-performances", 3: "generated"},
         )
+        audit_data = json.loads(audit.read_text())
+        self.assertEqual(audit_data["omittedSessions"][0]["sessionID"], 1)
         self.assertEqual(
             [self.ovs.sessions[str(session_id)]["RotationView"] for session_id in (1, 2, 3)],
             [0, 0, 0],
@@ -1096,10 +1188,63 @@ class WorkflowTest(unittest.TestCase):
             for method, path, _body in self.ovs.mutations
             if path.startswith("/api/sessions/")
         ]
+        self.assertNotIn("/api/sessions/1", mutation_paths)
+        self.assertNotIn("/api/sessions/1/generate", mutation_paths)
         self.assertLess(
             mutation_paths.index("/api/sessions/3"),
             mutation_paths.index("/api/sessions/3/generate"),
         )
+
+    def test_phase_three_rejects_zero_ref_target_before_network(self) -> None:
+        references = self.directory / "empty-refs.applied.tsv"
+        write_rows(
+            str(references),
+            [
+                {
+                    "PlanKind": "ovs-session-refs-plan",
+                    "Version": 2,
+                    "Mode": "recreate",
+                    "PlanStatus": "applied",
+                    "RowType": "skipped",
+                    "SessionID": 1,
+                    "Source": {"raw": "Unresolved final"},
+                    "Details": {
+                        "reason": "User approved omitting the missing final stage."
+                    },
+                }
+            ],
+        )
+        start = self.directory / "zero-ref-start.tsv"
+        write_rows(
+            str(start),
+            [
+                {
+                    "PlanKind": "ovs-session-start-lists-plan",
+                    "Version": 1,
+                    "Mode": "create",
+                    "PlanStatus": "approved",
+                    "RowType": "session",
+                    "SessionID": 1,
+                    "Field:RotationView": 0,
+                }
+            ],
+        )
+        argv = [
+            generate_lists.__file__,
+            "--base-url",
+            "http://mock",
+            "--plan",
+            str(start),
+            "--references-plan",
+            str(references),
+        ]
+        with mock.patch.object(sys, "argv", argv), mock.patch.object(
+            generate_lists, "request_json"
+        ) as request:
+            with self.assertRaises(SystemExit) as caught:
+                generate_lists.main()
+        self.assertIn("RowType=omitted", str(caught.exception))
+        request.assert_not_called()
 
         self.ovs.add_session(4, [202])
         failure_references = self.write_reference_plan(
@@ -1355,6 +1500,8 @@ class WorkflowTest(unittest.TestCase):
             result["catalog"]["relations"]["competitionStages"]["10"], [20]
         )
         self.assertIn("SessionTitle", result["catalog"]["writableFields"]["Session"])
+        self.assertNotIn("Sessions", result)
+        self.assertNotIn("Competitions", result)
         self.assertEqual(self.ovs.mutations, [])
 
 

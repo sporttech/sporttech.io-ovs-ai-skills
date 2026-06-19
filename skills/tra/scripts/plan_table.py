@@ -222,14 +222,43 @@ def load_start_lists_plan(path: str) -> dict[str, Any]:
     if rows[0]["PlanKind"] != "ovs-session-start-lists-plan" or rows[0]["Version"] != "1":
         raise SystemExit("Expected an ovs-session-start-lists-plan version 1 table.")
     sessions = []
+    omitted = []
     for row in rows:
-        if row["RowType"] != "session":
-            raise SystemExit("Start-list plans may contain only RowType=session.")
-        sessions.append(
-            {
-                "sessionID": integer(row, "SessionID", True),
-                "fields": field_values(row, "Field:"),
-            }
+        if row["RowType"] == "session":
+            sessions.append(
+                {
+                    "sessionID": integer(row, "SessionID", True),
+                    "fields": field_values(row, "Field:"),
+                }
+            )
+        elif row["RowType"] == "omitted":
+            details = decode(row.get("Details", "")) or {}
+            if not isinstance(details, dict):
+                raise SystemExit("Details must be a JSON object for RowType=omitted.")
+            reason = str(details.get("reason", "")).strip()
+            if not reason:
+                raise SystemExit(
+                    "Details.reason is required for RowType=omitted."
+                )
+            omitted.append(
+                {
+                    "sessionID": integer(row, "SessionID", True),
+                    "sessionNumber": integer(row, "SessionNumber"),
+                    "sessionTitle": (row.get("SessionTitle") or "").strip(),
+                    "source": decode(row.get("Source", "")) or {},
+                    "details": details,
+                }
+            )
+        else:
+            raise SystemExit(
+                "Start-list plans may contain only RowType=session or omitted."
+            )
+    all_session_ids = [item["sessionID"] for item in sessions] + [
+        item["sessionID"] for item in omitted
+    ]
+    if len(all_session_ids) != len(set(all_session_ids)):
+        raise SystemExit(
+            "A SessionID may appear only once across session and omitted rows."
         )
     return {
         "kind": rows[0]["PlanKind"],
@@ -237,6 +266,7 @@ def load_start_lists_plan(path: str) -> dict[str, Any]:
         "mode": rows[0]["Mode"],
         "status": rows[0]["PlanStatus"],
         "sessions": sessions,
+        "omitted": omitted,
         "sessionIDs": [item["sessionID"] for item in sessions],
         "sourceTable": path,
     }

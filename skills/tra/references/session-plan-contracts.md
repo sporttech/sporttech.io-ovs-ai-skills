@@ -95,6 +95,16 @@ Create a fresh snapshot at the explicit path chosen for the current workflow.
 Never discover or reuse a snapshot merely because a similarly named JSON file
 already exists.
 
+The snapshot contract has three data roots:
+
+- `graph`: raw live OVS entity collections such as `Sessions`,
+  `Competitions`, `Stages`, and `Groups`;
+- `catalog`: normalized summaries, writable fields, constants, and relation
+  indexes prepared for planning;
+- `apiAi`: the machine-readable `/api/ai` response.
+
+Do not read legacy or locally invented top-level entity keys from the snapshot.
+
 ## Credential Lifecycle
 
 - Request an OC password/token only after approval gate 1, immediately before
@@ -280,9 +290,28 @@ A mutating run that creates a stage requires `--updated-plan`. Existing
 
 ### Unresolved rows
 
-Use `RowType=ambiguous`, `unmatched`, or `skipped`, with review information in
-`Source` and `Details`. These rows remain in canonical TSV versions but are
-never applied.
+`RowType=ambiguous` and `RowType=unmatched` are review-draft states only. They
+may be used to expose incomplete interpretation, but an approved, applied, or
+adopted references plan must not contain either.
+
+For an uncertain human stage label, preserve the original schedule text in
+`Source.raw` and record:
+
+- `Details.proposedAction`: `stageCreate` or `skipped`;
+- `Details.proposedStageKind`: required for a `stageCreate` proposal;
+- `Details.proposalBasis`: why schedule context and live data suggest it;
+- alternatives useful for the user's decision.
+
+The user must resolve each row to one of two executable outcomes:
+
+- explicit `stageCreate` followed by the required `ref` rows;
+- explicit `skipped` with a non-empty `Details.reason`.
+
+The canonical creation row is `stageCreate`, never `addStage`. General
+`approve references` does not resolve outstanding ambiguity. The offline
+validator reports unresolved draft rows and blocks them once the plan is no
+longer `draft`; the executor blocks unresolved rows in every mode before token
+or network access.
 
 In recreate mode, only sessions named by `ref` rows are cleared. References in
 all other sessions remain untouched.
@@ -307,18 +336,24 @@ all other sessions remain untouched.
 Use `PlanKind=ovs-session-start-lists-plan`, `Version=1`, and `Mode=create` or
 `append`.
 
-Each row uses `RowType=session`, an explicit `SessionID`, exactly one writable
-field `Field:RotationView`, and the same approval status rule. Resolve allowed
-values from current `/api/ai`. The executor patches this approved field before
-generation and verifies the resulting value. Phase 3 additionally requires
+Executable rows use `RowType=session`, an explicit `SessionID`, exactly one
+writable field `Field:RotationView`, and the same approval status rule. Sessions
+with zero refs must instead use non-executable `RowType=omitted`, an explicit
+`SessionID`, human-facing number/title when available, and a non-empty
+`Details.reason`. The executor includes omitted rows in its audit but never
+patches or generates them.
+
+Resolve allowed rotation values from current `/api/ai`. The executor patches
+this approved field before generation and verifies the resulting value. Phase
+3 additionally requires
 `--references-plan` pointing either
 to a phase-2 apply/recreate TSV with `PlanStatus=applied`, or to a `Mode=adopt`
 TSV with `PlanStatus=approved`. The executor re-runs the offline validator and
 compares its ordered refs with live OVS before generation. The executor reports:
 
 - `generated`;
-- `no-refs`;
-- `refs-without-performances`;
+- `refs-without-performances`, an expected non-error state when referenced
+  groups do not yet contain performances;
 - `performances-without-frames` as an error.
 
 ### `Field:RotationView` choices
@@ -360,6 +395,29 @@ The inspector performs GET requests only. Its snapshot contains raw `/api/ai`,
 the competition/stage/group/session graph, writable fields, StageKinds, session
 actions, summary counts, and normalized relation indexes. It never validates a
 plan. Run the relevant executor with `--dry-run` for authoritative validation.
+Read raw entities from `graph`, normalized indexes from `catalog`, and API
+metadata from `apiAi`; do not expect entity collections at the snapshot root.
+
+Print a canonical phase-2 example directly from the executor:
+
+```bash
+python3 skills/tra/scripts/apply_session_references_plan.py --print-example
+```
+
+The generated example uses the same TSV writer and is accepted by the same
+parser and offline validator as a real plan.
+
+## Environment Troubleshooting
+
+Treat failures before an HTTP response separately from plan validation:
+
+- DNS, connection, sandbox, filesystem, and network-policy errors indicate an
+  environment blocker, not an invalid TSV;
+- use the canonical scripts after obtaining the required environment access;
+- do not replace the executor, alter plan semantics, change the target server,
+  or bypass authentication merely because the environment blocked a command;
+- if authenticated access still fails, request the user's current credentials
+  rather than recovering a token from unrelated files.
 
 Draft DOCX extraction:
 

@@ -67,13 +67,124 @@ def validate_plan(path: str) -> dict[str, Any]:
     errors: list[dict[str, Any]] = []
     warnings: list[dict[str, Any]] = []
     confirmed_exceptions: list[dict[str, Any]] = []
+    unresolved_rows: list[dict[str, Any]] = []
     blocks: dict[tuple[int, str, str], list[dict[str, Any]]] = defaultdict(list)
     logical_refs: dict[tuple[int, str, str, int, int], int] = {}
     session_numbers: dict[int, set[int]] = defaultdict(set)
     ref_count = 0
 
     for row_number, row in enumerate(rows, start=2):
-        if row["RowType"] != "ref":
+        row_type = row["RowType"]
+        if row_type in {"ambiguous", "unmatched"}:
+            source = decode(row.get("Source", "")) or {}
+            details = decode(row.get("Details", "")) or {}
+            raw = (
+                str(source.get("raw", "")).strip()
+                if isinstance(source, dict)
+                else ""
+            )
+            unresolved_rows.append(
+                {
+                    "row": row_number,
+                    "rowType": row_type,
+                    "sessionID": (row.get("SessionID") or "").strip() or None,
+                    "raw": raw,
+                }
+            )
+            severity = errors if rows[0]["PlanStatus"] != "draft" else warnings
+            severity.append(
+                {
+                    "code": "unresolved-row",
+                    "row": row_number,
+                    "message": (
+                        f"RowType={row_type} is review-only. Resolve it to "
+                        "stageCreate + ref or to skipped before approval, dry-run, "
+                        "apply, adoption, or phase 3."
+                    ),
+                }
+            )
+            if row_type == "ambiguous":
+                proposed_action = (
+                    str(details.get("proposedAction", "")).strip()
+                    if isinstance(details, dict)
+                    else ""
+                )
+                proposal_basis = (
+                    str(details.get("proposalBasis", "")).strip()
+                    if isinstance(details, dict)
+                    else ""
+                )
+                proposed_stage_kind = (
+                    str(details.get("proposedStageKind", "")).strip()
+                    if isinstance(details, dict)
+                    else ""
+                )
+                if not raw:
+                    warnings.append(
+                        {
+                            "code": "ambiguous-missing-source",
+                            "row": row_number,
+                            "message": (
+                                "An ambiguous row should preserve the original "
+                                "schedule text in Source.raw."
+                            ),
+                        }
+                    )
+                if proposed_action not in {"stageCreate", "skipped"}:
+                    warnings.append(
+                        {
+                            "code": "ambiguous-missing-proposal",
+                            "row": row_number,
+                            "message": (
+                                "Details.proposedAction should be stageCreate or "
+                                "skipped so the user can approve a concrete outcome."
+                            ),
+                        }
+                    )
+                if proposed_action == "stageCreate" and not proposed_stage_kind:
+                    warnings.append(
+                        {
+                            "code": "ambiguous-missing-stage-kind",
+                            "row": row_number,
+                            "message": (
+                                "A stageCreate proposal requires "
+                                "Details.proposedStageKind."
+                            ),
+                        }
+                    )
+                if not proposal_basis:
+                    warnings.append(
+                        {
+                            "code": "ambiguous-missing-basis",
+                            "row": row_number,
+                            "message": (
+                                "Details.proposalBasis should explain the schedule "
+                                "and live-graph evidence behind the proposal."
+                            ),
+                        }
+                    )
+            continue
+        if row_type == "skipped":
+            details = decode(row.get("Details", "")) or {}
+            reason = (
+                str(details.get("reason", "")).strip()
+                if isinstance(details, dict)
+                else ""
+            )
+            if not reason:
+                errors.append(
+                    {
+                        "code": "skipped-missing-reason",
+                        "row": row_number,
+                        "message": (
+                            "RowType=skipped requires a non-empty Details.reason."
+                        ),
+                    }
+                )
+            continue
+        if row_type == "stageCreate":
+            continue
+        if row_type != "ref":
             continue
         ref_count += 1
         session_id = integer_at_least(
@@ -312,10 +423,12 @@ def validate_plan(path: str) -> dict[str, Any]:
             "errors": len(errors),
             "warnings": len(warnings),
             "confirmedFinalQualificationExceptions": len(confirmed_exceptions),
+            "unresolvedRows": len(unresolved_rows),
         },
         "errors": errors,
         "warnings": warnings,
         "confirmedFinalQualificationExceptions": confirmed_exceptions,
+        "unresolvedRows": unresolved_rows,
     }
 
 
@@ -337,6 +450,7 @@ def print_report(report: dict[str, Any]) -> None:
     print(
         f"Validated {summary['refRows']} refs in {summary['blocks']} blocks: "
         f"{summary['errors']} errors, {summary['warnings']} warnings, "
+        f"{summary['unresolvedRows']} unresolved rows, "
         f"{summary['confirmedFinalQualificationExceptions']} confirmed "
         "FINAL-to-Qualification exceptions."
     )

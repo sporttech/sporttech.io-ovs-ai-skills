@@ -32,7 +32,13 @@ def parse_args() -> argparse.Namespace:
         description=(
             "Fetch /api/ai and the live competition, stage, group, performance, "
             "and session graph into one LLM-friendly JSON snapshot."
-        )
+        ),
+        epilog=(
+            "Snapshot contract: graph contains the raw live entity collections; "
+            "catalog contains normalized summaries and relation indexes; apiAi "
+            "contains the machine-readable OVS API description. Do not expect "
+            "legacy top-level Sessions, Competitions, Stages, or Groups keys."
+        ),
     )
     parser.add_argument("--base-url", required=True, help="OVS server root URL.")
     parser.add_argument("--output", required=True, help="Output JSON snapshot.")
